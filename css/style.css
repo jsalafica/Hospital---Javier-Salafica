@@ -157,6 +157,7 @@ p {
 }
 .main {
     grid-area: main;
+    height: 100vh;
 }
 .footer {
     grid-area: footer;
