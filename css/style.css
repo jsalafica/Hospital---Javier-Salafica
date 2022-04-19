@@ -187,9 +187,6 @@ p {
         font-size: 14px;
         text-align: center;
     } */
-    .footer {
-        /* width: 100vh; */
-    }
     .intro {
         width: 80vh;
         display: flex;

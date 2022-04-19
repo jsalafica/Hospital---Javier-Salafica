@@ -9,8 +9,9 @@
     <title>Contacto</title>
 </head>
 <body>
-    <a href="index.html"><img src="images/centenario-logo.png" alt="Logo"></a>
-    <header>
+    <div class="grid">
+    <header class="header">
+        <a href="index.html"><img src="images/centenario-logo.png" alt="Logo"></a>
         <nav>
             <ul>
                 <li>
@@ -31,27 +32,29 @@
             </ul>
         </nav>
     </header>
-    <fieldset>
-        <legend>Contacto</legend>
-        <form action="#" method="post">
-            <label for="nombre">Nombre</label><br>
-            <input type="text" id="nombre" name="nombre" placeholder="Nombre"><br><br>
-            <label for="apellido">Apellido</label><br>
-            <input type="text" id="apellido" name="apellido" placeholder="Apellido"><br><br>
-            <label for="sexo">Sexo</label><br>
-            <select name="sexo" id="sexo">
-                <option value="Femenino">Femenino</option>
-                <option value="Masculino">Masculino</option>
-                <option value="otro">Otro</option>
-            </select><br><br>
-            <label for="correo">Correo</label><br>
-            <input type="email" name="correo" id="correo" placeholder="Correo"><br><br>
-            <label for="mensaje">Mensaje</label><br>
-            <textarea name="mensaje" id="mensaje" cols="30" rows="10" placeholder="Deje su mensaje"></textarea><br><br>
-            <input type="submit" value="Enviar">
-        </form>
-    </fieldset>
-    <hr>
-    <footer>2022 - Todos los derechos reservados</footer>
+    <main class="main">
+        <fieldset>
+            <legend>Contacto</legend>
+            <form action="#" method="post">
+                <label for="nombre">Nombre</label><br>
+                <input type="text" id="nombre" name="nombre" placeholder="Nombre"><br><br>
+                <label for="apellido">Apellido</label><br>
+                <input type="text" id="apellido" name="apellido" placeholder="Apellido"><br><br>
+                <label for="sexo">Sexo</label><br>
+                <select name="sexo" id="sexo">
+                    <option value="Femenino">Femenino</option>
+                    <option value="Masculino">Masculino</option>
+                    <option value="otro">Otro</option>
+                </select><br><br>
+                <label for="correo">Correo</label><br>
+                <input type="email" name="correo" id="correo" placeholder="Correo"><br><br>
+                <label for="mensaje">Mensaje</label><br>
+                <textarea name="mensaje" id="mensaje" cols="30" rows="10" placeholder="Deje su mensaje"></textarea><br><br>
+                <input type="submit" value="Enviar">
+            </form>
+        </fieldset>
+    </main>
+    <footer class="footer">© 2022 - Todos los derechos reservados</footer>
+    </div>
 </body>
 </html>
