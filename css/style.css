@@ -1,9 +1,9 @@
 /* Reset CSS */
-* {
+/* * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
+} */
 
 /* FUENTES */
 @font-face {
@@ -85,7 +85,7 @@ p {
 
 
 /* HEADER/NAV */
-.logoIndex{
+/* .logoIndex{
     margin: 1rem;
 }
 .header {
@@ -132,7 +132,7 @@ p {
     color: #BB9981;
     transition: 1s;
     text-shadow: none;
-}
+} */
 
 /* FOOTER */
 .footer {
@@ -142,7 +142,7 @@ p {
 }
 
 /* GRID */
-.grid {
+/* .grid {
     display: grid;
     grid-template-areas:
                 "header"
@@ -156,11 +156,10 @@ p {
 }
 .main {
     grid-area: main;
-    /* height: 100vh; */
 }
 .footer {
     grid-area: footer;
-}
+} */
 
 /* Mobile */
 @media screen and (max-width: 768px) {
