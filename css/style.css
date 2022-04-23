@@ -97,7 +97,6 @@ p {
 
 .header img {
     width: 250px;
-    height: auto;
 }
 .header nav ul {
     display: flex;
@@ -197,3 +196,17 @@ p {
         flex-wrap: wrap;
     }
 }
+
+.aparecerHistoria {
+    animation-duration: 2s;
+    animation-name: aparecer;
+    animation-iteration-count: once;
+}
+@keyframes aparecer {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+ }
