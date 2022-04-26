@@ -65,3 +65,8 @@ footer {
         opacity: 1;
     }
 }
+
+.btnContacto {
+    background-color: #534340;
+    color:antiquewhite;
+}
