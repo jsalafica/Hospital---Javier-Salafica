@@ -1,0 +1,26 @@
+/* HEADER */
+.header {
+    nav {
+        background-color: $colorVerde;
+        img {
+            border-radius: 10px;
+            opacity: 0.8;
+            box-shadow: 0 4px 8px 0 $colorMarron, 0 6px 20px 0 $colorMarronClaro;
+        }
+        ul {
+            li {
+                a {
+                    color: $colorMarron;
+                    font-weight: bold;
+                    text-transform: uppercase;
+                    text-shadow: 2px 2px 2px #BB9981;
+                    &:hover {
+                        color: #BB9981;
+                        transition: 1s;
+                        text-shadow: none;
+                    }
+                }
+            }
+        }
+    }
+}

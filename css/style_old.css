@@ -1,0 +1,72 @@
+/* FUENTES */
+@font-face {
+    font-family: Playfair;
+    src: url(../fonts/PlayfairDisplay-VariableFont_wght.ttf);
+}
+
+@font-face {
+    font-family: Poppins;
+    src: url(../fonts/Poppins-Regular.ttf);
+}
+
+/* HTML */
+/* html {
+    font-size: 62.5%;
+} */
+
+/* BODY */
+body {
+    font-family: Playfair, sans-serif;
+}
+
+p {
+    font-family: Poppins, sans-serif;
+}
+
+/* HEADER */
+.header nav ul li a {
+    /* text-decoration: none; */
+    color: #534340;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 2px #BB9981;
+}
+
+.header nav ul li a:hover {
+    color: #BB9981;
+    transition: 1s;
+    text-shadow: none;
+}
+
+/* MAIN */
+.sectionBienvenidos {
+    text-align: center;
+    font-size: large;
+    margin: 80px;
+}
+
+/* FOOTER */
+footer {
+    margin-top: 1rem;
+    padding: 1rem;
+    text-align: center;
+    background-color: #C5D8A4;
+}
+.aparecerHistoria {
+    animation-duration: 2s;
+    animation-name: aparecer;
+    animation-iteration-count: once;
+}
+@keyframes aparecer {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.btnContacto {
+    background-color: #534340;
+    color:antiquewhite;
+}

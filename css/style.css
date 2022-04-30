@@ -1,72 +1,86 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; }
+
 /* FUENTES */
 @font-face {
-    font-family: Playfair;
-    src: url(../fonts/PlayfairDisplay-VariableFont_wght.ttf);
-}
+  font-family: Playfair;
+  src: url(../fonts/PlayfairDisplay-VariableFont_wght.ttf); }
 
 @font-face {
-    font-family: Poppins;
-    src: url(../fonts/Poppins-Regular.ttf);
-}
-
-/* HTML */
-html {
-    /* font-size: 62.5%; */
-}
-
-/* BODY */
-body {
-    font-family: Playfair, sans-serif;
-}
-
-p {
-    font-family: Poppins, sans-serif;
-}
+  font-family: Poppins;
+  src: url(../fonts/Poppins-Regular.ttf); }
 
 /* HEADER */
-.header nav ul li a {
-    /* text-decoration: none; */
+.header nav {
+  background-color: #C5D8A4; }
+  .header nav img {
+    border-radius: 10px;
+    opacity: 0.8;
+    box-shadow: 0 4px 8px 0 #534340, 0 6px 20px 0 #BB9981; }
+  .header nav ul li a {
     color: #534340;
     font-weight: bold;
     text-transform: uppercase;
-    text-shadow: 2px 2px 2px #BB9981;
-}
+    text-shadow: 2px 2px 2px #BB9981; }
+    .header nav ul li a:hover {
+      color: #BB9981;
+      transition: 1s;
+      text-shadow: none; }
 
-.header nav ul li a:hover {
-    color: #BB9981;
-    transition: 1s;
-    text-shadow: none;
-}
+/* BODY */
+body {
+  font-family: Playfair, sans-serif;
+  background-color: #F4FCD9; }
+
+p {
+  font-family: Poppins, sans-serif; }
 
 /* MAIN */
 .sectionBienvenidos {
-    text-align: center;
-    font-size: large;
-    margin: 80px;
-}
+  text-align: center;
+  font-size: large;
+  margin: 80px; }
+
+/* historia.html */
+.aparecerHistoria {
+  animation-duration: 2s;
+  animation-name: aparecer;
+  animation-iteration-count: once; }
+
+@keyframes aparecer {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+/* contacto.html */
+.btnContacto {
+  background-color: #534340;
+  color: antiquewhite; }
+
+/* IMG Carousel */
+.carousel-item {
+  border-radius: 5px; }
+
+/* Card Header Contacto */
+.card-header-contacto {
+  background-color: #C5D8A4;
+  color: #534340;
+  font-weight: bold; }
+
+/* Table Head Telefonos */
+.table-head-telefonos {
+  background-color: #C5D8A4;
+  color: #534340;
+  font-weight: bold; }
 
 /* FOOTER */
 footer {
-    margin-top: 1rem;
-    padding: 1rem;
-    text-align: center;
-    background-color: #C5D8A4;
-}
-.aparecerHistoria {
-    animation-duration: 2s;
-    animation-name: aparecer;
-    animation-iteration-count: once;
-}
-@keyframes aparecer {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-
-.btnContacto {
-    background-color: #534340;
-    color:antiquewhite;
-}
+  margin-top: 1rem;
+  padding: 1rem;
+  text-align: center;
+  background-color: #C5D8A4;
+  color: #534340; }

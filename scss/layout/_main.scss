@@ -1,0 +1,56 @@
+/* BODY */
+body {
+    font-family: Playfair, sans-serif;
+    background-color: $colorFondo;
+}
+
+p {
+    font-family: Poppins, sans-serif;
+}
+
+/* MAIN */
+.sectionBienvenidos {
+    text-align: center;
+    font-size: large;
+    margin: 80px;
+}
+
+/* historia.html */
+.aparecerHistoria {
+    animation-duration: 2s;
+    animation-name: aparecer;
+    animation-iteration-count: once;
+}
+@keyframes aparecer {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* contacto.html */
+.btnContacto {
+    background-color: $colorMarron;
+    color:antiquewhite;
+}
+
+/* IMG Carousel */
+.carousel-item {
+    border-radius: 5px;
+}
+
+/* Card Header Contacto */
+.card-header-contacto {
+    background-color: $colorVerde;
+    color: $colorMarron;
+    font-weight: bold;
+}
+
+/* Table Head Telefonos */
+.table-head-telefonos {
+    background-color: $colorVerde;
+    color: $colorMarron;
+    font-weight: bold;
+}
