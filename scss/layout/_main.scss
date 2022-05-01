@@ -6,6 +6,7 @@ body {
 
 p {
     font-family: Poppins, sans-serif;
+    color: $colorMarron;
 }
 
 /* MAIN */
@@ -15,8 +16,8 @@ p {
     margin: 80px;
 }
 
-/* historia.html */
-.aparecerHistoria {
+/* Aparecer texto */
+.aparecerTexto {
     animation-duration: 2s;
     animation-name: aparecer;
     animation-iteration-count: once;
@@ -41,6 +42,11 @@ p {
     border-radius: 5px;
 }
 
+/* Accordion */
+.accordion-button {
+    color: $colorMarron;
+}
+
 /* Card Contacto */
 .card-header-contacto {
     background-color: $colorVerde;
@@ -61,4 +67,28 @@ p {
     background-color: $colorVerde;
     color: $colorMarron;
     font-weight: bold;
+}
+
+/* Padding en  cards de historia.html */
+.accordion {
+    p {
+        padding: 10px;
+    }
+}
+
+.main {
+    ul {
+        li {
+            color: $colorMarron;
+        }
+    }
+    h1 {
+        color: $colorMarron;
+    }
+    h2 {
+        color: $colorMarron;
+    }
+    h5 {
+        color: $colorMarron;
+    }
 }
