@@ -20,6 +20,9 @@
     border-radius: 10px;
     opacity: 0.8;
     box-shadow: 0 4px 8px 0 #534340, 0 6px 20px 0 #BB9981; }
+    .header nav img:hover {
+      opacity: 1;
+      box-shadow: 0 2px 4px 0 #534340, 0 3px 10px 0 #BB9981; }
   .header nav ul li a {
     color: #534340;
     font-weight: bold;
@@ -70,6 +73,10 @@ p {
 .accordion-button {
   color: #534340; }
 
+.accordion-header {
+  border-color: #534340;
+  box-shadow: 0 0 5px #BB9981; }
+
 /* Card Contacto */
 .card-header-contacto {
   background-color: #C5D8A4;
@@ -94,6 +101,7 @@ p {
 .accordion p {
   padding: 10px; }
 
+/* Color items de listas y labels */
 .main ul li {
   color: #534340; }
 
@@ -105,6 +113,19 @@ p {
 
 .main h5 {
   color: #534340; }
+
+.main label {
+  color: #534340;
+  font-style: italic; }
+
+/* Color del focus de contacto */
+.form-control:focus {
+  border-color: #534340;
+  box-shadow: 0 0 5px #BB9981; }
+
+.form-select:focus {
+  border-color: #534340;
+  box-shadow: 0 0 5px #BB9981; }
 
 /* FOOTER */
 footer {

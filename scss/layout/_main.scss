@@ -46,6 +46,10 @@ p {
 .accordion-button {
     color: $colorMarron;
 }
+.accordion-header {
+    border-color: $colorMarron;
+    box-shadow: 0 0 5px $colorMarronClaro;
+}
 
 /* Card Contacto */
 .card-header-contacto {
@@ -76,6 +80,7 @@ p {
     }
 }
 
+/* Color items de listas y labels */
 .main {
     ul {
         li {
@@ -91,4 +96,18 @@ p {
     h5 {
         color: $colorMarron;
     }
+    label {
+        color: $colorMarron;
+        font-style: italic;
+    }
+}
+
+/* Color del focus de contacto */
+.form-control:focus {
+    border-color: $colorMarron;
+    box-shadow: 0 0 5px $colorMarronClaro;
+}
+.form-select:focus {
+    border-color: $colorMarron;
+    box-shadow: 0 0 5px $colorMarronClaro;
 }
