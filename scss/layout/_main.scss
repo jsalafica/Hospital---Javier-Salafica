@@ -111,3 +111,15 @@ p {
     border-color: $colorMarron;
     box-shadow: 0 0 5px $colorMarronClaro;
 }
+
+/* Empleando Mixin */
+@mixin colorDeFondo($color){
+    background-color: $color;
+    &:hover{
+        background-color: $colorMarronClaro;
+        color: $colorMarron;
+    }
+}
+.btnContacto {
+    @include colorDeFondo($colorMarron);
+}

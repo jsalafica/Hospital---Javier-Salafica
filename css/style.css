@@ -127,6 +127,13 @@ p {
   border-color: #534340;
   box-shadow: 0 0 5px #BB9981; }
 
+/* Empleando Mixin */
+.btnContacto {
+  background-color: #534340; }
+  .btnContacto:hover {
+    background-color: #BB9981;
+    color: #534340; }
+
 /* FOOTER */
 footer {
   margin-top: 1rem;
