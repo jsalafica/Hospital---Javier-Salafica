@@ -11,9 +11,11 @@ p {
 
 /* MAIN */
 .sectionBienvenidos {
-    text-align: center;
-    font-size: large;
-    margin: 80px;
+    p {
+        text-align: center;
+        font-size: large;
+        margin: 20px;
+    }
 }
 
 /* Aparecer texto */
@@ -51,21 +53,6 @@ p {
     box-shadow: 0 0 5px $colorMarronClaro;
 }
 
-/* Card Contacto */
-.card-header-contacto {
-    background-color: $colorVerde;
-    color: $colorMarron;
-    font-weight: bold;
-    border-bottom-style: solid;
-    border-bottom-width: 2px;
-    border-bottom-color: $colorMarron;
-}
-.card-contacto {
-    border-style: solid;
-    border-width: 2px;
-    border-color: $colorMarron;
-}
-
 /* Table Head Telefonos */
 .table-head-telefonos {
     background-color: $colorVerde;
@@ -87,15 +74,6 @@ p {
             color: $colorMarron;
         }
     }
-    h1 {
-        color: $colorMarron;
-    }
-    h2 {
-        color: $colorMarron;
-    }
-    h5 {
-        color: $colorMarron;
-    }
     label {
         color: $colorMarron;
         font-style: italic;
@@ -112,8 +90,42 @@ p {
     box-shadow: 0 0 5px $colorMarronClaro;
 }
 
+/* Declarando un mapa y utilizando map-get*/
+$estilos:(
+    color: #534340,
+    alineado: center,
+);
+.main {
+    h1 {
+        color: map-get($map: $estilos, $key: color);
+        text-align: map-get($map: $estilos, $key: alineado);
+    }
+    h2 {
+        color: map-get($map: $estilos, $key: color);
+        text-align: map-get($map: $estilos, $key: alineado);
+    }
+    h5 {
+        color: map-get($map: $estilos, $key: color);
+        // text-align: map-get($map: $estilos, $key: alineado);
+    }
+}
+
+/* Extend */
+/* Card Contacto */
+.card-header-contacto {
+    @extend .table-head-telefonos;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    border-bottom-color: $colorMarron;
+}
+.card-contacto {
+    border-style: solid;
+    border-width: 2px;
+    border-color: $colorMarron;
+}
+
 /* Empleando Mixin */
-@mixin colorDeFondo($color){
+@mixin colorDeFondo($color) {
     background-color: $color;
     &:hover{
         background-color: $colorMarronClaro;

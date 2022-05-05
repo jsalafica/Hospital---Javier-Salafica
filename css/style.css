@@ -43,10 +43,10 @@ p {
   color: #534340; }
 
 /* MAIN */
-.sectionBienvenidos {
+.sectionBienvenidos p {
   text-align: center;
   font-size: large;
-  margin: 80px; }
+  margin: 20px; }
 
 /* Aparecer texto */
 .aparecerTexto {
@@ -77,22 +77,8 @@ p {
   border-color: #534340;
   box-shadow: 0 0 5px #BB9981; }
 
-/* Card Contacto */
-.card-header-contacto {
-  background-color: #C5D8A4;
-  color: #534340;
-  font-weight: bold;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #534340; }
-
-.card-contacto {
-  border-style: solid;
-  border-width: 2px;
-  border-color: #534340; }
-
 /* Table Head Telefonos */
-.table-head-telefonos {
+.table-head-telefonos, .card-header-contacto {
   background-color: #C5D8A4;
   color: #534340;
   font-weight: bold; }
@@ -103,15 +89,6 @@ p {
 
 /* Color items de listas y labels */
 .main ul li {
-  color: #534340; }
-
-.main h1 {
-  color: #534340; }
-
-.main h2 {
-  color: #534340; }
-
-.main h5 {
   color: #534340; }
 
 .main label {
@@ -126,6 +103,30 @@ p {
 .form-select:focus {
   border-color: #534340;
   box-shadow: 0 0 5px #BB9981; }
+
+/* Declarando un mapa y utilizando map-get*/
+.main h1 {
+  color: #534340;
+  text-align: center; }
+
+.main h2 {
+  color: #534340;
+  text-align: center; }
+
+.main h5 {
+  color: #534340; }
+
+/* Extend */
+/* Card Contacto */
+.card-header-contacto {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #534340; }
+
+.card-contacto {
+  border-style: solid;
+  border-width: 2px;
+  border-color: #534340; }
 
 /* Empleando Mixin */
 .btnContacto {
