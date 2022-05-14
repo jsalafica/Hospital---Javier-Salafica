@@ -6,7 +6,7 @@ body {
 
 p {
     font-family: Poppins, sans-serif;
-    color: $colorMarron;
+    color: $colorOscuro;
 }
 
 /* MAIN */
@@ -35,8 +35,8 @@ p {
 
 /* contacto.html */
 .btnContacto {
-    background-color: $colorMarron;
-    color:antiquewhite;
+    background-color: $colorOscuro;
+    color: $colorFondo;
 }
 
 /* IMG Carousel */
@@ -46,17 +46,17 @@ p {
 
 /* Accordion */
 .accordion-button {
-    color: $colorMarron;
+    color: $colorOscuro;
 }
 .accordion-header {
-    border-color: $colorMarron;
-    box-shadow: 0 0 5px $colorMarronClaro;
+    border-color: $colorOscuro;
+    box-shadow: 0 0 5px $colorMedio;
 }
 
 /* Table Head Telefonos */
 .table-head-telefonos {
-    background-color: $colorVerde;
-    color: $colorMarron;
+    background-color: $colorClaro;
+    color: $colorOscuro;
     font-weight: bold;
 }
 
@@ -71,39 +71,39 @@ p {
 .main {
     ul {
         li {
-            color: $colorMarron;
+            color: $colorOscuro;
         }
     }
     label {
-        color: $colorMarron;
+        color: $colorOscuro;
         font-style: italic;
     }
 }
 
 /* Color del focus de contacto */
 .form-control:focus {
-    border-color: $colorMarron;
-    box-shadow: 0 0 5px $colorMarronClaro;
+    border-color: $colorOscuro;
+    box-shadow: 0 0 5px $colorMedio;
 }
 .form-select:focus {
-    border-color: $colorMarron;
-    box-shadow: 0 0 5px $colorMarronClaro;
+    border-color: $colorOscuro;
+    box-shadow: 0 0 5px $colorMedio;
 }
 
 /* Declarando un mapa y utilizando map-get*/
 $estilos:(
-    colorMarron: #534340,
-    colorVerde: #6b7c4d,
+    colorOscuro: $colorOscuro,
+    colorClaro: $colorMedio,
     alineado: center,
     weight: bold
 );
 .main {
     h1,h2 {
-        color: map-get($map: $estilos, $key: colorMarron);
+        color: map-get($map: $estilos, $key: colorOscuro);
         text-align: map-get($map: $estilos, $key: alineado);
     }
     h4,h5 {
-        color: map-get($map: $estilos, $key: colorVerde);
+        color: map-get($map: $estilos, $key: colorClaro);
         font-weight: map-get($map: $estilos, $key: weight);
     }
 }
@@ -114,22 +114,22 @@ $estilos:(
     @extend .table-head-telefonos;
     border-bottom-style: solid;
     border-bottom-width: 2px;
-    border-bottom-color: $colorMarron;
+    border-bottom-color: $colorOscuro;
 }
 .card-contacto {
     border-style: solid;
     border-width: 2px;
-    border-color: $colorMarron;
+    border-color: $colorOscuro;
 }
 
 /* Empleando Mixin */
 @mixin colorDeFondo($color) {
     background-color: $color;
     &:hover{
-        background-color: $colorMarronClaro;
-        color: $colorMarron;
+        background-color: $colorMedio;
+        color: $colorOscuro;
     }
 }
 .btnContacto {
-    @include colorDeFondo($colorMarron);
+    @include colorDeFondo($colorOscuro);
 }

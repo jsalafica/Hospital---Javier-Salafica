@@ -15,32 +15,37 @@
 
 /* HEADER */
 .header nav {
-  background-color: #C5D8A4; }
+  background-color: #F7D1BA; }
   .header nav img {
     border-radius: 10px;
     opacity: 0.8;
-    box-shadow: 0 4px 8px 0 #534340, 0 6px 20px 0 #BB9981; }
+    box-shadow: 0 4px 8px 0 #557571, 0 6px 20px 0 #D49A89; }
     .header nav img:hover {
       opacity: 1;
-      box-shadow: 0 2px 4px 0 #534340, 0 3px 10px 0 #BB9981; }
+      box-shadow: 0 2px 4px 0 #557571, 0 3px 10px 0 #D49A89; }
   .header nav ul li a {
-    color: #534340;
+    text-decoration: none;
+    color: #557571;
     font-weight: bold;
-    text-transform: uppercase;
-    text-shadow: 2px 2px 2px #BB9981; }
+    text-transform: uppercase; }
     .header nav ul li a:hover {
-      color: #BB9981;
+      color: #D49A89;
       transition: 1s;
-      text-shadow: none; }
+      text-shadow: 1px 1px 1px #D49A89; }
+
+.navbar-light .navbar-nav .nav-link {
+  color: #557571; }
+  .navbar-light .navbar-nav .nav-link:hover {
+    color: #D49A89; }
 
 /* BODY */
 body {
   font-family: Playfair, sans-serif;
-  background-color: #F4FCD9; }
+  background-color: #F4F4F4; }
 
 p {
   font-family: Poppins, sans-serif;
-  color: #534340; }
+  color: #557571; }
 
 /* MAIN */
 .sectionBienvenidos p {
@@ -62,8 +67,8 @@ p {
 
 /* contacto.html */
 .btnContacto {
-  background-color: #534340;
-  color: antiquewhite; }
+  background-color: #557571;
+  color: #F4F4F4; }
 
 /* IMG Carousel */
 .carousel-item {
@@ -71,16 +76,16 @@ p {
 
 /* Accordion */
 .accordion-button {
-  color: #534340; }
+  color: #557571; }
 
 .accordion-header {
-  border-color: #534340;
-  box-shadow: 0 0 5px #BB9981; }
+  border-color: #557571;
+  box-shadow: 0 0 5px #D49A89; }
 
 /* Table Head Telefonos */
 .table-head-telefonos, .card-header-contacto {
-  background-color: #C5D8A4;
-  color: #534340;
+  background-color: #F7D1BA;
+  color: #557571;
   font-weight: bold; }
 
 /* Padding en  cards de historia.html */
@@ -89,28 +94,28 @@ p {
 
 /* Color items de listas y labels */
 .main ul li {
-  color: #534340; }
+  color: #557571; }
 
 .main label {
-  color: #534340;
+  color: #557571;
   font-style: italic; }
 
 /* Color del focus de contacto */
 .form-control:focus {
-  border-color: #534340;
-  box-shadow: 0 0 5px #BB9981; }
+  border-color: #557571;
+  box-shadow: 0 0 5px #D49A89; }
 
 .form-select:focus {
-  border-color: #534340;
-  box-shadow: 0 0 5px #BB9981; }
+  border-color: #557571;
+  box-shadow: 0 0 5px #D49A89; }
 
 /* Declarando un mapa y utilizando map-get*/
 .main h1, .main h2 {
-  color: #534340;
+  color: #557571;
   text-align: center; }
 
 .main h4, .main h5 {
-  color: #6b7c4d;
+  color: #D49A89;
   font-weight: bold; }
 
 /* Extend */
@@ -118,25 +123,25 @@ p {
 .card-header-contacto {
   border-bottom-style: solid;
   border-bottom-width: 2px;
-  border-bottom-color: #534340; }
+  border-bottom-color: #557571; }
 
 .card-contacto {
   border-style: solid;
   border-width: 2px;
-  border-color: #534340; }
+  border-color: #557571; }
 
 /* Empleando Mixin */
 .btnContacto {
-  background-color: #534340; }
+  background-color: #557571; }
   .btnContacto:hover {
-    background-color: #BB9981;
-    color: #534340; }
+    background-color: #D49A89;
+    color: #557571; }
 
 /* FOOTER */
 footer {
   margin-top: 1rem;
   padding: 1rem;
   text-align: center;
-  background-color: #C5D8A4;
-  color: #534340;
+  background-color: #F7D1BA;
+  color: #557571;
   font-weight: bold; }

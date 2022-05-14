@@ -1,4 +1,46 @@
-$colorMarron: #534340;
-$colorMarronClaro: #BB9981;
-$colorVerde: #C5D8A4;
-$colorFondo: #F4FCD9;
+// Paleta de colores
+// 0 https://colorhunt.co/palette/2f5d625e8b7ea7c4bcdfeeea
+// 1 https://colorhunt.co/palette/557571d49a89f7d1baf4f4f4
+// 2 https://colorhunt.co/palette/ede6db417d7a1d5c631a3c40
+// 3 https://colorhunt.co/palette/eeebddd8b6a4630000000000
+// 4 https://colorhunt.co/palette/2f8f9d3bacb682dbd8b3e8e5
+// 5 https://colorhunt.co/palette/383838066163cdbe78f2f2f2
+// 6 https://colorhunt.co/palette/f6eec7f7d695ee8972d15a7c
+
+$paleta: 1 !default;
+$colorOscuro: #2F5D62 !default;
+$colorMedio: #5E8B7E !default;
+$colorClaro: #A7C4BC !default;
+$colorFondo: #DFEEEA !default;
+
+@if $paleta == 1 {
+        $colorOscuro: #557571;
+        $colorMedio: #D49A89;
+        $colorClaro: #F7D1BA;
+        $colorFondo: #F4F4F4;
+    } @else if $paleta == 2 {
+        $colorOscuro: #1A3C40;
+        $colorMedio: #1D5C63;
+        $colorClaro: #417D7A;
+        $colorFondo: #EDE6DB;
+    } @else if $paleta == 3 {
+        $colorOscuro: #000000;
+        $colorMedio: #630000;
+        $colorClaro: #D8B6A4;
+        $colorFondo: #EEEBDD;
+    } @else if $paleta == 4 {
+        $colorOscuro: #2F8F9D;
+        $colorMedio: #3BACB6;
+        $colorClaro: #82DBD8;
+        $colorFondo: #B3E8E5;
+    } @else if $paleta == 5 {
+        $colorOscuro: #383838;
+        $colorMedio: #066163;
+        $colorClaro: #CDBE78;
+        $colorFondo: #F2F2F2;
+    } @else if $paleta == 6 {
+        $colorOscuro: #D15A7C;
+        $colorMedio: #EE8972;
+        $colorClaro: #F7D695;
+        $colorFondo: #F6EEC7;
+    }
