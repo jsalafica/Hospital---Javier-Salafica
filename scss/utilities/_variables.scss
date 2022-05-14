@@ -6,6 +6,7 @@
 // 4 https://colorhunt.co/palette/2f8f9d3bacb682dbd8b3e8e5
 // 5 https://colorhunt.co/palette/383838066163cdbe78f2f2f2
 // 6 https://colorhunt.co/palette/f6eec7f7d695ee8972d15a7c
+// 7 https://colorhunt.co/palette/f4fcd9c5d8a4bb9981534340
 
 $paleta: 1 !default;
 $colorOscuro: #2F5D62 !default;
@@ -43,4 +44,9 @@ $colorFondo: #DFEEEA !default;
         $colorMedio: #EE8972;
         $colorClaro: #F7D695;
         $colorFondo: #F6EEC7;
+    } @else if $paleta == 7 {
+        $colorOscuro: #534340;
+        $colorMedio: #BB9981;
+        $colorClaro: #C5D8A4;
+        $colorFondo: #F4FCD9;
     }
