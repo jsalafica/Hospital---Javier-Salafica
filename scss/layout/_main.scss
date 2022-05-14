@@ -92,21 +92,19 @@ p {
 
 /* Declarando un mapa y utilizando map-get*/
 $estilos:(
-    color: #534340,
+    colorMarron: #534340,
+    colorVerde: #6b7c4d,
     alineado: center,
+    weight: bold
 );
 .main {
-    h1 {
-        color: map-get($map: $estilos, $key: color);
+    h1,h2 {
+        color: map-get($map: $estilos, $key: colorMarron);
         text-align: map-get($map: $estilos, $key: alineado);
     }
-    h2 {
-        color: map-get($map: $estilos, $key: color);
-        text-align: map-get($map: $estilos, $key: alineado);
-    }
-    h5 {
-        color: map-get($map: $estilos, $key: color);
-        // text-align: map-get($map: $estilos, $key: alineado);
+    h4,h5 {
+        color: map-get($map: $estilos, $key: colorVerde);
+        font-weight: map-get($map: $estilos, $key: weight);
     }
 }
 

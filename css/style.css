@@ -105,16 +105,13 @@ p {
   box-shadow: 0 0 5px #BB9981; }
 
 /* Declarando un mapa y utilizando map-get*/
-.main h1 {
+.main h1, .main h2 {
   color: #534340;
   text-align: center; }
 
-.main h2 {
-  color: #534340;
-  text-align: center; }
-
-.main h5 {
-  color: #534340; }
+.main h4, .main h5 {
+  color: #6b7c4d;
+  font-weight: bold; }
 
 /* Extend */
 /* Card Contacto */
