@@ -46,11 +46,25 @@ p {
 
 /* Accordion */
 .accordion-button {
-    color: $colorOscuro;
+    color: $colorMedio;
+    font-weight: bold;
 }
-.accordion-header {
-    border-color: $colorOscuro;
+.accordion-button:not(.collapsed) {
+    background-color: $colorClaro;
+    color: $colorOscuro;
     box-shadow: 0 0 5px $colorMedio;
+}
+.accordion-button.collapsed {
+    box-shadow: none;
+}
+.accordion-button::after {
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>") !important;
+    box-shadow: none;
+}
+.accordion-body {
+    p:first-child {
+        color: $colorMedio;
+    }
 }
 
 /* Table Head Telefonos */
@@ -58,13 +72,6 @@ p {
     background-color: $colorClaro;
     color: $colorOscuro;
     font-weight: bold;
-}
-
-/* Padding en  cards de historia.html */
-.accordion {
-    p {
-        padding: 10px;
-    }
 }
 
 /* Color items de listas y labels */
@@ -93,7 +100,7 @@ p {
 /* Declarando un mapa y utilizando map-get*/
 $estilos:(
     colorOscuro: $colorOscuro,
-    colorClaro: $colorMedio,
+    colorMedio: $colorMedio,
     alineado: center,
     weight: bold
 );
@@ -103,7 +110,7 @@ $estilos:(
         text-align: map-get($map: $estilos, $key: alineado);
     }
     h4,h5 {
-        color: map-get($map: $estilos, $key: colorClaro);
+        color: map-get($map: $estilos, $key: colorMedio);
         font-weight: map-get($map: $estilos, $key: weight);
     }
 }
