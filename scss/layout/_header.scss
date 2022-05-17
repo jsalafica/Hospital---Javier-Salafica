@@ -28,10 +28,10 @@
             }
         }
     }
-}
-.navbar-light .navbar-nav .nav-link {
-    color: $colorOscuro;
-    &:hover {
-        color: $colorMedio;
+    .navbar-light .navbar-nav .nav-link {
+        color: $colorOscuro;
+        &:hover {
+            color: $colorMedio;
+        }
     }
 }

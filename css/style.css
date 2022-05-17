@@ -33,9 +33,9 @@
       transition: 1s;
       text-shadow: 1px 1px 1px #D49A89; }
 
-.navbar-light .navbar-nav .nav-link {
+.header .navbar-light .navbar-nav .nav-link {
   color: #557571; }
-  .navbar-light .navbar-nav .nav-link:hover {
+  .header .navbar-light .navbar-nav .nav-link:hover {
     color: #D49A89; }
 
 /* BODY */
@@ -153,3 +153,16 @@ footer {
   background-color: #F7D1BA;
   color: #557571;
   font-weight: bold; }
+  footer .logo {
+    border-radius: 10px;
+    opacity: 0.8;
+    box-shadow: 0 4px 8px 0 #557571, 0 6px 20px 0 #D49A89;
+    width: 100px; }
+    footer .logo:hover {
+      opacity: 1;
+      box-shadow: 0 2px 4px 0 #557571, 0 3px 10px 0 #D49A89; }
+  footer a {
+    text-decoration: none;
+    color: #557571; }
+    footer a:hover {
+      color: #D49A89; }
