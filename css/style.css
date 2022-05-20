@@ -118,9 +118,17 @@ p {
   box-shadow: 0 0 5px #D49A89; }
 
 /* Declarando un mapa y utilizando map-get*/
-.main h1, .main h2 {
+.main h2 {
   color: #557571;
   text-align: center; }
+  @supports (--css: variables) {
+    .main h2 {
+      background: linear-gradient(to right, #557571, #D49A89);
+      color: transparent;
+      background-clip: text; } }
+  .main h2::selection {
+    color: white;
+    background: #F7D1BA; }
 
 .main h4, .main h5 {
   color: #D49A89;
@@ -144,6 +152,11 @@ p {
   .btnContacto:hover {
     background-color: #D49A89;
     color: #557571; }
+
+.gradient-text {
+  background-image: linear-gradient(60deg, #557571, #D49A89);
+  background-clip: text;
+  color: transparent; }
 
 /* FOOTER */
 footer {

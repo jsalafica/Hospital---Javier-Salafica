@@ -101,13 +101,23 @@ p {
 $estilos:(
     colorOscuro: $colorOscuro,
     colorMedio: $colorMedio,
+    colorClaro: $colorClaro,
     alineado: center,
     weight: bold
 );
 .main {
-    h1,h2 {
+    h2 {
         color: map-get($map: $estilos, $key: colorOscuro);
         text-align: map-get($map: $estilos, $key: alineado);
+        @supports (--css: variables) {
+            background: linear-gradient(to right, $colorOscuro, $colorMedio);
+            color: transparent;
+            background-clip: text;
+        }
+        &::selection {
+        color: white;
+        background: map-get($map: $estilos, $key: colorClaro);
+        }
     }
     h4,h5 {
         color: map-get($map: $estilos, $key: colorMedio);
@@ -139,4 +149,11 @@ $estilos:(
 }
 .btnContacto {
     @include colorDeFondo($colorOscuro);
+}
+
+// Gradient
+.gradient-text {
+    background-image: linear-gradient(60deg, $colorOscuro, $colorMedio);
+    background-clip: text;
+    color: transparent;
 }
