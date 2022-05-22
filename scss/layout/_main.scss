@@ -110,7 +110,7 @@ $estilos:(
         color: map-get($map: $estilos, $key: colorOscuro);
         text-align: map-get($map: $estilos, $key: alineado);
         @supports (--css: variables) {
-            background: linear-gradient(to right, $colorOscuro, $colorMedio);
+            background: linear-gradient(to right, $colorOscuro 30%, $colorFondo);
             color: transparent;
             background-clip: text;
         }
@@ -152,8 +152,15 @@ $estilos:(
 }
 
 // Gradient
-.gradient-text {
-    background-image: linear-gradient(60deg, $colorOscuro, $colorMedio);
-    background-clip: text;
-    color: transparent;
-}
+// .gradient-text {
+//     background-image: linear-gradient(60deg, $colorOscuro, $colorMedio);
+//     background-clip: text;
+//     color: transparent;
+// }
+
+// Carousel
+// .carousel-inner > .carousel-item > img {
+//     object-fit: scale-down;
+//     height: 60vh;
+//     width: 100%;
+// }
