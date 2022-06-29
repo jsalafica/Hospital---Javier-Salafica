@@ -9,7 +9,7 @@
     "start_url": "./",
     "icons": [
         {
-            "src": "./images/icono-512.png",
+            "src": "/images/comprimidas/trasplante.png",
             "type": "image/png",
             "sizes": "512x512"
         }
