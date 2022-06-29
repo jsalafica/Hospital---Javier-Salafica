@@ -1,0 +1,17 @@
+{
+    "name": "Hospital Centenario",
+    "short_name": "Hospital",
+    "theme_color": "#2196f3",
+    "background_color": "#2196f3",
+    "display": "fullscreen",
+    "orientation": "portrait",
+    "scope": "./",
+    "start_url": "./",
+    "icons": [
+        {
+            "src": "./images/icono-512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ]
+}
