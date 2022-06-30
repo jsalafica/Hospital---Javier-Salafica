@@ -165,6 +165,9 @@ if (usuarioCorrecto==true){
                 ordenarPacientes();
                 document.getElementById("pacientes").innerHTML = "";
                 imprimePacientes();
+            break;
+            default:
+            break;
         }
     } while (opcionMenu!=4);
 }
