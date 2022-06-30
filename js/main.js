@@ -114,10 +114,9 @@ if (usuarioCorrecto==true){
     do {
         opcionMenu = Number(prompt(`Menu:
                                     1-Nuevo paciente.
-                                    2-Editar paciente.
-                                    3-Borrar paciente.
-                                    4-Ordenar por edad (menor a mayor).
-                                    5-Salir.`));
+                                    2-Borrar paciente.
+                                    3-Ordenar por edad (menor a mayor).
+                                    4-Salir.`));
         switch(opcionMenu){
             case 1:
                 do {
@@ -157,21 +156,17 @@ if (usuarioCorrecto==true){
                 } while (nombre!='FIN');
             break;
             case 2:
-                let pacienteEditar = prompt("Indique el nombre del paciente a editar");
-
-            break;
-            case 3:
                 let pacienteBorrar = prompt("Indique el nombre del paciente a borrar").toLowerCase();
                 eliminarPaciente(pacienteBorrar);
                 document.getElementById("pacientes").innerHTML = "";
                 imprimePacientes();
             break;
-            case 4:
+            case 3:
                 ordenarPacientes();
                 document.getElementById("pacientes").innerHTML = "";
                 imprimePacientes();
         }
-    } while (opcionMenu!=5);
+    } while (opcionMenu!=4);
 }
 
 // function imprimirInternados(){
