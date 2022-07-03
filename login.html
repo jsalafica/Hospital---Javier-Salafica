@@ -14,7 +14,11 @@
 
     <!-- CSS Propio -->
     <link rel="stylesheet" href="css/style.css">
-
+    <style>
+        .mainOculto {
+            display: none;
+        } 
+    </style>
     <title>Login</title>
 </head>
 <body>
@@ -53,10 +57,69 @@
         </nav>
     </header>
     <div class="container-fluid">
-        <div class="main">
+        <div class="main mainOculto">
+            <button class="btn btn-sm btnContacto m-2" id="btnNuevoPaciente">Nuevo</button>
+            <button class="btn btn-sm btnContacto m-2" id="btnOrdenarPacientes" title="Ordenar Edad de menor a mayor">Ordenar</button>
             <div class="row" id="pacientes"></div>
         </div>
     </div>
+
+    <!-- Modal Nuevo Paciente -->
+    <div class="modal" id="modalNuevoPaciente" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Nuevo Paciente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formNuevoPaciente">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" required>
+                        <label for="apellido" class="form-label">Apellido</label>
+                        <input type="text" class="form-control" id="apellido" name="apellido" required>
+                        <label for="edad" class="form-label">Edad</label>
+                        <input type="number" class="form-control" id="edad" name="edad" required>
+                        <label for="sala" class="form-label">Sala</label>
+                        <input type="text" class="form-control" id="sala" name="sala" required>
+                        <label for="cama" class="form-label">Cama</label>
+                        <input type="text" class="form-control" id="cama" name="cama" required>
+                        <label for="diagnostico" class="form-label">Diagnóstico</label>
+                        <input type="text" class="form-control" id="diagnostico" name="diagnostico" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Agregar</button>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Login -->
+    <div class="modal fade" id="modalLogin" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Login</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formLogin">
+                        <label for="nombreUsuario" class="form-label">Usuario</label>
+                        <input type="text" class="form-control" id="nombreUsuario" name="nombreUsuario" required>
+                        <label for="passUsuario" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="passUsuario" name="passUsuario" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Aceptar</button>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+
     <footer class="d-flex flex-wrap justify-content-between align-items-center border-top">
         <div class="col-md-6 d-flex align-items-center">
             <a class="navbar-brand" href="index.html"><img class="logo" src="images/index.jpg" alt="Logo"></a>
@@ -75,6 +138,6 @@
         </ul>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-    <script src="js/main.js"></script>
+    <script src="js/login.js"></script>
 </body>
 </html>

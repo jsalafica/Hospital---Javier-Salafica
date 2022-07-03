@@ -105,6 +105,7 @@ if (ingresoUsuario=="" && ingresoPassword==""){
     } while (!usuarioCorrecto);
 } else {
     usuarioCorrecto = true;
+    // Acá va la modificacion del header
 }
 
 if (usuarioCorrecto==true){
