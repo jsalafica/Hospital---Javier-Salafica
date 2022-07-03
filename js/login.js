@@ -98,7 +98,7 @@ console.log(ingresoUsuario,ingresoPassword);
 const myModalLogin = new bootstrap.Modal(document.getElementById('modalLogin'));
 if (ingresoUsuario==null && ingresoPassword==null){
     myModalLogin.show();
-    console.log("muestra modal");
+    console.log("muestra modal login");
 } else {
     console.log("Usuario ingresado");
     mainOculto.style.display = 'block';
