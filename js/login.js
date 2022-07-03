@@ -7,6 +7,7 @@ let cama = '';
 let diagnostico = '';
 let camaOcupada = 0;
 const tarjeta = document.getElementById("pacientes");
+const mainOculto = document.querySelector(".mainOculto");
 const pacientesInternados = [
     {
         "id": 1,
@@ -100,6 +101,7 @@ if (ingresoUsuario==null && ingresoPassword==null){
     console.log("muestra modal");
 } else {
     console.log("Usuario ingresado");
+    mainOculto.style.display = 'block';
     imprimePacientes();
 }
 
@@ -225,8 +227,6 @@ function checkUser(e){
         if(nombreUsuario==usuario.nombreUsuario && passUsuario==usuario.password){
             sessionStorage.setItem("usuario",nombreUsuario);
             sessionStorage.setItem("password",passUsuario);
-            const main = document.querySelector('.main');
-            const mainOculto = document.querySelector(".mainOculto");
             mainOculto.style.display = 'block';
             myModalLogin.hide();
             imprimePacientes();
