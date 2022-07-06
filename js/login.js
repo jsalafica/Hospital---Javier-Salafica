@@ -39,6 +39,7 @@ const pacientesInternados = [
 ];
 const pacientesNuevos = [];
 const pacientesLocalStorage = [];
+const pacientesGuardados = JSON.parse(localStorage.getItem("pacientes"));
 
 //Clase paciente
 class Paciente {
@@ -78,11 +79,18 @@ class Paciente {
     }
 }
 
-// Pushea pacientesInternados en pacientesNuevos
-pusheaPacientes();
 
-// Pushea pacientes del localStorage
-// pusheaLocalStorage();
+
+if(pacientesGuardados!=null){
+    // Pushea pacientes del localStorage
+    pusheaLocalStorage();
+    console.log("Pushea desde localstorage");
+} else { 
+    // Pushea pacientesInternados en pacientesNuevos
+    pusheaPacientes();
+    console.log("Pushea desde array pacientesInternados");
+}
+
 
 //Valida Usuarios
 const usuarios = [
@@ -98,9 +106,9 @@ console.log(ingresoUsuario,ingresoPassword);
 const myModalLogin = new bootstrap.Modal(document.getElementById('modalLogin'));
 if (ingresoUsuario==null && ingresoPassword==null){
     myModalLogin.show();
-    console.log("muestra modal login");
+    console.log("Muestra modal login");
 } else {
-    console.log("Usuario ingresado");
+    console.log("Usuario ya ingresado");
     mainOculto.style.display = 'block';
     imprimePacientes();
 }
@@ -111,6 +119,8 @@ modalLogin.addEventListener('shown.bs.modal', function () {
     let nombre = document.getElementById("nombreUsuario");
     nombre.focus();
 });
+
+// Evento submit login
 const formularioLogin = document.getElementById("formLogin");
 formularioLogin.addEventListener("submit", checkUser);
 
@@ -118,11 +128,19 @@ function pusheaPacientes(){
     for (let paciente of pacientesInternados){
         pacientesNuevos.push(new Paciente(paciente.id,paciente.nombre,paciente.apellido,paciente.edad,paciente.sala,paciente.cama,paciente.diagnostico));
     }
+    guardaLocalStorage();
+    // console.log(localStorage.getItem("pacientes"));
 }
 
-// function pusheaLocalStorage(){
-//     pacientesNuevos.push(new Paciente(paciente.id,paciente.nombre,paciente.apellido,paciente.edad,paciente.sala,paciente.cama,paciente.diagnostico));
-// }
+function pusheaLocalStorage(){
+    for (let paciente of pacientesGuardados){
+        pacientesNuevos.push(new Paciente(paciente.id,paciente.nombre,paciente.apellido,paciente.edad,paciente.sala,paciente.cama,paciente.diagnostico));
+    }
+}
+
+function guardaLocalStorage(){
+    localStorage.setItem("pacientes", JSON.stringify(pacientesNuevos));
+}
 
 function imprimePacientes(){
     document.getElementById("pacientes").innerHTML = "";
@@ -143,7 +161,7 @@ function eliminarPaciente(id){
         // Si existe coincidencia y encontro el paciente
         if(pacienteABorrar){
             pacientesNuevos.splice(pacientesNuevos.indexOf(pacienteABorrar), 1);
-            // 
+            guardaLocalStorage();
             imprimePacientes();
         } else {
         alert("El paciente no existe");
@@ -165,6 +183,16 @@ ordenaPacientes.addEventListener("click", () => {
     console.log("Ordena pacientes por edad");
     ordenarPacientes();
     // document.getElementById("pacientes").innerHTML = "";
+    imprimePacientes();
+});
+
+// Resetea pacientes
+const reseteaPacientes = document.getElementById("btnReset");
+reseteaPacientes.addEventListener("click", () => {
+    console.log("Resetea pacientes");
+    localStorage.clear();
+    pacientesNuevos.length = 0;
+    pusheaPacientes();
     imprimePacientes();
 });
 
@@ -202,11 +230,7 @@ function enviarFormulario(e) {
     pacientesNuevos.push(new Paciente(idNuevoPaciente,nombreNuevoPaciente,apellidoNuevoPaciente,edadNuevoPaciente,salaNuevoPaciente,camaNuevoPaciente,diagnosticoNuevoPaciente));
 
     // Almaceno en LocalStorage
-    // const almacenaLocal = (clave, valor) => {
-    //     localStorage.setItem(clave, valor);
-    // }
-    // almacenaLocal("almacenados", JSON.stringify(idNuevoPaciente,nombreNuevoPaciente,apellidoNuevoPaciente,edadNuevoPaciente,salaNuevoPaciente,camaNuevoPaciente,diagnosticoNuevoPaciente));
-    // console.log(JSON.parse(localStorage.getItem("almacenados")));
+    guardaLocalStorage();
 
     // Imprimo último paciente ingresado
     pacientesNuevos[pacientesNuevos.length -1].imprimir();
@@ -232,6 +256,7 @@ function checkUser(e){
             imprimePacientes();
         } else {
             alert("Usuario incorrecto");
+            formularioLogin.reset();
         }
     }
 }
