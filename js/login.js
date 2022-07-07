@@ -190,7 +190,7 @@ ordenaPacientes.addEventListener("click", () => {
 const reseteaPacientes = document.getElementById("btnReset");
 reseteaPacientes.addEventListener("click", () => {
     console.log("Resetea pacientes");
-    localStorage.clear();
+    localStorage.removeItem("pacientes");
     pacientesNuevos.length = 0;
     pusheaPacientes();
     imprimePacientes();
