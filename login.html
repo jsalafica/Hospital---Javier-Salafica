@@ -103,6 +103,38 @@
         </div>
     </div>
 
+    <!-- Modal Editar Paciente -->
+    <div class="modal" id="modalEditarPaciente" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar Paciente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formEditarPaciente">
+                        <label for="nombreEdit" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombreEdit" name="nombreEdit" required>
+                        <label for="apellidoEdit" class="form-label">Apellido</label>
+                        <input type="text" class="form-control" id="apellidoEdit" name="apellidoEdit" required>
+                        <label for="edadEdit" class="form-label">Edad</label>
+                        <input type="number" class="form-control" id="edadEdit" name="edadEdit" required>
+                        <label for="salaEdit" class="form-label">Sala</label>
+                        <input type="text" class="form-control" id="salaEdit" name="salaEdit" required>
+                        <label for="camaEdit" class="form-label">Cama</label>
+                        <input type="text" class="form-control" id="camaEdit" name="camaEdit" required>
+                        <label for="diagnosticoEdit" class="form-label">Diagnóstico</label>
+                        <input type="text" class="form-control" id="diagnosticoEdit" name="diagnosticoEdit" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Editar</button>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal Login -->
     <div class="modal fade" id="modalLogin" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -146,5 +178,6 @@
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <script src="js/login.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
