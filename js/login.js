@@ -1,3 +1,6 @@
+// Importa funciones
+// import {checkUser} from "./functions.js"
+
 let noEsNumero = true;
 let nombre = '';
 let edad = 0;
