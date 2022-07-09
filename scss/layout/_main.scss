@@ -33,12 +33,6 @@ p {
     }
 }
 
-/* contacto.html */
-.btnContacto {
-    background-color: $colorOscuro;
-    color: $colorFondo;
-}
-
 /* IMG Carousel */
 .carousel-item {
     border-radius: 5px;
@@ -85,6 +79,11 @@ p {
         color: $colorOscuro;
         font-style: italic;
     }
+}
+
+// Oculta main en login.html
+.mainOculto {
+    display: none;
 }
 
 /* Color del focus de contacto */
@@ -142,6 +141,7 @@ $estilos:(
 /* Empleando Mixin */
 @mixin colorDeFondo($color) {
     background-color: $color;
+    color: $colorFondo;
     &:hover{
         background-color: $colorMedio;
         color: $colorOscuro;
@@ -151,16 +151,6 @@ $estilos:(
     @include colorDeFondo($colorOscuro);
 }
 
-// Gradient
-// .gradient-text {
-//     background-image: linear-gradient(60deg, $colorOscuro, $colorMedio);
-//     background-clip: text;
-//     color: transparent;
-// }
-
-// Carousel
-// .carousel-inner > .carousel-item > img {
-//     object-fit: scale-down;
-//     height: 60vh;
-//     width: 100%;
-// }
+.btnLogin {
+    @include colorDeFondo($colorOscuro);
+}

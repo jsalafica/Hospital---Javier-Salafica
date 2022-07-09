@@ -55,6 +55,9 @@ class Paciente {
         this.cama = cama,
         this.diagnostico = diagnostico
     }
+    editar(){
+        console.log(pacientesNuevos);
+    }
     imprimir(){
         const card = document.createElement('div');
         card.className = "col-md-3";
@@ -82,8 +85,6 @@ class Paciente {
     }
 }
 
-
-
 if(pacientesGuardados!=null){
     // Pushea pacientes del localStorage
     pusheaLocalStorage();
@@ -93,7 +94,6 @@ if(pacientesGuardados!=null){
     pusheaPacientes();
     console.log("Pushea desde array pacientesInternados");
 }
-
 
 //Valida Usuarios
 const usuarios = [
@@ -122,10 +122,6 @@ modalLoginFocus.addEventListener('shown.bs.modal', function () {
     let nombre = document.getElementById("nombreUsuario");
     nombre.focus();
 });
-
-// Evento submit login
-const formularioLogin = document.getElementById("formLogin");
-formularioLogin.addEventListener("submit", checkUser);
 
 function pusheaPacientes(){
     for (let paciente of pacientesInternados){
@@ -156,21 +152,6 @@ function imprimePacientes(){
 }
 
 function eliminarPaciente(id){
-    // console.log(id);
-    // let pacienteABorrar = pacientesNuevos.find(paciente => paciente.nombre.toLowerCase() === nom);
-
-    // let confirmaBorrar = confirm(`Está seguro que deseas borrar al paciente ${id}?`);
-    // if(confirmaBorrar==true){
-    //     let pacienteABorrar = pacientesNuevos.find(paciente => paciente.id === id);
-    //     // Si existe coincidencia y encontro el paciente
-    //     if(pacienteABorrar){
-    //         pacientesNuevos.splice(pacientesNuevos.indexOf(pacienteABorrar), 1);
-    //         guardaLocalStorage();
-    //         imprimePacientes();
-    //     } else {
-    //     alert("El paciente no existe");
-    //     }
-    // }
     Swal.fire({
         title: `Está seguro de eliminar el paciente ${id}?`,
         icon: 'warning',
@@ -203,15 +184,49 @@ function eliminarPaciente(id){
 
 }
 
+// Funcion carga datos al Modal Editar paciente
+const modalEditar = new bootstrap.Modal(document.querySelector("#modalEditarPaciente"));
 function editarPaciente(id){
-    // alert(`Proximamente editaremos el paciente id: ${id}`);
-    Swal.fire({
-        title: `Proximamente editaremos el paciente id: ${id}`,
-        icon: 'info',
-        // text: 'El paciente ha sido borrado'
-    });
+    let pacienteAEditar = pacientesNuevos.find(paciente => paciente.id === id);
+    document.getElementById("idEdit").value = pacienteAEditar.id;
+    document.getElementById("nombreEdit").value = pacienteAEditar.nombre;
+    document.getElementById("apellidoEdit").value = pacienteAEditar.apellido;
+    document.getElementById("edadEdit").value = pacienteAEditar.edad;
+    document.getElementById("salaEdit").value = pacienteAEditar.sala;
+    document.getElementById("camaEdit").value = pacienteAEditar.cama;
+    document.getElementById("diagnosticoEdit").value = pacienteAEditar.diagnostico;
+    modalEditar.show();
 }
 
+// Envía formulario de edición de paciente
+const formularioEdit = document.querySelector("#formEditarPaciente");
+formularioEdit.addEventListener("submit", editarFormulario);
+function editarFormulario(e) {
+    e.preventDefault();
+    modalEditar.hide();
+    const idEdit = document.getElementById("idEdit").value;
+    const nombreEdit = document.getElementById("nombreEdit").value;
+    const apellidoEdit = document.getElementById("apellidoEdit").value;
+    const edadEdit = document.getElementById("edadEdit").value;
+    const salaEdit = document.getElementById("salaEdit").value;
+    const camaEdit = document.getElementById("camaEdit").value;
+    const diagnosticoEdit = document.getElementById("diagnosticoEdit").value;
+    pacientesNuevos.map(function(dato){
+        if(dato.id == idEdit){
+            dato.nombre = nombreEdit;
+            dato.apellido = apellidoEdit;
+            dato.edad = edadEdit;
+            dato.sala = salaEdit;
+            dato.cama = camaEdit;
+            dato.diagnostico = diagnosticoEdit;
+        }
+        return dato;
+    });
+    guardaLocalStorage();
+    imprimePacientes();
+}
+
+// Funcion Ordenar paciente
 function ordenarPacientes(){
     pacientesNuevos.sort((a, b) => a.edad - b.edad);
 }
@@ -221,8 +236,13 @@ const ordenaPacientes = document.getElementById("btnOrdenarPacientes");
 ordenaPacientes.addEventListener("click", () => {
     console.log("Ordena pacientes por edad");
     ordenarPacientes();
-    // document.getElementById("pacientes").innerHTML = "";
     imprimePacientes();
+    Swal.fire({
+        title: 'Listado de pacientes ordenados por edad!',
+        // text: 'Aceptar',
+        icon: 'success',
+        confirmButtonText: 'Aceptar'
+    })
 });
 
 // Resetea pacientes
@@ -246,7 +266,6 @@ const nuevoPaciente = document.getElementById("btnNuevoPaciente");
 const modalPaciente = new bootstrap.Modal(document.getElementById('modalNuevoPaciente'));
 // nuevoPaciente.onclick = () => {modalNuevoPaciente.show()};
 nuevoPaciente.addEventListener("click", () => {
-    // console.log("Hiciste click en el boton nuevo paciente");
     modalPaciente.show();
 });
 
@@ -257,7 +276,7 @@ modalNuevoPaciente.addEventListener('shown.bs.modal', function () {
     nombre.focus();
 });
 
-// Envía formulario
+// Envía formulario nuevo paciente
 const formulario = document.getElementById("formNuevoPaciente");
 formulario.addEventListener("submit", enviarFormulario);
 
@@ -280,36 +299,56 @@ function enviarFormulario(e) {
     // Imprimo último paciente ingresado
     pacientesNuevos[pacientesNuevos.length -1].imprimir();
 
-    //Resetea form
+    // Resetea form
     formulario.reset();
 
-    //Oculta modal
+    // Oculta modal
     modalPaciente.hide();
 }
 
-// Edita formulario
-const formularioEdit = document.querySelector("#formEditarPaciente");
-formularioEdit.addEventListener("submit", editarFormulario);
-function editarFormulario(e) {
-    e.preventDefault();
-    // Falta resto de codigo
-}
 
-function checkUser(e){
+// Evento submit login
+const formularioLogin = document.getElementById("formLogin");
+formularioLogin.addEventListener("submit", (e) => {
     e.preventDefault();
     let nombreUsuario = document.getElementById("nombreUsuario").value;
     let passUsuario = document.getElementById("passUsuario").value;
-    console.log(nombreUsuario,passUsuario);
+    console.log(nombreUsuario.value,passUsuario.value);
     for (const usuario of usuarios){
         if(nombreUsuario==usuario.nombreUsuario && passUsuario==usuario.password){
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+            Toast.fire({
+                icon: 'success',
+                title: 'Usuario ingresado correctamente!'
+            })
             sessionStorage.setItem("usuario",nombreUsuario);
             sessionStorage.setItem("password",passUsuario);
             mainOculto.style.display = 'block';
             modalLogin.hide();
             imprimePacientes();
         } else {
-            alert("Usuario incorrecto");
+            Swal.fire({
+                title: 'Error, usuario y/o contraseña incorrectos!',
+                icon: 'error',
+                text: 'Vuelva a intentarlo'
+            });
             formularioLogin.reset();
         }
     }
+
+});
+
+function cancelarLogin(){
+    formularioLogin.reset();
+    window.location.assign("index.html");
 }

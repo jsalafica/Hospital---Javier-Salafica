@@ -65,11 +65,6 @@ p {
   100% {
     opacity: 1; } }
 
-/* contacto.html */
-.btnContacto {
-  background-color: #557571;
-  color: #F4F4F4; }
-
 /* IMG Carousel */
 .carousel-item {
   border-radius: 5px; }
@@ -107,6 +102,9 @@ p {
 .main label {
   color: #557571;
   font-style: italic; }
+
+.mainOculto {
+  display: none; }
 
 /* Color del focus de contacto */
 .form-control:focus {
@@ -148,8 +146,16 @@ p {
 
 /* Empleando Mixin */
 .btnContacto {
-  background-color: #557571; }
+  background-color: #557571;
+  color: #F4F4F4; }
   .btnContacto:hover {
+    background-color: #D49A89;
+    color: #557571; }
+
+.btnLogin {
+  background-color: #557571;
+  color: #F4F4F4; }
+  .btnLogin:hover {
     background-color: #D49A89;
     color: #557571; }
 
