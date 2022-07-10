@@ -26,7 +26,7 @@ const navbar = `
                 </ul>
                 <ul class="navbar-nav d-flex" id="navLogin">
                     <li class="nav-item">
-                        <a class="nav-link" href="login.html">Internacion</a>
+                        <a class="nav-link" href="login.html">Internación</a>
                     </li>
                 </ul>
             </div>
