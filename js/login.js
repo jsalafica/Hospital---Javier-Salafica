@@ -82,15 +82,28 @@ class Paciente {
     }
 }
 
-if(pacientesGuardados!=null){
-    // Pushea pacientes del localStorage
-    pusheaLocalStorage();
-    console.log("Pushea desde localstorage");
-} else { 
-    // Pushea pacientesInternados en pacientesNuevos
-    pusheaPacientes();
-    console.log("Pushea desde array pacientesInternados");
-}
+// Evento de Carga de DOM
+document.addEventListener("DOMContentLoaded", () => {
+    // Verifica si hay pacientes en el localstorage
+    if(localStorage.getItem("pacientes")){
+        // Pushea pacientes del localStorage
+        pusheaLocalStorage();
+        console.log("Pushea desde localstorage");
+    } else {
+        // Pushea pacientesInternados en pacientesNuevos
+        pusheaPacientes();
+        console.log("Pushea desde array pacientesInternados");
+    }
+    // Verifica usuario
+    if ((ingresoUsuario) && (ingresoPassword)){
+        console.log("Usuario ya logeado");
+        mainOculto.style.display = 'block';
+        imprimePacientes();
+    } else {
+        modalLogin.show();
+        console.log("Muestra modal login, usuario NO logeado");
+    }
+});
 
 //Valida Usuarios
 const usuarios = [
@@ -101,17 +114,7 @@ const usuarios = [
 ];
 let ingresoUsuario = sessionStorage.getItem("usuario");
 let ingresoPassword = sessionStorage.getItem("password");
-
-console.log(ingresoUsuario,ingresoPassword);
 const modalLogin = new bootstrap.Modal(document.getElementById('modalLogin'));
-if (ingresoUsuario==null && ingresoPassword==null){
-    modalLogin.show();
-    console.log("Muestra modal login");
-} else {
-    console.log("Usuario ya ingresado");
-    mainOculto.style.display = 'block';
-    imprimePacientes();
-}
 
 // Focus en input usuario
 const modalLoginFocus = document.getElementById('modalLogin');
@@ -121,15 +124,14 @@ modalLoginFocus.addEventListener('shown.bs.modal', function () {
 });
 
 function pusheaPacientes(){
-    for (let paciente of pacientesInternados){
+    for (const paciente of pacientesInternados){
         pacientesNuevos.push(new Paciente(paciente.id,paciente.nombre,paciente.apellido,paciente.edad,paciente.sala,paciente.cama,paciente.diagnostico));
     }
     guardaLocalStorage();
-    // console.log(localStorage.getItem("pacientes"));
 }
 
 function pusheaLocalStorage(){
-    for (let paciente of pacientesGuardados){
+    for (const paciente of pacientesGuardados){
         pacientesNuevos.push(new Paciente(paciente.id,paciente.nombre,paciente.apellido,paciente.edad,paciente.sala,paciente.cama,paciente.diagnostico));
     }
 }
@@ -140,9 +142,6 @@ function guardaLocalStorage(){
 
 function imprimePacientes(){
     document.getElementById("pacientes").innerHTML = "";
-    // for(const paciente of pacientesNuevos){
-    //     paciente.imprimir();
-    // }
     pacientesNuevos.forEach((p) => {
         p.imprimir();
     });
@@ -156,7 +155,6 @@ function eliminarPaciente(id){
         confirmButtonText: 'Confirmar',
         cancelButtonText: 'Cancelar'
     }).then((result) => {
-
         if (result.isConfirmed) {
             let pacienteABorrar = pacientesNuevos.find(paciente => paciente.id === id);
             // Si existe coincidencia y encontro el paciente
@@ -178,7 +176,6 @@ function eliminarPaciente(id){
             }
         }
     });
-
 }
 
 // Funcion carga datos al Modal Editar paciente
@@ -273,36 +270,31 @@ modalNuevoPaciente.addEventListener('shown.bs.modal', function () {
     nombre.focus();
 });
 
-// Envía formulario nuevo paciente
+// Evento submit nuevo paciente
 const formulario = document.getElementById("formNuevoPaciente");
-formulario.addEventListener("submit", enviarFormulario);
-
-function enviarFormulario(e) {
+formulario.addEventListener("submit", (e) => {
     e.preventDefault();
-    let idNuevoPaciente = pacientesNuevos.length+1;
-    let nombreNuevoPaciente = document.getElementById("nombre").value;
-    let apellidoNuevoPaciente = document.getElementById("apellido").value;
-    let edadNuevoPaciente = document.getElementById("edad").value;
-    let salaNuevoPaciente = document.getElementById("sala").value;
-    let camaNuevoPaciente = document.getElementById("cama").value;
-    let diagnosticoNuevoPaciente = document.getElementById("diagnostico").value;
+    // Obtengo datos del formulario
+    const datos = new FormData(formulario);
 
+    const idNuevoPaciente = pacientesNuevos.length+1;
+    const nombreNuevoPaciente = datos.get("nombre");
+    const apellidoNuevoPaciente = datos.get("apellido");
+    const edadNuevoPaciente = datos.get("edad");
+    const salaNuevoPaciente = datos.get("sala");
+    const camaNuevoPaciente = datos.get("cama");
+    const diagnosticoNuevoPaciente = datos.get("diagnostico");
     // Agrego a array
     pacientesNuevos.push(new Paciente(idNuevoPaciente,nombreNuevoPaciente,apellidoNuevoPaciente,edadNuevoPaciente,salaNuevoPaciente,camaNuevoPaciente,diagnosticoNuevoPaciente));
-
     // Almaceno en LocalStorage
     guardaLocalStorage();
-
     // Imprimo último paciente ingresado
     pacientesNuevos[pacientesNuevos.length -1].imprimir();
-
     // Resetea form
     formulario.reset();
-
     // Oculta modal
     modalPaciente.hide();
-}
-
+});
 
 // Evento submit login
 const formularioLogin = document.getElementById("formLogin");
@@ -310,7 +302,6 @@ formularioLogin.addEventListener("submit", (e) => {
     e.preventDefault();
     let nombreUsuario = document.getElementById("nombreUsuario").value;
     let passUsuario = document.getElementById("passUsuario").value;
-    
     for (const usuario of usuarios){
         if(nombreUsuario==usuario.nombreUsuario && passUsuario==usuario.password){
             const Toast = Swal.mixin({
