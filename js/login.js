@@ -55,9 +55,6 @@ class Paciente {
         this.cama = cama,
         this.diagnostico = diagnostico
     }
-    editar(){
-        console.log(pacientesNuevos);
-    }
     imprimir(){
         const card = document.createElement('div');
         card.className = "col-md-3";
@@ -313,7 +310,7 @@ formularioLogin.addEventListener("submit", (e) => {
     e.preventDefault();
     let nombreUsuario = document.getElementById("nombreUsuario").value;
     let passUsuario = document.getElementById("passUsuario").value;
-    console.log(nombreUsuario.value,passUsuario.value);
+    
     for (const usuario of usuarios){
         if(nombreUsuario==usuario.nombreUsuario && passUsuario==usuario.password){
             const Toast = Swal.mixin({
@@ -345,7 +342,6 @@ formularioLogin.addEventListener("submit", (e) => {
             formularioLogin.reset();
         }
     }
-
 });
 
 function cancelarLogin(){
