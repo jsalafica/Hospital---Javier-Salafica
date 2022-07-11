@@ -146,10 +146,15 @@ function guardaLocalStorage(){
 }
 
 function imprimePacientes(){
-    document.getElementById("pacientes").innerHTML = "";
+    tarjeta.innerHTML = "";
     pacientesNuevos.forEach((p) => {
         p.imprimir();
     });
+    if(pacientesNuevos.length === 0){
+        tarjeta.innerHTML = `<h4 class="text-center">No hay pacientes internados</h4>`;
+    }
+    // No funciona operador ternario!!! Preguntar a tutor
+    // pacientesNuevos.length === 0 && tarjeta.innerHTML = `<h4 class="text-center">No hay pacientes internados</h4>`;
 }
 
 function eliminarPaciente(id){
