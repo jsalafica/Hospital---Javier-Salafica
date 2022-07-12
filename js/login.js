@@ -162,7 +162,7 @@ function imprimePacientes(){
     if(pacientesNuevos.length === 0){
         tarjeta.innerHTML = `<h4 class="text-center">No hay pacientes internados</h4>`;
     }
-    // No funciona operador ternario!!! Preguntar a tutor
+    // No funciona operador ternario!!! Preguntar a Solange!!!
     // pacientesNuevos.length === 0 && tarjeta.innerHTML = `<h4 class="text-center">No hay pacientes internados</h4>`;
 }
 
