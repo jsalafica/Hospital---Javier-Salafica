@@ -17,27 +17,36 @@ const pacientesInternados = [
         "nombre": "Javier",
         "apellido": "Perez",
         "edad": 49,
-        "sala": 1,
-        "cama": 2,
-        "diagnostico": "Asma"
+        "sala": "Sala 1",
+        "cama": "2",
+        "diagnostico": "Crisis asmática"
     },
     {
         "id": 2,
         "nombre": "Claudio",
         "apellido": "Gomez",
         "edad": 47,
-        "sala": 1,
-        "cama": 4,
-        "diagnostico": "Faringitis"
+        "sala": "Sala 2",
+        "cama": "4",
+        "diagnostico": "Faringoamigdalitis"
     },
     {
         "id": 3,
         "nombre": "Santino",
         "apellido": "Lopez",
         "edad": 13,
-        "sala": 2,
-        "cama": 5,
+        "sala": "UTI",
+        "cama": "5 bis",
         "diagnostico": "Cefalea"
+    },
+    {
+        "id": 4,
+        "nombre": "Mauricio",
+        "apellido": "Alvarez",
+        "edad": 54,
+        "sala": "Sala 3",
+        "cama": "8 bis",
+        "diagnostico": "Osteomielitis"
     },
 ];
 const pacientesNuevos = [];
@@ -247,6 +256,15 @@ ordenaPacientes.addEventListener("click", () => {
         icon: 'success',
         confirmButtonText: 'Aceptar'
     })
+});
+
+// Logout
+const logoutUser = document.getElementById("btnLogout");
+logoutUser.addEventListener("click", () => {
+    console.log(`Logout: ${logoutUser}`);
+    sessionStorage.removeItem("usuario");
+    sessionStorage.removeItem("password");
+    window.location.assign("index.html");
 });
 
 // Resetea pacientes
