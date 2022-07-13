@@ -32,9 +32,6 @@
     <div class="container-fluid">
         <div class="main mainOculto">
             <h2 class="m-4">Sala de internación</h2>
-            <!-- <button class="btn btn-sm btnContacto m-2" id="btnNuevoPaciente" title="Nuevo paciente">Nuevo</button> -->
-            <!-- <button class="btn btn-sm btnContacto m-2" id="btnOrdenarPacientes" title="Ordena edad de menor a mayor">Ordenar</button> -->
-            <!-- <button class="btn btn-sm btnContacto m-2" id="btnReset" title="Resetear internados">Reset</button> -->
             <div class="row" id="pacientes"></div>
         </div>
     </div>
@@ -129,10 +126,16 @@
                 <div class="modal-body">
                     <h6 class="my-4">Para poder visualizar los pacientes internados debes contar con un usuario registrado</h6>
                     <form id="formLogin">
-                        <label for="nombreUsuario" class="form-label">Usuario</label>
-                        <input type="text" class="form-control" id="nombreUsuario" name="nombreUsuario" required>
-                        <label for="passUsuario" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="passUsuario" name="passUsuario" required>
+                        <div class="mb-3">
+                            <label for="nombreUsuario" class="form-label">Usuario</label>
+                            <input type="text" class="form-control" id="nombreUsuario" name="nombreUsuario" aria-describedby="userHelp" required autocomplete="off">
+                            <div id="userHelp" class="form-text">Usuario: user</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="passUsuario" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="passUsuario" name="passUsuario" aria-describedby="passHelp" required>
+                            <div id="passHelp" class="form-text">Password: 1234</div>
+                        </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal" onclick="cancelarLogin()">Cancelar</button>
