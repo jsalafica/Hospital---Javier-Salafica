@@ -170,7 +170,8 @@ function eliminarPaciente(id){
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Confirmar',
-        cancelButtonText: 'Cancelar'
+        cancelButtonText: 'Cancelar',
+        dangerMode : true
     }).then((result) => {
         if (result.isConfirmed) {
             let pacienteABorrar = pacientesNuevos.find(paciente => paciente.id === id);
@@ -240,6 +241,7 @@ function editarFormulario(e) {
 // Funcion Ordenar paciente
 function ordenarPacientes(){
     pacientesNuevos.sort((a, b) => a.edad - b.edad);
+    muestraToast("Pacientes ordenados por edad");
 }
 
 // Ordena pacientes
@@ -248,12 +250,6 @@ ordenaPacientes.addEventListener("click", () => {
     console.log("Ordena pacientes por edad");
     ordenarPacientes();
     imprimePacientes();
-    Swal.fire({
-        title: 'Listado de pacientes ordenados por edad!',
-        // text: 'Aceptar',
-        icon: 'success',
-        confirmButtonText: 'Aceptar'
-    })
 });
 
 // Logout
@@ -262,6 +258,7 @@ logoutUser.addEventListener("click", () => {
     console.log(`Logout: ${logoutUser}`);
     sessionStorage.removeItem("usuario");
     sessionStorage.removeItem("password");
+    muestraToast("Loguot exitoso");
     window.location.assign("index.html");
 });
 
@@ -273,12 +270,7 @@ reseteaPacientes.addEventListener("click", () => {
     pacientesNuevos.length = 0;
     pusheaPacientes();
     imprimePacientes();
-    Swal.fire({
-        title: 'Listado de pacientes reseteado!',
-        // text: 'Aceptar',
-        icon: 'success',
-        confirmButtonText: 'Aceptar'
-    })
+    muestraToast("Listado de pacientes reseteado");
 });
 
 // Captura evento btnNuevoPaciente
@@ -361,7 +353,23 @@ formularioLogin.addEventListener("submit", (e) => {
     }
 });
 
+// Cancela login
 function cancelarLogin(){
     formularioLogin.reset();
     window.location.assign("index.html");
+}
+
+// Toastify
+function muestraToast(texto){
+    Toastify({
+        text: texto,
+        duration: 3000,
+        gravity: "top",
+        position: "right",
+        style: {
+            background: "#557571",
+        },
+        stopOnFocus: true,
+        close: true,
+    }).showToast();
 }
