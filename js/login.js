@@ -108,15 +108,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // Usando operador ternario
     // condicion ? true:false
     (ingresoUsuario)&&(ingresoPassword)?((console.log("Usuario ya logeado")),(mainOculto.style.display = 'block'),(imprimePacientes())):((modalLogin.show()),(console.log("Muestra modal login, usuario NO logeado")));
-
-    // if ((ingresoUsuario) && (ingresoPassword)){
-    //     console.log("Usuario ya logeado");
-    //     mainOculto.style.display = 'block';
-    //     imprimePacientes();
-    // } else {
-    //     modalLogin.show();
-    //     console.log("Muestra modal login, usuario NO logeado");
-    // }
 });
 
 //Valida Usuarios
