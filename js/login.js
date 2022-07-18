@@ -11,47 +11,33 @@ let diagnostico = '';
 let camaOcupada = 0;
 const tarjeta = document.getElementById("pacientes");
 const mainOculto = document.querySelector(".mainOculto");
-const pacientesInternados = [
-    {
-        "id": 1,
-        "nombre": "Javier",
-        "apellido": "Perez",
-        "edad": 49,
-        "sala": "Sala 1",
-        "cama": "2",
-        "diagnostico": "Crisis asmática"
-    },
-    {
-        "id": 2,
-        "nombre": "Claudio",
-        "apellido": "Gomez",
-        "edad": 47,
-        "sala": "Sala 2",
-        "cama": "4",
-        "diagnostico": "Faringoamigdalitis"
-    },
-    {
-        "id": 3,
-        "nombre": "Santino",
-        "apellido": "Lopez",
-        "edad": 13,
-        "sala": "UTI",
-        "cama": "5 bis",
-        "diagnostico": "Cefalea"
-    },
-    {
-        "id": 4,
-        "nombre": "Mauricio",
-        "apellido": "Alvarez",
-        "edad": 54,
-        "sala": "Sala 3",
-        "cama": "8 bis",
-        "diagnostico": "Osteomielitis"
-    },
-];
 const pacientesNuevos = [];
-const pacientesLocalStorage = [];
+// const pacientesLocalStorage = [];
 const pacientesGuardados = JSON.parse(localStorage.getItem("pacientes"));
+// const pacientesInternados = [];
+
+// Lee JSON
+const leePacientes = async () => {
+    if(localStorage.getItem("pacientes")){
+        // Pushea pacientes del localStorage
+        pusheaLocalStorage();
+        console.log("Pushea desde localstorage");
+    } else {
+        // Pushea desde json
+        const resp = await fetch('/js/pacientes.json');
+        const data = await resp.json();
+        data.forEach((post) => {
+            pacientesNuevos.push(new Paciente(post.id,post.nombre,post.apellido,post.edad,post.sala,post.cama,post.diagnostico));
+        });
+        guardaLocalStorage();
+        console.log("Pushea desde pacientes.json y guarda en localStorage");
+        }
+
+    // Verifica usuario
+    // Usando operador ternario
+    // condicion ? true:false
+    (ingresoUsuario)&&(ingresoPassword)?((console.log("Usuario ya logeado")),(mainOculto.style.display = 'block'),(imprimePacientes())):((modalLogin.show()),(console.log("Muestra modal login, usuario NO logeado")));
+}
 
 //Clase paciente
 class Paciente {
@@ -93,21 +79,7 @@ class Paciente {
 
 // Evento de Carga de DOM
 document.addEventListener("DOMContentLoaded", () => {
-    // Verifica si hay pacientes en el localstorage
-    if(localStorage.getItem("pacientes")){
-        // Pushea pacientes del localStorage
-        pusheaLocalStorage();
-        console.log("Pushea desde localstorage");
-    } else {
-        // Pushea pacientesInternados en pacientesNuevos
-        pusheaPacientes();
-        console.log("Pushea desde array pacientesInternados");
-    }
-
-    // Verifica usuario
-    // Usando operador ternario
-    // condicion ? true:false
-    (ingresoUsuario)&&(ingresoPassword)?((console.log("Usuario ya logeado")),(mainOculto.style.display = 'block'),(imprimePacientes())):((modalLogin.show()),(console.log("Muestra modal login, usuario NO logeado")));
+    leePacientes();
 });
 
 //Valida Usuarios
@@ -123,17 +95,17 @@ const modalLogin = new bootstrap.Modal(document.getElementById('modalLogin'));
 
 // Focus en input usuario
 const modalLoginFocus = document.getElementById('modalLogin');
+const nombreLogin = document.getElementById("nombreUsuario");
 modalLoginFocus.addEventListener('shown.bs.modal', function () {
-    let nombre = document.getElementById("nombreUsuario");
-    nombre.focus();
+    nombreLogin.focus();
 });
 
-function pusheaPacientes(){
-    for (const paciente of pacientesInternados){
-        pacientesNuevos.push(new Paciente(paciente.id,paciente.nombre,paciente.apellido,paciente.edad,paciente.sala,paciente.cama,paciente.diagnostico));
-    }
-    guardaLocalStorage();
-}
+// function pusheaPacientes(){
+//     for (const paciente of pacientesInternados){
+//         pacientesNuevos.push(new Paciente(paciente.id,paciente.nombre,paciente.apellido,paciente.edad,paciente.sala,paciente.cama,paciente.diagnostico));
+//     }
+//     guardaLocalStorage();
+// }
 
 function pusheaLocalStorage(){
     for (const paciente of pacientesGuardados){
@@ -227,6 +199,7 @@ function editarFormulario(e) {
     });
     guardaLocalStorage();
     imprimePacientes();
+    muestraToast(`Paciente ${nombreEdit} ${apellidoEdit} editado correctamente`);
 }
 
 // Funcion Ordenar paciente
@@ -259,7 +232,8 @@ reseteaPacientes.addEventListener("click", () => {
     console.log("Resetea pacientes");
     localStorage.removeItem("pacientes");
     pacientesNuevos.length = 0;
-    pusheaPacientes();
+    // pusheaPacientes();
+    leePacientes();
     imprimePacientes();
     muestraToast("Listado de pacientes reseteado");
 });
@@ -275,7 +249,7 @@ nuevoPaciente.addEventListener("click", () => {
 // Focus en input nombre
 const modalNuevoPaciente = document.getElementById("modalNuevoPaciente");
 modalNuevoPaciente.addEventListener('shown.bs.modal', function () {
-    let nombre = document.getElementById("nombre");
+    const nombre = document.getElementById("nombre");
     nombre.focus();
 });
 
@@ -303,6 +277,7 @@ formulario.addEventListener("submit", (e) => {
     formulario.reset();
     // Oculta modal
     modalPaciente.hide();
+    muestraToast(`Paciente ${nombreNuevoPaciente} ${apellidoNuevoPaciente} ingresado correctamente`);
 });
 
 // Evento submit login
@@ -335,11 +310,12 @@ formularioLogin.addEventListener("submit", (e) => {
             imprimePacientes();
         } else {
             Swal.fire({
-                title: 'Error, usuario y/o contraseña incorrectos!',
+                title: 'Error, usuario y/o contraseña incorrectos',
                 icon: 'error',
                 text: 'Vuelva a intentarlo'
             });
             formularioLogin.reset();
+            nombreLogin.focus();
         }
     }
 });

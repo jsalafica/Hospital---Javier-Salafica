@@ -1,0 +1,38 @@
+[
+    {
+        "id": 1,
+        "nombre": "Javier",
+        "apellido": "Perez",
+        "edad": 49,
+        "sala": "Sala 1",
+        "cama": "2",
+        "diagnostico": "Crisis asmática"
+    },
+    {
+        "id": 2,
+        "nombre": "Claudio",
+        "apellido": "Gomez",
+        "edad": 47,
+        "sala": "Sala 2",
+        "cama": "4",
+        "diagnostico": "Faringoamigdalitis"
+    },
+    {
+        "id": 3,
+        "nombre": "Santino",
+        "apellido": "Lopez",
+        "edad": 13,
+        "sala": "UTI",
+        "cama": "5 bis",
+        "diagnostico": "Cefalea"
+    },
+    {
+        "id": 4,
+        "nombre": "Mauricio",
+        "apellido": "Alvarez",
+        "edad": 54,
+        "sala": "Sala 3",
+        "cama": "8 bis",
+        "diagnostico": "Osteomielitis"
+    }
+]
