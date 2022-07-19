@@ -24,7 +24,7 @@ const leePacientes = async () => {
         console.log("Pushea desde localstorage");
     } else {
         // Pushea desde json
-        const resp = await fetch('/js/pacientes.json');
+        const resp = await fetch('js/pacientes.json');
         const data = await resp.json();
         data.forEach((post) => {
             pacientesNuevos.push(new Paciente(post.id,post.nombre,post.apellido,post.edad,post.sala,post.cama,post.diagnostico));
