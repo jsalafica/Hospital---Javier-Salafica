@@ -1,3 +1,5 @@
+// import { startTime } from "./reloj.js";
+// console.log(startTime);
 const tarjeta = document.getElementById("pacientes");
 const mainOculto = document.querySelector(".mainOculto");
 const pacientesInternados = [];
@@ -10,14 +12,23 @@ const leePacientes = async () => {
         pusheaLocalStorage();
         console.log("Pushea desde localstorage");
     } else {
-        // Pushea desde json
-        const resp = await fetch('js/pacientes.json');
-        const data = await resp.json();
-        data.forEach((post) => {
-            pacientesInternados.push(new Paciente(post.id,post.nombre,post.apellido,post.edad,post.sala,post.cama,post.diagnostico));
-        });
+        try {
+            // Desde json
+            // const resp = await fetch('js/pacientes.json');
+
+            // Desde API
+            const response = await fetch('https://central930ros.com/h_centenario/pacientes');
+            const data = await response.json();
+            // Pushea
+            data.forEach((post) => {
+                pacientesInternados.push(new Paciente(post.id,post.nombre,post.apellido,post.edad,post.sala,post.cama,post.diagnostico));
+            });
+        }
+        catch (error) {
+            console.log('Error: ', error);
+        }
         guardaLocalStorage();
-        console.log("Pushea desde pacientes.json y guarda en localStorage");
+        console.log("Pushea desde API y guarda en localStorage");
         }
     // Verifica usuario
     // Usando operador ternario
@@ -42,7 +53,7 @@ class Paciente {
         card.innerHTML = `
                             <div class="card m-2">
                             <div class="card-header">
-                            Paciente ${this.id}
+                            HC ${this.id}
                             </div>
                             <div class="card-body">
                                 <div class="card-title">
@@ -61,12 +72,15 @@ class Paciente {
                             </div>`;
         tarjeta.appendChild(card);
     }
+    eliminar(){
+        console.log(this.id);
+    }
 }
 
 // Evento de Carga de DOM
 document.addEventListener("DOMContentLoaded", () => {
     leePacientes();
-    startTime();
+    // startTime();
 });
 
 // Lee el listado de pacientes cada 5 segundos
@@ -122,8 +136,9 @@ function imprimePacientes(){
 }
 
 function eliminarPaciente(id){
+    let pacienteABorrar = pacientesInternados.find(paciente => paciente.id === id);
     Swal.fire({
-        title: `Está seguro de eliminar el paciente ${id}?`,
+        title: `Está seguro de eliminar al paciente ${pacienteABorrar.nombre} ${pacienteABorrar.apellido}?`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Confirmar',
@@ -131,7 +146,7 @@ function eliminarPaciente(id){
         dangerMode : true
     }).then((result) => {
         if (result.isConfirmed) {
-            let pacienteABorrar = pacientesInternados.find(paciente => paciente.id === id);
+            pacienteABorrar.eliminar();
             // Si existe coincidencia y encontro el paciente
             if(pacienteABorrar){
                 pacientesInternados.splice(pacientesInternados.indexOf(pacienteABorrar), 1);
@@ -140,7 +155,7 @@ function eliminarPaciente(id){
                 Swal.fire({
                     title: 'Borrado!',
                     icon: 'success',
-                    text: 'El paciente ha sido borrado'
+                    text: `El paciente ${pacienteABorrar.nombre} ${pacienteABorrar.apellido}  ha sido borrado`
                 });
             } else {
                 Swal.fire({
@@ -342,26 +357,28 @@ function muestraToast(texto){
 }
 
 // Reloj
-function startTime() {
-    let today = new Date();
-    let h = today.getHours();
-    let m = today.getMinutes();
-    m = checkTime(m);
-    document.getElementById('hora').innerHTML = h + ":" + m;
-    let t = setTimeout(startTime, 1000);
-}
-function checkTime(i) {
-    if (i < 10) {
-        i = "0" + i
-    };
-    return i;
-}
+// function startTime() {
+//     let today = new Date();
+//     let h = today.getHours();
+//     let m = today.getMinutes();
+//     m = checkTime(m);
+//     document.getElementById('hora').innerHTML = h + ":" + m;
+//     let t = setTimeout(startTime, 1000);
+// }
+// function checkTime(i) {
+//     if (i < 10) {
+//         i = "0" + i
+//     };
+//     return i;
+// }
 
+let tituloSala = document.getElementById("titulo");
 // Escucha boton todos los pacientes
 const botonTodos = document.querySelector("#btnTodos");
 botonTodos.addEventListener("click",()=>{
     imprimePacientes();
     muestraToast("Todos los pacientes");
+    tituloSala.innerHTML = "Pacientes"
 });
 
 // Escucha botones x sala
@@ -380,6 +397,7 @@ function filtraSala(sala){
     })
     imprimePacientesSala(pacientesSala);
     muestraToast(`Pacientes filtrados por ${sala}`);
+    tituloSala.innerHTML = sala;
 }
 
 function imprimePacientesSala(sala){
