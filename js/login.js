@@ -1,20 +1,7 @@
-// Importa funciones
-// import {checkUser} from "./functions.js"
-
-let noEsNumero = true;
-let nombre = '';
-let edad = 0;
-let sumaEdad = 0;
-let sala = '';
-let cama = '';
-let diagnostico = '';
-let camaOcupada = 0;
 const tarjeta = document.getElementById("pacientes");
 const mainOculto = document.querySelector(".mainOculto");
-const pacientesNuevos = [];
-// const pacientesLocalStorage = [];
+const pacientesInternados = [];
 const pacientesGuardados = JSON.parse(localStorage.getItem("pacientes"));
-// const pacientesInternados = [];
 
 // Lee JSON
 const leePacientes = async () => {
@@ -27,12 +14,11 @@ const leePacientes = async () => {
         const resp = await fetch('js/pacientes.json');
         const data = await resp.json();
         data.forEach((post) => {
-            pacientesNuevos.push(new Paciente(post.id,post.nombre,post.apellido,post.edad,post.sala,post.cama,post.diagnostico));
+            pacientesInternados.push(new Paciente(post.id,post.nombre,post.apellido,post.edad,post.sala,post.cama,post.diagnostico));
         });
         guardaLocalStorage();
         console.log("Pushea desde pacientes.json y guarda en localStorage");
         }
-
     // Verifica usuario
     // Usando operador ternario
     // condicion ? true:false
@@ -80,7 +66,23 @@ class Paciente {
 // Evento de Carga de DOM
 document.addEventListener("DOMContentLoaded", () => {
     leePacientes();
+    startTime();
 });
+
+// Lee el listado de pacientes cada 5 segundos
+// let intervalo = setInterval(() => {
+//     imprimePacientes();
+//     console.log("Lee pacientes cada 5 segundos");
+// }, 5000);
+
+// Evento que limpia el intervalo al mover el mouse
+// document.addEventListener("mousemove", () => {
+//     clearInterval(intervalo);
+//     intervalo = setInterval(() => {
+//         imprimePacientes();
+//         console.log("Lee pacientes cada 5 segundos");
+//     }, 5000);
+// });
 
 //Valida Usuarios
 const usuarios = [
@@ -100,31 +102,23 @@ modalLoginFocus.addEventListener('shown.bs.modal', function () {
     nombreLogin.focus();
 });
 
-// function pusheaPacientes(){
-//     for (const paciente of pacientesInternados){
-//         pacientesNuevos.push(new Paciente(paciente.id,paciente.nombre,paciente.apellido,paciente.edad,paciente.sala,paciente.cama,paciente.diagnostico));
-//     }
-//     guardaLocalStorage();
-// }
-
 function pusheaLocalStorage(){
     for (const paciente of pacientesGuardados){
-        pacientesNuevos.push(new Paciente(paciente.id,paciente.nombre,paciente.apellido,paciente.edad,paciente.sala,paciente.cama,paciente.diagnostico));
+        pacientesInternados.push(new Paciente(paciente.id,paciente.nombre,paciente.apellido,paciente.edad,paciente.sala,paciente.cama,paciente.diagnostico));
     }
 }
 
 function guardaLocalStorage(){
-    localStorage.setItem("pacientes", JSON.stringify(pacientesNuevos));
+    localStorage.setItem("pacientes", JSON.stringify(pacientesInternados));
 }
 
 function imprimePacientes(){
     tarjeta.innerHTML = "";
-    pacientesNuevos.forEach((p) => {
+    pacientesInternados.forEach((p) => {
         p.imprimir();
     });
-
     // Operador AND (&&)
-    pacientesNuevos.length === 0 && (tarjeta.innerHTML = `<h4 class="text-center">No hay pacientes internados</h4>`);
+    pacientesInternados.length === 0 && (tarjeta.innerHTML = `<h4 class="text-center">No hay pacientes internados</h4>`);
 }
 
 function eliminarPaciente(id){
@@ -137,10 +131,10 @@ function eliminarPaciente(id){
         dangerMode : true
     }).then((result) => {
         if (result.isConfirmed) {
-            let pacienteABorrar = pacientesNuevos.find(paciente => paciente.id === id);
+            let pacienteABorrar = pacientesInternados.find(paciente => paciente.id === id);
             // Si existe coincidencia y encontro el paciente
             if(pacienteABorrar){
-                pacientesNuevos.splice(pacientesNuevos.indexOf(pacienteABorrar), 1);
+                pacientesInternados.splice(pacientesInternados.indexOf(pacienteABorrar), 1);
                 guardaLocalStorage();
                 imprimePacientes();
                 Swal.fire({
@@ -162,7 +156,7 @@ function eliminarPaciente(id){
 // Funcion carga datos al Modal Editar paciente
 const modalEditar = new bootstrap.Modal(document.querySelector("#modalEditarPaciente"));
 function editarPaciente(id){
-    let pacienteAEditar = pacientesNuevos.find(paciente => paciente.id === id);
+    let pacienteAEditar = pacientesInternados.find(paciente => paciente.id === id);
     document.getElementById("idEdit").value = pacienteAEditar.id;
     document.getElementById("nombreEdit").value = pacienteAEditar.nombre;
     document.getElementById("apellidoEdit").value = pacienteAEditar.apellido;
@@ -186,16 +180,16 @@ function editarFormulario(e) {
     const salaEdit = document.getElementById("salaEdit").value;
     const camaEdit = document.getElementById("camaEdit").value;
     const diagnosticoEdit = document.getElementById("diagnosticoEdit").value;
-    pacientesNuevos.map(function(dato){
-        if(dato.id == idEdit){
-            dato.nombre = nombreEdit;
-            dato.apellido = apellidoEdit;
-            dato.edad = edadEdit;
-            dato.sala = salaEdit;
-            dato.cama = camaEdit;
-            dato.diagnostico = diagnosticoEdit;
+    pacientesInternados.map((paciente) => {
+        if(paciente.id == idEdit){
+            paciente.nombre = nombreEdit;
+            paciente.apellido = apellidoEdit;
+            paciente.edad = edadEdit;
+            paciente.sala = salaEdit;
+            paciente.cama = camaEdit;
+            paciente.diagnostico = diagnosticoEdit;
         }
-        return dato;
+        // return paciente;
     });
     guardaLocalStorage();
     imprimePacientes();
@@ -204,7 +198,7 @@ function editarFormulario(e) {
 
 // Funcion Ordenar paciente
 function ordenarPacientes(){
-    pacientesNuevos.sort((a, b) => a.edad - b.edad);
+    pacientesInternados.sort((a, b) => a.edad - b.edad);
     muestraToast("Pacientes ordenados por edad");
 }
 
@@ -231,7 +225,7 @@ const reseteaPacientes = document.getElementById("btnReset");
 reseteaPacientes.addEventListener("click", () => {
     console.log("Resetea pacientes");
     localStorage.removeItem("pacientes");
-    pacientesNuevos.length = 0;
+    pacientesInternados.length = 0;
     // pusheaPacientes();
     leePacientes();
     imprimePacientes();
@@ -244,6 +238,13 @@ const modalPaciente = new bootstrap.Modal(document.getElementById('modalNuevoPac
 // nuevoPaciente.onclick = () => {modalNuevoPaciente.show()};
 nuevoPaciente.addEventListener("click", () => {
     modalPaciente.show();
+});
+
+// Captura evento btnPaciente
+const listaPacientes = document.getElementById("btnPacientes");
+listaPacientes.addEventListener("click", () => {
+    imprimePacientes();
+    console.log("Lista pacientes desde botón de navbar");
 });
 
 // Focus en input nombre
@@ -259,8 +260,7 @@ formulario.addEventListener("submit", (e) => {
     e.preventDefault();
     // Obtengo datos del formulario
     const datos = new FormData(formulario);
-
-    const idNuevoPaciente = pacientesNuevos.length+1;
+    const idNuevoPaciente = pacientesInternados.length+1;
     const nombreNuevoPaciente = datos.get("nombre");
     const apellidoNuevoPaciente = datos.get("apellido");
     const edadNuevoPaciente = datos.get("edad");
@@ -268,11 +268,11 @@ formulario.addEventListener("submit", (e) => {
     const camaNuevoPaciente = datos.get("cama");
     const diagnosticoNuevoPaciente = datos.get("diagnostico");
     // Agrego a array
-    pacientesNuevos.push(new Paciente(idNuevoPaciente,nombreNuevoPaciente,apellidoNuevoPaciente,edadNuevoPaciente,salaNuevoPaciente,camaNuevoPaciente,diagnosticoNuevoPaciente));
+    pacientesInternados.push(new Paciente(idNuevoPaciente,nombreNuevoPaciente,apellidoNuevoPaciente,edadNuevoPaciente,salaNuevoPaciente,camaNuevoPaciente,diagnosticoNuevoPaciente));
     // Almaceno en LocalStorage
     guardaLocalStorage();
     // Imprimo último paciente ingresado
-    pacientesNuevos[pacientesNuevos.length -1].imprimir();
+    pacientesInternados[pacientesInternados.length -1].imprimir();
     // Resetea form
     formulario.reset();
     // Oculta modal
@@ -339,4 +339,53 @@ function muestraToast(texto){
         stopOnFocus: true,
         close: true,
     }).showToast();
+}
+
+// Reloj
+function startTime() {
+    let today = new Date();
+    let h = today.getHours();
+    let m = today.getMinutes();
+    m = checkTime(m);
+    document.getElementById('hora').innerHTML = h + ":" + m;
+    let t = setTimeout(startTime, 1000);
+}
+function checkTime(i) {
+    if (i < 10) {
+        i = "0" + i
+    };
+    return i;
+}
+
+// Escucha boton todos los pacientes
+const botonTodos = document.querySelector("#btnTodos");
+botonTodos.addEventListener("click",()=>{
+    imprimePacientes();
+    muestraToast("Todos los pacientes");
+});
+
+// Escucha botones x sala
+const btnsFiltroSala = document.querySelectorAll('.btnFiltroSala');
+btnsFiltroSala.forEach((i) => {
+    i.addEventListener("click",()=>{
+        filtraSala(i.innerHTML);
+    })
+});
+
+function filtraSala(sala){
+    const pacientesSala = [];
+    const pacientesSalaFilter = pacientesInternados.filter(paciente => paciente.sala==sala);
+    pacientesSalaFilter.forEach((p) => {
+        pacientesSala.push(new Paciente(p.id,p.nombre,p.apellido,p.edad,p.sala,p.cama,p.diagnostico));
+    })
+    imprimePacientesSala(pacientesSala);
+    muestraToast(`Pacientes filtrados por ${sala}`);
+}
+
+function imprimePacientesSala(sala){
+    tarjeta.innerHTML = "";
+    sala.forEach((p) => {
+        p.imprimir();
+    });
+    sala.length === 0 && (tarjeta.innerHTML = `<h4 class="text-center">No hay pacientes internados</h4>`);
 }

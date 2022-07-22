@@ -26,6 +26,7 @@
 
     <!-- CSS Propio -->
     <link rel="stylesheet" href="css/style.css">
+
     <title>Internados</title>
 </head>
 <body class="d-flex flex-column min-vh-100">
@@ -35,6 +36,12 @@
     <div class="container-fluid">
         <div class="main mainOculto">
             <h2 class="m-4">Sala de internación</h2>
+            <button id="btnTodos" class="btn btn-sm btnContacto m-2">Todos</button>
+            <button id="btnSala1" class="btn btn-sm btnContacto m-2 btnFiltroSala">Sala 1</button>
+            <button id="btnSala2" class="btn btn-sm btnContacto m-2 btnFiltroSala">Sala 2</button>
+            <button id="btnSala3" class="btn btn-sm btnContacto m-2 btnFiltroSala">Sala 3</button>
+            <button id="btnUTI" class="btn btn-sm btnContacto m-2 btnFiltroSala">UTI</button>
+            <button id="btnUCO" class="btn btn-sm btnContacto m-2 btnFiltroSala">UCO</button>
             <div class="row" id="pacientes"></div>
         </div>
     </div>
@@ -155,5 +162,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="js/login.js"></script>
+    <!-- <script type="module" src="js/reloj.js"></script> -->
 </body>
 </html>

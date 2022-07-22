@@ -25,10 +25,13 @@ const navbar = `
                         </li>
                     </ul>
                     <ul class="navbar-nav d-flex" id="navLogin">
+                        <li class="nav-item">
+                            <a class="nav-link" id="hora">Hora</a>
+                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle"href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Internación</a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="login.html">Pacientes</a></li>
+                                <li><a class="dropdown-item" id="btnPacientes" href="#">Pacientes</a></li>
                                 <li><a class="dropdown-item" id="btnNuevoPaciente" href="#">Nuevo</a></li>
                                 <li><a class="dropdown-item" id="btnOrdenarPacientes" href="#" title="Ordenar edad de menor a mayor">Ordenar</a></li>
                                 <li><a class="dropdown-item" id="btnReset" href="#">Reset</a></li>
