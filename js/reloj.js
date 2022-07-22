@@ -6,7 +6,7 @@ export function startTime() {
     document.getElementById('hora').innerHTML = h + ":" + m;
     let t = setTimeout(startTime, 1000);
 }
- export function checkTime(i) {
+export function checkTime(i) {
     if (i < 10) {
         i = "0" + i
     };

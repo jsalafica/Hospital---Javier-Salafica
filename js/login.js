@@ -80,7 +80,7 @@ class Paciente {
 // Evento de Carga de DOM
 document.addEventListener("DOMContentLoaded", () => {
     leePacientes();
-    // startTime();
+    startTime();
 });
 
 // Lee el listado de pacientes cada 5 segundos
@@ -357,20 +357,20 @@ function muestraToast(texto){
 }
 
 // Reloj
-// function startTime() {
-//     let today = new Date();
-//     let h = today.getHours();
-//     let m = today.getMinutes();
-//     m = checkTime(m);
-//     document.getElementById('hora').innerHTML = h + ":" + m;
-//     let t = setTimeout(startTime, 1000);
-// }
-// function checkTime(i) {
-//     if (i < 10) {
-//         i = "0" + i
-//     };
-//     return i;
-// }
+function startTime() {
+    let today = new Date();
+    let h = today.getHours();
+    let m = today.getMinutes();
+    m = checkTime(m);
+    document.getElementById('hora').innerHTML = h + ":" + m;
+    let t = setTimeout(startTime, 1000);
+}
+function checkTime(i) {
+    if (i < 10) {
+        i = "0" + i
+    };
+    return i;
+}
 
 let tituloSala = document.getElementById("titulo");
 // Escucha boton todos los pacientes
