@@ -34,5 +34,14 @@
         "sala": "Sala 3",
         "cama": "8 bis",
         "diagnostico": "Osteomielitis"
+    },
+    {
+        "id": 5,
+        "nombre": "Sabrina",
+        "apellido": "Tevez",
+        "edad": 21,
+        "sala": "UCO",
+        "cama": "2",
+        "diagnostico": "Colangitis aguda"
     }
 ]
