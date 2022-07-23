@@ -3,6 +3,7 @@
 const tarjeta = document.getElementById("pacientes");
 const mainOculto = document.querySelector(".mainOculto");
 const pacientesInternados = [];
+const usuarios = [];
 const pacientesGuardados = JSON.parse(localStorage.getItem("pacientes"));
 
 // Lee JSON
@@ -13,9 +14,6 @@ const leePacientes = async () => {
         console.log("Pushea desde localstorage");
     } else {
         try {
-            // Desde json
-            // const resp = await fetch('js/pacientes.json');
-
             // Desde API
             const response = await fetch('https://central930ros.com/h_centenario/pacientes');
             const data = await response.json();
@@ -30,8 +28,7 @@ const leePacientes = async () => {
         guardaLocalStorage();
         console.log("Pushea desde API y guarda en localStorage");
         }
-    // Verifica usuario
-    // Usando operador ternario
+    // Verifica usuario Usando operador ternario
     // condicion ? true:false
     (ingresoUsuario)&&(ingresoPassword)?((console.log("Usuario ya logeado")),(mainOculto.style.display = 'block'),(imprimePacientes())):((modalLogin.show()),(console.log("Muestra modal login, usuario NO logeado")));
 }
@@ -98,13 +95,20 @@ document.addEventListener("DOMContentLoaded", () => {
 //     }, 5000);
 // });
 
-//Valida Usuarios
-const usuarios = [
-    {
-        nombreUsuario:"user",
-        password:"1234"
+// Carga Usuarios con función asíncrona
+(async ()=>{
+    try {
+        const response = await fetch('js/usuarios.json')
+        const data = await response.json();
+        data.forEach((u) => {
+            usuarios.push(u);
+        });
     }
-];
+    catch(error) {   
+        console.log('error: ' , error);
+    }
+})();
+
 let ingresoUsuario = sessionStorage.getItem("usuario");
 let ingresoPassword = sessionStorage.getItem("password");
 const modalLogin = new bootstrap.Modal(document.getElementById('modalLogin'));
@@ -372,7 +376,7 @@ function checkTime(i) {
     return i;
 }
 
-let tituloSala = document.getElementById("titulo");
+const tituloSala = document.getElementById("titulo");
 // Escucha boton todos los pacientes
 const botonTodos = document.querySelector("#btnTodos");
 botonTodos.addEventListener("click",()=>{
