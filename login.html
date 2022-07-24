@@ -35,13 +35,26 @@
 
     <div class="container-fluid">
         <div class="main mainOculto">
-            <h2 id="titulo" class="m-4">Pacientes</h2>
-            <button id="btnTodos" class="btn btn-sm btnContacto m-2">Todos</button>
+            <h2 id="tituloLogin" class="m-4">Pacientes internados</h2>
+            <!-- <button id="btnTodos" class="btn btn-sm btnContacto m-2">Todos</button>
             <button id="btnSala1" class="btn btn-sm btnContacto m-2 btnFiltroSala">Sala 1</button>
             <button id="btnSala2" class="btn btn-sm btnContacto m-2 btnFiltroSala">Sala 2</button>
             <button id="btnSala3" class="btn btn-sm btnContacto m-2 btnFiltroSala">Sala 3</button>
             <button id="btnUTI" class="btn btn-sm btnContacto m-2 btnFiltroSala">UTI</button>
-            <button id="btnUCO" class="btn btn-sm btnContacto m-2 btnFiltroSala">UCO</button>
+            <button id="btnUCO" class="btn btn-sm btnContacto m-2 btnFiltroSala">UCO</button> -->
+            <ul class="nav m-2">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Filtro sala</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#" id="btnTodos">Todos</a></li>
+                        <li><a class="dropdown-item btnFiltroSala" href="#">Sala 1</a></li>
+                        <li><a class="dropdown-item btnFiltroSala" href="#">Sala 2</a></li>
+                        <li><a class="dropdown-item btnFiltroSala" href="#">Sala 3</a></li>
+                        <li><a class="dropdown-item btnFiltroSala" href="#">UTI</a></li>
+                        <li><a class="dropdown-item btnFiltroSala" href="#">UCO</a></li>
+                    </ul>
+                </li>
+            </ul>
             <div class="row" id="pacientes"></div>
         </div>
     </div>

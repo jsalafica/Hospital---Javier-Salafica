@@ -67,7 +67,7 @@ class Paciente {
                                 <button class="btn btn-sm btnContacto mt-2" onclick="editarPaciente(${this.id})">Editar</button>
                             </div>
                             </div>`;
-        tarjeta.appendChild(card);
+            tarjeta.appendChild(card);
     }
     eliminar(){
         console.log(this.id);
@@ -116,7 +116,7 @@ const modalLogin = new bootstrap.Modal(document.getElementById('modalLogin'));
 // Focus en input usuario
 const modalLoginFocus = document.getElementById('modalLogin');
 const nombreLogin = document.getElementById("nombreUsuario");
-modalLoginFocus.addEventListener('shown.bs.modal', function () {
+modalLoginFocus.addEventListener('shown.bs.modal', () => {
     nombreLogin.focus();
 });
 
@@ -259,16 +259,9 @@ nuevoPaciente.addEventListener("click", () => {
     modalPaciente.show();
 });
 
-// Captura evento btnPaciente
-const listaPacientes = document.getElementById("btnPacientes");
-listaPacientes.addEventListener("click", () => {
-    imprimePacientes();
-    console.log("Lista pacientes desde botón de navbar");
-});
-
 // Focus en input nombre
 const modalNuevoPaciente = document.getElementById("modalNuevoPaciente");
-modalNuevoPaciente.addEventListener('shown.bs.modal', function () {
+modalNuevoPaciente.addEventListener('shown.bs.modal', () => {
     const nombre = document.getElementById("nombre");
     nombre.focus();
 });
@@ -288,10 +281,20 @@ formulario.addEventListener("submit", (e) => {
     const diagnosticoNuevoPaciente = datos.get("diagnostico");
     // Agrego a array
     pacientesInternados.push(new Paciente(idNuevoPaciente,nombreNuevoPaciente,apellidoNuevoPaciente,edadNuevoPaciente,salaNuevoPaciente,camaNuevoPaciente,diagnosticoNuevoPaciente));
+    
     // Almaceno en LocalStorage
     guardaLocalStorage();
+    
     // Imprimo último paciente ingresado
-    pacientesInternados[pacientesInternados.length -1].imprimir();
+    // pacientesInternados[pacientesInternados.length -1].imprimir();
+
+    // Imprime pacientes
+    if(salaNuevoPaciente=="Todos"){
+        muestraTodos();
+    } else {
+        filtraSala(salaNuevoPaciente);
+    }
+
     // Resetea form
     formulario.reset();
     // Oculta modal
@@ -349,7 +352,7 @@ function cancelarLogin(){
 function muestraToast(texto){
     Toastify({
         text: texto,
-        duration: 3000,
+        duration: 2000,
         gravity: "top",
         position: "right",
         style: {
@@ -376,14 +379,19 @@ function checkTime(i) {
     return i;
 }
 
-const tituloSala = document.getElementById("titulo");
+const tituloSala = document.getElementById("tituloLogin");
 // Escucha boton todos los pacientes
 const botonTodos = document.querySelector("#btnTodos");
 botonTodos.addEventListener("click",()=>{
+    muestraTodos();
+});
+
+// Muestra todos los pacientes
+function muestraTodos(){
     imprimePacientes();
     muestraToast("Todos los pacientes");
-    tituloSala.innerHTML = "Pacientes"
-});
+    tituloSala.innerHTML = "Pacientes internados"
+}
 
 // Escucha botones x sala
 const btnsFiltroSala = document.querySelectorAll('.btnFiltroSala');
@@ -395,13 +403,14 @@ btnsFiltroSala.forEach((i) => {
 
 function filtraSala(sala){
     const pacientesSala = [];
-    const pacientesSalaFilter = pacientesInternados.filter(paciente => paciente.sala==sala);
+    const pacientesDeSala = pacientes => pacientes.sala==sala;
+    const pacientesSalaFilter = pacientesInternados.filter(pacientesDeSala);
     pacientesSalaFilter.forEach((p) => {
         pacientesSala.push(new Paciente(p.id,p.nombre,p.apellido,p.edad,p.sala,p.cama,p.diagnostico));
     })
     imprimePacientesSala(pacientesSala);
     muestraToast(`Pacientes filtrados por ${sala}`);
-    tituloSala.innerHTML = sala;
+    tituloSala.innerHTML = `Pacientes: ${sala}`;
 }
 
 function imprimePacientesSala(sala){

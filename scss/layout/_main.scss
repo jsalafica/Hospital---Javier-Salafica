@@ -122,6 +122,11 @@ $estilos:(
         color: map-get($map: $estilos, $key: colorMedio);
         font-weight: map-get($map: $estilos, $key: weight);
     }
+    .nav {
+        .nav-link {
+            color: $colorOscuro;
+        }
+    }
 }
 
 /* Extend */
@@ -153,4 +158,8 @@ $estilos:(
 
 .btnLogin {
     @include colorDeFondo($colorOscuro);
+}
+
+#tituloLogin {
+    color: $colorOscuro;
 }

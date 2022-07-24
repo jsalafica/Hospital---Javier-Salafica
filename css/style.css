@@ -132,6 +132,9 @@ p {
   color: #D49A89;
   font-weight: bold; }
 
+.main .nav .nav-link {
+  color: #557571; }
+
 /* Extend */
 /* Card Contacto */
 .card-header-contacto {
@@ -158,6 +161,9 @@ p {
   .btnLogin:hover {
     background-color: #D49A89;
     color: #557571; }
+
+#tituloLogin {
+  color: #557571; }
 
 /* FOOTER */
 footer {
