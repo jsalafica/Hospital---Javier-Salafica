@@ -1,17 +1,22 @@
-// import { startTime } from "./reloj.js";
-// console.log(startTime);
-const tarjeta = document.getElementById("pacientes");
+import {muestraToast} from "./tostify.js";
+import {startTime} from "./reloj.js";
+
 const mainOculto = document.querySelector(".mainOculto");
 const pacientesInternados = [];
 const usuarios = [];
+let pacienteABorrar = [];
+let pacienteAEditar = [];
 const pacientesGuardados = JSON.parse(localStorage.getItem("pacientes"));
+const tarjeta = document.getElementById("pacientes");
+let salaSeleccionada = "Todos";
+const tituloSala = document.getElementById("tituloLogin");
+const modalEditar = new bootstrap.Modal(document.querySelector("#modalEditarPaciente"));
 
-// Lee JSON
+// Lee Pacientes
 const leePacientes = async () => {
     if(localStorage.getItem("pacientes")){
         // Pushea pacientes del localStorage
         pusheaLocalStorage();
-        console.log("Pushea desde localstorage");
     } else {
         try {
             // Desde API
@@ -21,6 +26,7 @@ const leePacientes = async () => {
             data.forEach((post) => {
                 pacientesInternados.push(new Paciente(post.id,post.nombre,post.apellido,post.edad,post.sala,post.cama,post.diagnostico));
             });
+            ordenarPacientesSala();
         }
         catch (error) {
             console.log('Error: ', error);
@@ -63,14 +69,66 @@ class Paciente {
                                     <div>Cama: ${this.cama}</div>
                                     <div>Diagnóstico: ${this.diagnostico}</div>
                                 </div>
-                                <button class="btn btn-sm btnContacto mt-2" onclick="eliminarPaciente(${this.id})">Borrar</button>
-                                <button class="btn btn-sm btnContacto mt-2" onclick="editarPaciente(${this.id})">Editar</button>
+                                <button class="btn btn-sm btnContacto mt-2" id="btnPacienteEliminar${this.id}">Borrar</button>
+                                <button class="btn btn-sm btnContacto mt-2" id="btnPacienteEdit${this.id}">Editar</button>
                             </div>
                             </div>`;
             tarjeta.appendChild(card);
+
+            const botonPacienteEliminar = document.getElementById(`btnPacienteEliminar${this.id}`);
+            botonPacienteEliminar.addEventListener("click", () => {
+                // eliminarPaciente(this.id);
+                pacienteABorrar = pacientesInternados.find(paciente => paciente.id === this.id);
+                pacienteABorrar.eliminar();
+            })
+
+            const botonPacienteEdit = document.getElementById(`btnPacienteEdit${this.id}`);
+            botonPacienteEdit.addEventListener("click", () => {
+                // editarPaciente(this.id);
+                pacienteAEditar = pacientesInternados.find(paciente => paciente.id === this.id);
+                pacienteAEditar.editar();
+
+            })
     }
     eliminar(){
-        console.log(this.id);
+        Swal.fire({
+            title: `Está seguro de eliminar al paciente ${this.nombre} ${this.apellido}?`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: 'Cancelar',
+            dangerMode : true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                if(pacienteABorrar){
+                    pacientesInternados.splice(pacientesInternados.indexOf(pacienteABorrar), 1);
+                    guardaLocalStorage();
+                    imprimePacientes();
+                    if(salaSeleccionada=="Todos"){
+                        muestraTodos();
+                    } else {
+                        filtraSala(salaSeleccionada);
+                    }
+                    muestraToast(`El paciente ${this.nombre} ${this.apellido} ha sido borrado`);
+                } else {
+                    Swal.fire({
+                        title: 'Error, no se encontró el paciente!',
+                        icon: 'error',
+                        text: 'El paciente no ha sido borrado'
+                    });
+                }
+            }
+        });
+    }
+    editar(){
+        document.getElementById("idEdit").value = this.id;
+        document.getElementById("nombreEdit").value = this.nombre;
+        document.getElementById("apellidoEdit").value = this.apellido;
+        document.getElementById("edadEdit").value = this.edad;
+        document.getElementById("salaEdit").value = this.sala;
+        document.getElementById("camaEdit").value = this.cama;
+        document.getElementById("diagnosticoEdit").value = this.diagnostico;
+        modalEditar.show();
     }
 }
 
@@ -95,7 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
 //     }, 5000);
 // });
 
-// Carga Usuarios con función asíncrona
+// Carga Usuarios con función asíncrona anónima
 (async ()=>{
     try {
         const response = await fetch('js/usuarios.json')
@@ -120,76 +178,47 @@ modalLoginFocus.addEventListener('shown.bs.modal', () => {
     nombreLogin.focus();
 });
 
+// Funcion pushea LocalStorage
 function pusheaLocalStorage(){
     for (const paciente of pacientesGuardados){
         pacientesInternados.push(new Paciente(paciente.id,paciente.nombre,paciente.apellido,paciente.edad,paciente.sala,paciente.cama,paciente.diagnostico));
     }
 }
 
+// Funcion guarda LocalStorage
 function guardaLocalStorage(){
     localStorage.setItem("pacientes", JSON.stringify(pacientesInternados));
 }
 
+// Funcion imprime pacientes
 function imprimePacientes(){
+    let salaActual = "";
     tarjeta.innerHTML = "";
-    pacientesInternados.forEach((p) => {
-        p.imprimir();
+    const salas = ["Sala 1","Sala 2","Sala 3","UTI","UCO"];
+    salas.forEach((s) => {
+        const div = document.createElement("div");
+        div.innerHTML = `
+                        <h4 class="m-4">${s}</h4>
+                        `;
+        tarjeta.appendChild(div);
+        pacientesInternados.forEach((pac) => {
+            if(pac.sala == s && salaActual!=s){
+                const pacientesDeSala = pacientes => pacientes.sala==pac.sala;
+                const pacientesSalaFiltrada = pacientesInternados.filter(pacientesDeSala);
+                salaActual=s;
+                pacientesSalaFiltrada.forEach((p) => {
+                    p.imprimir();
+                });
+            }
+        });
     });
     // Operador AND (&&)
     pacientesInternados.length === 0 && (tarjeta.innerHTML = `<h4 class="text-center">No hay pacientes internados</h4>`);
 }
 
-function eliminarPaciente(id){
-    let pacienteABorrar = pacientesInternados.find(paciente => paciente.id === id);
-    Swal.fire({
-        title: `Está seguro de eliminar al paciente ${pacienteABorrar.nombre} ${pacienteABorrar.apellido}?`,
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Confirmar',
-        cancelButtonText: 'Cancelar',
-        dangerMode : true
-    }).then((result) => {
-        if (result.isConfirmed) {
-            pacienteABorrar.eliminar();
-            // Si existe coincidencia y encontro el paciente
-            if(pacienteABorrar){
-                pacientesInternados.splice(pacientesInternados.indexOf(pacienteABorrar), 1);
-                guardaLocalStorage();
-                imprimePacientes();
-                Swal.fire({
-                    title: 'Borrado!',
-                    icon: 'success',
-                    text: `El paciente ${pacienteABorrar.nombre} ${pacienteABorrar.apellido}  ha sido borrado`
-                });
-            } else {
-                Swal.fire({
-                    title: 'Error, no se encontró el paciente!',
-                    icon: 'error',
-                    text: 'El paciente no ha sido borrado'
-                });
-            }
-        }
-    });
-}
-
-// Funcion carga datos al Modal Editar paciente
-const modalEditar = new bootstrap.Modal(document.querySelector("#modalEditarPaciente"));
-function editarPaciente(id){
-    let pacienteAEditar = pacientesInternados.find(paciente => paciente.id === id);
-    document.getElementById("idEdit").value = pacienteAEditar.id;
-    document.getElementById("nombreEdit").value = pacienteAEditar.nombre;
-    document.getElementById("apellidoEdit").value = pacienteAEditar.apellido;
-    document.getElementById("edadEdit").value = pacienteAEditar.edad;
-    document.getElementById("salaEdit").value = pacienteAEditar.sala;
-    document.getElementById("camaEdit").value = pacienteAEditar.cama;
-    document.getElementById("diagnosticoEdit").value = pacienteAEditar.diagnostico;
-    modalEditar.show();
-}
-
 // Envía formulario de edición de paciente
 const formularioEdit = document.querySelector("#formEditarPaciente");
-formularioEdit.addEventListener("submit", editarFormulario);
-function editarFormulario(e) {
+formularioEdit.addEventListener("submit", (e) => {
     e.preventDefault();
     modalEditar.hide();
     const idEdit = document.getElementById("idEdit").value;
@@ -210,15 +239,26 @@ function editarFormulario(e) {
         }
         // return paciente;
     });
+    ordenarPacientesSala();
     guardaLocalStorage();
-    imprimePacientes();
+    // imprimePacientes();
+    if(salaSeleccionada=="Todos"){
+        muestraTodos();
+    } else {
+    filtraSala(salaSeleccionada);
+    }
     muestraToast(`Paciente ${nombreEdit} ${apellidoEdit} editado correctamente`);
-}
+});
 
 // Funcion Ordenar paciente
 function ordenarPacientes(){
     pacientesInternados.sort((a, b) => a.edad - b.edad);
     muestraToast("Pacientes ordenados por edad");
+}
+
+// Funcion ordenar pacientes por sala
+function ordenarPacientesSala(){
+    pacientesInternados.sort((a, b) => (a.sala > b.sala) ? 1 : (a.sala === b.sala) ? (a.cama - b.cama) : -1 )
 }
 
 // Ordena pacientes
@@ -248,13 +288,14 @@ reseteaPacientes.addEventListener("click", () => {
     // pusheaPacientes();
     leePacientes();
     imprimePacientes();
+    tituloSala.innerHTML = "Pacientes internados";
+    salaSeleccionada="Todos";
     muestraToast("Listado de pacientes reseteado");
 });
 
 // Captura evento btnNuevoPaciente
 const nuevoPaciente = document.getElementById("btnNuevoPaciente");
 const modalPaciente = new bootstrap.Modal(document.getElementById('modalNuevoPaciente'));
-// nuevoPaciente.onclick = () => {modalNuevoPaciente.show()};
 nuevoPaciente.addEventListener("click", () => {
     modalPaciente.show();
 });
@@ -270,7 +311,6 @@ modalNuevoPaciente.addEventListener('shown.bs.modal', () => {
 const formulario = document.getElementById("formNuevoPaciente");
 formulario.addEventListener("submit", (e) => {
     e.preventDefault();
-    // Obtengo datos del formulario
     const datos = new FormData(formulario);
     const idNuevoPaciente = pacientesInternados.length+1;
     const nombreNuevoPaciente = datos.get("nombre");
@@ -279,25 +319,17 @@ formulario.addEventListener("submit", (e) => {
     const salaNuevoPaciente = datos.get("sala");
     const camaNuevoPaciente = datos.get("cama");
     const diagnosticoNuevoPaciente = datos.get("diagnostico");
-    // Agrego a array
     pacientesInternados.push(new Paciente(idNuevoPaciente,nombreNuevoPaciente,apellidoNuevoPaciente,edadNuevoPaciente,salaNuevoPaciente,camaNuevoPaciente,diagnosticoNuevoPaciente));
-    
-    // Almaceno en LocalStorage
+    ordenarPacientesSala();
     guardaLocalStorage();
-    
     // Imprimo último paciente ingresado
     // pacientesInternados[pacientesInternados.length -1].imprimir();
-
-    // Imprime pacientes
-    if(salaNuevoPaciente=="Todos"){
+    if(salaSeleccionada=="Todos"){
         muestraTodos();
     } else {
         filtraSala(salaNuevoPaciente);
     }
-
-    // Resetea form
     formulario.reset();
-    // Oculta modal
     modalPaciente.hide();
     muestraToast(`Paciente ${nombreNuevoPaciente} ${apellidoNuevoPaciente} ingresado correctamente`);
 });
@@ -343,47 +375,17 @@ formularioLogin.addEventListener("submit", (e) => {
 });
 
 // Cancela login
-function cancelarLogin(){
+const botonCancelarLogin = document.getElementById("btnCancelarLogin");
+botonCancelarLogin.addEventListener("click", () => {
     formularioLogin.reset();
     window.location.assign("index.html");
-}
+});
 
-// Toastify
-function muestraToast(texto){
-    Toastify({
-        text: texto,
-        duration: 2000,
-        gravity: "top",
-        position: "right",
-        style: {
-            background: "#557571",
-        },
-        stopOnFocus: true,
-        close: true,
-    }).showToast();
-}
-
-// Reloj
-function startTime() {
-    let today = new Date();
-    let h = today.getHours();
-    let m = today.getMinutes();
-    m = checkTime(m);
-    document.getElementById('hora').innerHTML = h + ":" + m;
-    let t = setTimeout(startTime, 1000);
-}
-function checkTime(i) {
-    if (i < 10) {
-        i = "0" + i
-    };
-    return i;
-}
-
-const tituloSala = document.getElementById("tituloLogin");
 // Escucha boton todos los pacientes
 const botonTodos = document.querySelector("#btnTodos");
-botonTodos.addEventListener("click",()=>{
+botonTodos.addEventListener("click", () =>{
     muestraTodos();
+    salaSeleccionada="Todos";
 });
 
 // Muestra todos los pacientes
@@ -397,22 +399,21 @@ function muestraTodos(){
 const btnsFiltroSala = document.querySelectorAll('.btnFiltroSala');
 btnsFiltroSala.forEach((i) => {
     i.addEventListener("click",()=>{
+        salaSeleccionada = i.innerHTML;
         filtraSala(i.innerHTML);
     })
 });
 
+// Funcion filtro de sala
 function filtraSala(sala){
-    const pacientesSala = [];
     const pacientesDeSala = pacientes => pacientes.sala==sala;
     const pacientesSalaFilter = pacientesInternados.filter(pacientesDeSala);
-    pacientesSalaFilter.forEach((p) => {
-        pacientesSala.push(new Paciente(p.id,p.nombre,p.apellido,p.edad,p.sala,p.cama,p.diagnostico));
-    })
-    imprimePacientesSala(pacientesSala);
+    imprimePacientesSala(pacientesSalaFilter);
     muestraToast(`Pacientes filtrados por ${sala}`);
     tituloSala.innerHTML = `Pacientes: ${sala}`;
 }
 
+// Funcion imprime sala filtrada
 function imprimePacientesSala(sala){
     tarjeta.innerHTML = "";
     sala.forEach((p) => {

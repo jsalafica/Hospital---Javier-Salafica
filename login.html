@@ -44,7 +44,7 @@
             <button id="btnUCO" class="btn btn-sm btnContacto m-2 btnFiltroSala">UCO</button> -->
             <ul class="nav m-2">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Filtro sala</a>
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false" title="Aplicar filtro Sala">Filtro</a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#" id="btnTodos">Todos</a></li>
                         <li><a class="dropdown-item btnFiltroSala" href="#">Sala 1</a></li>
@@ -85,7 +85,7 @@
                             <option value="UCO">Unidad coronaria</option>
                         </select>
                         <label for="cama" class="form-label">Cama</label>
-                        <input type="text" class="form-control" id="cama" name="cama" required>
+                        <input type="number" class="form-control" id="cama" name="cama" required>
                         <label for="diagnostico" class="form-label">Diagnóstico</label>
                         <input type="text" class="form-control" id="diagnostico" name="diagnostico" required>
                 </div>
@@ -161,7 +161,7 @@
                         </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal" onclick="cancelarLogin()">Cancelar</button>
+                    <button type="button" class="btn btn-danger btn-sm" id="btnCancelarLogin" data-bs-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-sm btnLogin">Aceptar</button>
                 </div>
             </form>
@@ -174,6 +174,6 @@
     <script src="js/footer.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-    <script src="js/login.js"></script>
+    <script type="module" src="js/App.js"></script>
 </body>
 </html>
