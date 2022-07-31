@@ -52,27 +52,42 @@ class Paciente {
     }
     imprimir(){
         const card = document.createElement('div');
-        card.className = "col-md-3";
+        card.className = "col-md-6";
+        // card.innerHTML = `
+        //                     <div class="card m-2">
+        //                     <div class="card-header">
+        //                     HC ${this.id}
+        //                     </div>
+        //                     <div class="card-body">
+        //                         <div class="card-title">
+        //                             Nombre: ${this.nombre}<br>
+        //                             Apellido: ${this.apellido}
+        //                         </div>
+        //                         <div class="card-text">
+        //                             <div>Edad: ${this.edad} años</div>
+        //                             <div>Sala: ${this.sala}</div>
+        //                             <div>Cama: ${this.cama}</div>
+        //                             <div>Diagnóstico: ${this.diagnostico}</div>
+        //                         </div>
+        //                         <button class="btn btn-sm btnContacto mt-2" id="btnPacienteEliminar${this.id}">Borrar</button>
+        //                         <button class="btn btn-sm btnContacto mt-2" id="btnPacienteEdit${this.id}">Editar</button>
+        //                     </div>
+        //                     </div>`;
         card.innerHTML = `
-                            <div class="card m-2">
-                            <div class="card-header">
-                            HC ${this.id}
-                            </div>
-                            <div class="card-body">
-                                <div class="card-title">
-                                    Nombre: ${this.nombre}<br>
-                                    Apellido: ${this.apellido}
+                        <div class="accordion-item m-1">
+                            <h2 class="accordion-header" id="heading${this.id}">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${this.id}" aria-expanded="true" aria-controls="collapse${this.id}"><span class="badge bg-secondary p-2 m-2">${this.cama}</span>${this.apellido}, ${this.nombre} (${this.edad} años) - Diagnostico: ${this.diagnostico}</button>
+                            </h2>
+                            <div id="collapse${this.id}" class="accordion-collapse collapse" aria-labelledby="heading${this.id}" data-bs-parent="#pacientes">
+                                <div class="accordion-body">
+                                    Diagnóstico: ${this.diagnostico}.<br>
+                                    Lugar: ${this.sala} - Cama: ${this.cama}<br>
+                                    <button class="btn btn-sm btnContacto mt-2" id="btnPacienteEliminar${this.id}">Borrar</button>
+                                    <button class="btn btn-sm btnContacto mt-2" id="btnPacienteEdit${this.id}">Editar</button>
                                 </div>
-                                <div class="card-text">
-                                    <div>Edad: ${this.edad} años</div>
-                                    <div>Sala: ${this.sala}</div>
-                                    <div>Cama: ${this.cama}</div>
-                                    <div>Diagnóstico: ${this.diagnostico}</div>
-                                </div>
-                                <button class="btn btn-sm btnContacto mt-2" id="btnPacienteEliminar${this.id}">Borrar</button>
-                                <button class="btn btn-sm btnContacto mt-2" id="btnPacienteEdit${this.id}">Editar</button>
                             </div>
-                            </div>`;
+                        </div>
+                        `;
             tarjeta.appendChild(card);
 
             const botonPacienteEliminar = document.getElementById(`btnPacienteEliminar${this.id}`);
@@ -408,16 +423,21 @@ btnsFiltroSala.forEach((i) => {
 function filtraSala(sala){
     const pacientesDeSala = pacientes => pacientes.sala==sala;
     const pacientesSalaFilter = pacientesInternados.filter(pacientesDeSala);
-    imprimePacientesSala(pacientesSalaFilter);
+    imprimePacientesSala(pacientesSalaFilter,sala);
     muestraToast(`Pacientes filtrados por ${sala}`);
     tituloSala.innerHTML = `Pacientes: ${sala}`;
 }
 
 // Funcion imprime sala filtrada
-function imprimePacientesSala(sala){
+function imprimePacientesSala(pacSala,sala){
     tarjeta.innerHTML = "";
-    sala.forEach((p) => {
+    const div = document.createElement("div");
+        div.innerHTML = `
+                        <h4 class="m-4">${sala}</h4>
+                        `;
+        tarjeta.appendChild(div);
+    pacSala.forEach((p) => {
         p.imprimir();
     });
-    sala.length === 0 && (tarjeta.innerHTML = `<h4 class="text-center">No hay pacientes internados</h4>`);
+    pacSala.length === 0 && (tarjeta.innerHTML = `<h4 class="text-center">No hay pacientes internados</h4>`);
 }

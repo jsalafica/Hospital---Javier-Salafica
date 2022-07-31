@@ -40,7 +40,10 @@ p {
 
 /* Accordion */
 .accordion-button {
-    color: $colorMedio;
+    span{
+        color: $colorFondo;
+    }
+    color: $colorOscuro;
     font-weight: bold;
 }
 .accordion-button:not(.collapsed) {

@@ -71,8 +71,10 @@ p {
 
 /* Accordion */
 .accordion-button {
-  color: #D49A89;
+  color: #557571;
   font-weight: bold; }
+  .accordion-button span {
+    color: #F4F4F4; }
 
 .accordion-button:not(.collapsed) {
   background-color: #F7D1BA;
