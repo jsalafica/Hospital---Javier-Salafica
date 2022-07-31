@@ -32,7 +32,6 @@ const navbar = `
                             <a class="nav-link dropdown-toggle"href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Internación</a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" id="btnNuevoPaciente" href="#">Nuevo</a></li>
-                                <li><a class="dropdown-item" id="btnOrdenarPacientes" href="#" title="Ordenar edad de menor a mayor">Ordenar</a></li>
                                 <li><a class="dropdown-item" id="btnReset" href="#" title="Resetea listado de pacientes">Reset</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" id="btnLogout" href="#">Cerrar sesión</a></li>

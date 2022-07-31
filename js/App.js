@@ -48,7 +48,8 @@ class Paciente {
         this.edad = edad,
         this.sala = sala,
         this.cama = cama,
-        this.diagnostico = diagnostico
+        this.diagnostico = diagnostico,
+        this.epicrisis = `Paciente ${this.apellido}, ${this.nombre} de ${this.edad} años de edad, internado en ${this.sala} cama ${this.cama},  con diagnóstico de ${this.diagnostico}.`;
     }
     imprimir(){
         const card = document.createElement('div');
@@ -80,8 +81,7 @@ class Paciente {
                             </h2>
                             <div id="collapse${this.id}" class="accordion-collapse collapse" aria-labelledby="heading${this.id}" data-bs-parent="#pacientes">
                                 <div class="accordion-body">
-                                    Diagnóstico: ${this.diagnostico}.<br>
-                                    Lugar: ${this.sala} - Cama: ${this.cama}<br>
+                                ${this.epicrisis}<br>
                                     <button class="btn btn-sm btnContacto mt-2" id="btnPacienteEliminar${this.id}">Borrar</button>
                                     <button class="btn btn-sm btnContacto mt-2" id="btnPacienteEdit${this.id}">Editar</button>
                                 </div>
@@ -251,8 +251,9 @@ formularioEdit.addEventListener("submit", (e) => {
             paciente.sala = salaEdit;
             paciente.cama = camaEdit;
             paciente.diagnostico = diagnosticoEdit;
+            paciente.epicrisis = `Paciente ${apellidoEdit}, ${nombreEdit} de ${edadEdit} años de edad, internado en ${salaEdit} cama ${camaEdit},  con diagnóstico de ${diagnosticoEdit}.`;
         }
-        // return paciente;
+        return paciente;
     });
     ordenarPacientesSala();
     guardaLocalStorage();
@@ -265,24 +266,10 @@ formularioEdit.addEventListener("submit", (e) => {
     muestraToast(`Paciente ${nombreEdit} ${apellidoEdit} editado correctamente`);
 });
 
-// Funcion Ordenar paciente
-function ordenarPacientes(){
-    pacientesInternados.sort((a, b) => a.edad - b.edad);
-    muestraToast("Pacientes ordenados por edad");
-}
-
-// Funcion ordenar pacientes por sala
+// Funcion ordenar pacientes por sala y cama
 function ordenarPacientesSala(){
     pacientesInternados.sort((a, b) => (a.sala > b.sala) ? 1 : (a.sala === b.sala) ? (a.cama - b.cama) : -1 )
 }
-
-// Ordena pacientes
-const ordenaPacientes = document.getElementById("btnOrdenarPacientes");
-ordenaPacientes.addEventListener("click", () => {
-    console.log("Ordena pacientes por edad");
-    ordenarPacientes();
-    imprimePacientes();
-});
 
 // Logout
 const logoutUser = document.getElementById("btnLogout");
@@ -406,7 +393,7 @@ botonTodos.addEventListener("click", () =>{
 // Muestra todos los pacientes
 function muestraTodos(){
     imprimePacientes();
-    muestraToast("Todos los pacientes");
+    // muestraToast("Todos los pacientes");
     tituloSala.innerHTML = "Pacientes internados"
 }
 
