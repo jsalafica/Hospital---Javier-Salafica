@@ -89,25 +89,20 @@ class Paciente {
                         </div>
                         `;
             tarjeta.appendChild(card);
-
             const botonPacienteEliminar = document.getElementById(`btnPacienteEliminar${this.id}`);
             botonPacienteEliminar.addEventListener("click", () => {
-                // eliminarPaciente(this.id);
                 pacienteABorrar = pacientesInternados.find(paciente => paciente.id === this.id);
                 pacienteABorrar.eliminar();
-            })
-
+            });
             const botonPacienteEdit = document.getElementById(`btnPacienteEdit${this.id}`);
             botonPacienteEdit.addEventListener("click", () => {
-                // editarPaciente(this.id);
                 pacienteAEditar = pacientesInternados.find(paciente => paciente.id === this.id);
                 pacienteAEditar.editar();
-
-            })
+            });
     }
     eliminar(){
         Swal.fire({
-            title: `Está seguro de eliminar al paciente ${this.nombre} ${this.apellido}?`,
+            title: `Está seguro de eliminar al paciente <b>${this.nombre} ${this.apellido}</b>?`,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Confirmar',
@@ -124,7 +119,7 @@ class Paciente {
                     } else {
                         filtraSala(salaSeleccionada);
                     }
-                    muestraToast(`El paciente ${this.nombre} ${this.apellido} ha sido borrado`);
+                    muestraToast(`El paciente <b>${this.nombre} ${this.apellido}</b> ha sido borrado`);
                 } else {
                     Swal.fire({
                         title: 'Error, no se encontró el paciente!',
