@@ -77,7 +77,7 @@ class Paciente {
         card.innerHTML = `
                         <div class="accordion-item m-1">
                             <h2 class="accordion-header" id="heading${this.id}">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${this.id}" aria-expanded="true" aria-controls="collapse${this.id}"><span class="badge bg-secondary p-2 m-2">${this.cama}</span>${this.apellido}, ${this.nombre} (${this.edad} años) - Diagnostico: ${this.diagnostico}</button>
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${this.id}" aria-expanded="true" aria-controls="collapse${this.id}"><span class="badge bg-secondary p-2 m-2">Cama ${this.cama}</span>${this.apellido}, ${this.nombre} (${this.edad} años) - Diagnostico: ${this.diagnostico}</button>
                             </h2>
                             <div id="collapse${this.id}" class="accordion-collapse collapse" aria-labelledby="heading${this.id}" data-bs-parent="#pacientes">
                                 <div class="accordion-body">
