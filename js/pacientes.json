@@ -24,7 +24,7 @@
         "edad": 13,
         "sala": "UTI",
         "cama": "5 bis",
-        "diagnostico": "Cefalea"
+        "diagnostico": "Neumopatía bilateral"
     },
     {
         "id": 4,
@@ -42,6 +42,33 @@
         "edad": 21,
         "sala": "UCO",
         "cama": "2",
-        "diagnostico": "Colangitis aguda"
+        "diagnostico": "SCA"
+    },
+    {
+        "id": 6,
+        "nombre": "Maria",
+        "apellido": "Luna",
+        "edad": 65,
+        "sala": "Sala 3",
+        "cama": "7",
+        "diagnostico": "Ictericia"
+    },
+    {
+        "id": 7,
+        "nombre": "Fernando",
+        "apellido": "Costa",
+        "edad": 43,
+        "sala": "UTI",
+        "cama": "1",
+        "diagnostico": "Shock séptico"
+    },
+    {
+        "id": 5,
+        "nombre": "David",
+        "apellido": "Peña",
+        "edad": 41,
+        "sala": "UCO",
+        "cama": "5",
+        "diagnostico": "Edema agudo de pulmón"
     }
 ]

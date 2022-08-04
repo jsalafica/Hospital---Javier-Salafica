@@ -2,11 +2,43 @@ import {muestraToast} from "./tostify.js";
 import {startTime} from "./reloj.js";
 
 const mainOculto = document.querySelector(".mainOculto");
+const estadCamas = document.querySelector("#estadisticas");
 const pacientesInternados = [];
+const salasDelHospital = [];
 const usuarios = [];
 let pacienteABorrar = [];
 let pacienteAEditar = [];
+const salas = [
+    {
+        sala: "Sala 1",
+        cantCamas: 20,
+        camasOcupadas: 0
+    },
+    {
+        sala: "Sala 2",
+        cantCamas: 25,
+        camasOcupadas: 0
+    },
+    {
+        sala: "Sala 3",
+        cantCamas: 29,
+        camasOcupadas: 0
+    },
+    {
+        sala: "UCO",
+        cantCamas: 6,
+        camasOcupadas: 0
+    },
+    {
+        sala: "UTI",
+        cantCamas: 12,
+        camasOcupadas: 0
+    }
+];
+// const salas = ["Sala 1","Sala 2","Sala 3","UCO","UTI"];
+// const salas = [];
 const pacientesGuardados = JSON.parse(localStorage.getItem("pacientes"));
+const salasGuardadas = JSON.parse(localStorage.getItem("salas"));
 const tarjeta = document.getElementById("pacientes");
 let salaSeleccionada = "Todos";
 const tituloSala = document.getElementById("tituloLogin");
@@ -34,9 +66,64 @@ const leePacientes = async () => {
         guardaLocalStorage();
         console.log("Pushea desde API y guarda en localStorage");
         }
+        leeSalas();
+    // Verifica usuario Usando operador ternario
+    // condicion ? true:false
+    // (ingresoUsuario)&&(ingresoPassword)?((console.log("Usuario ya logeado")),(mainOculto.style.display = 'block'),(imprimePacientes())):((modalLogin.show()),(console.log("Muestra modal login, usuario NO logeado")));
+}
+
+// Lee Salas del Hospital
+const leeSalas = async () => {
+    if(localStorage.getItem("salas")){
+        // Pushea salas del localStorage
+        pusheaLocalStorageSalas();
+        muestraInfo();
+    } else {
+        try {
+            // Desde JSON
+            const response = await fetch('js/salas.json');
+            const data = await response.json();
+            // Pushea
+            data.forEach((data) => {
+                salasDelHospital.push(new SalasHospital(data.id,data.sala,data.cantCamas,data.camasOcupadas));
+            });
+            // console.log(salasDelHospital);
+            muestraInfo();
+        }
+        catch (error) {
+            console.log('Error: ', error);
+        }
+        guardaLocalStorageSalas();
+        console.log("Pushea desde salas.json");
+        }
     // Verifica usuario Usando operador ternario
     // condicion ? true:false
     (ingresoUsuario)&&(ingresoPassword)?((console.log("Usuario ya logeado")),(mainOculto.style.display = 'block'),(imprimePacientes())):((modalLogin.show()),(console.log("Muestra modal login, usuario NO logeado")));
+}
+
+// Clase salasHospital
+class SalasHospital {
+    constructor (id,sala,cantCamas,camasOcupadas){
+        this.id = id,
+        this.sala = sala,
+        this.cantCamas = cantCamas,
+        this.camasOcupadas = camasOcupadas
+    }
+    ocupaCama(){
+        this.camasOcupadas ++;
+    }
+    pintar(){
+        estadCamas.insertAdjacentHTML('beforeend', `
+                                    <ul class="list-group mb-2">
+                                        <li class="list-group-item">${this.sala}</li>
+                                        <ul class="list-group-item">
+                                            <li class="list-group-item">Camas totales: ${this.cantCamas}</li>
+                                            <li class="list-group-item">Camas ocupadas: ${this.camasOcupadas}</li>
+                                            <li class="list-group-item">Camas libres: ${this.cantCamas-this.camasOcupadas}</li>
+                                        </ul>
+                                    </ul>
+                                    `);
+    }
 }
 
 //Clase paciente
@@ -52,29 +139,8 @@ class Paciente {
         this.epicrisis = `Paciente ${this.apellido}, ${this.nombre} de ${this.edad} años de edad, internado en ${this.sala} cama ${this.cama},  con diagnóstico de ${this.diagnostico}.`;
     }
     imprimir(){
-        const card = document.createElement('div');
-        card.className = "col-md-6";
-        // card.innerHTML = `
-        //                     <div class="card m-2">
-        //                     <div class="card-header">
-        //                     HC ${this.id}
-        //                     </div>
-        //                     <div class="card-body">
-        //                         <div class="card-title">
-        //                             Nombre: ${this.nombre}<br>
-        //                             Apellido: ${this.apellido}
-        //                         </div>
-        //                         <div class="card-text">
-        //                             <div>Edad: ${this.edad} años</div>
-        //                             <div>Sala: ${this.sala}</div>
-        //                             <div>Cama: ${this.cama}</div>
-        //                             <div>Diagnóstico: ${this.diagnostico}</div>
-        //                         </div>
-        //                         <button class="btn btn-sm btnContacto mt-2" id="btnPacienteEliminar${this.id}">Borrar</button>
-        //                         <button class="btn btn-sm btnContacto mt-2" id="btnPacienteEdit${this.id}">Editar</button>
-        //                     </div>
-        //                     </div>`;
-        card.innerHTML = `
+        const itemAccordion = document.createElement('div');
+        itemAccordion.innerHTML = `
                         <div class="accordion-item m-1">
                             <h2 class="accordion-header" id="heading${this.id}">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${this.id}" aria-expanded="true" aria-controls="collapse${this.id}"><span class="badge bg-secondary p-2 m-2">Cama ${this.cama}</span>${this.apellido}, ${this.nombre} (${this.edad} años) - Diagnostico: ${this.diagnostico}</button>
@@ -88,7 +154,7 @@ class Paciente {
                             </div>
                         </div>
                         `;
-            tarjeta.appendChild(card);
+            tarjeta.appendChild(itemAccordion);
             const botonPacienteEliminar = document.getElementById(`btnPacienteEliminar${this.id}`);
             botonPacienteEliminar.addEventListener("click", () => {
                 pacienteABorrar = pacientesInternados.find(paciente => paciente.id === this.id);
@@ -113,13 +179,15 @@ class Paciente {
                 if(pacienteABorrar){
                     pacientesInternados.splice(pacientesInternados.indexOf(pacienteABorrar), 1);
                     guardaLocalStorage();
+                    guardaLocalStorageSalas();
                     imprimePacientes();
+                    muestraInfo();
                     if(salaSeleccionada=="Todos"){
                         muestraTodos();
                     } else {
                         filtraSala(salaSeleccionada);
                     }
-                    muestraToast(`El paciente <b>${this.nombre} ${this.apellido}</b> ha sido borrado`);
+                    muestraToast(`El paciente ${this.nombre} ${this.apellido} ha sido borrado`);
                 } else {
                     Swal.fire({
                         title: 'Error, no se encontró el paciente!',
@@ -145,6 +213,7 @@ class Paciente {
 // Evento de Carga de DOM
 document.addEventListener("DOMContentLoaded", () => {
     leePacientes();
+    // muestraInfo();
     startTime();
 });
 
@@ -177,6 +246,21 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 })();
 
+// Carga salas y camas
+// (async ()=>{
+//     try {
+//         const response = await fetch('js/salas.json')
+//         const data = await response.json();
+//         data.forEach((s) => {
+//             salas.push(s);
+//             // console.log(s);
+//         });
+//     }
+//     catch(error) {   
+//         console.log('error: ' , error);
+//     }
+// })();
+
 let ingresoUsuario = sessionStorage.getItem("usuario");
 let ingresoPassword = sessionStorage.getItem("password");
 const modalLogin = new bootstrap.Modal(document.getElementById('modalLogin'));
@@ -194,36 +278,87 @@ function pusheaLocalStorage(){
         pacientesInternados.push(new Paciente(paciente.id,paciente.nombre,paciente.apellido,paciente.edad,paciente.sala,paciente.cama,paciente.diagnostico));
     }
 }
+function pusheaLocalStorageSalas(){
+    for (const sala of salasGuardadas){
+        salasDelHospital.push(new SalasHospital(sala.id,sala.sala,sala.cantCamas,sala.camasOcupadas));
+    }
+}
 
 // Funcion guarda LocalStorage
 function guardaLocalStorage(){
     localStorage.setItem("pacientes", JSON.stringify(pacientesInternados));
+}
+function guardaLocalStorageSalas(){
+    localStorage.setItem("salas", JSON.stringify(salasDelHospital));
 }
 
 // Funcion imprime pacientes
 function imprimePacientes(){
     let salaActual = "";
     tarjeta.innerHTML = "";
-    const salas = ["Sala 1","Sala 2","Sala 3","UTI","UCO"];
-    salas.forEach((s) => {
-        const div = document.createElement("div");
-        div.innerHTML = `
-                        <h4 class="m-4">${s}</h4>
-                        `;
-        tarjeta.appendChild(div);
+    // console.log(salas);
+    salasDelHospital.forEach((s) => {
+        const h4 = document.createElement("h4");
+        h4.className = "m-4";
+        h4.innerHTML = s.sala;
+        tarjeta.appendChild(h4);
         pacientesInternados.forEach((pac) => {
-            if(pac.sala == s && salaActual!=s){
+            if(pac.sala == s.sala && salaActual!=s.sala){
                 const pacientesDeSala = pacientes => pacientes.sala==pac.sala;
                 const pacientesSalaFiltrada = pacientesInternados.filter(pacientesDeSala);
-                salaActual=s;
+                salaActual=s.sala;
                 pacientesSalaFiltrada.forEach((p) => {
                     p.imprimir();
                 });
             }
         });
     });
+    actualizaCamas();
     // Operador AND (&&)
     pacientesInternados.length === 0 && (tarjeta.innerHTML = `<h4 class="text-center">No hay pacientes internados</h4>`);
+}
+
+// Funcion que actualiza camas
+function actualizaCamas(){
+    salasDelHospital.forEach((s) => {
+        s.camasOcupadas=0;
+        pacientesInternados.forEach((p)=>{
+            if(p.sala == s.sala){
+                // s.camasOcupadas++;
+                s.ocupaCama();
+            }
+        })
+    });
+    pintaCamas();
+}
+function pintaCamas(){
+    estadCamas.innerHTML="";
+    salasDelHospital.forEach((s) => {
+        s.pintar();
+    })
+}
+
+const info = document.querySelector("#infoPacientes");
+// Agrego info derecha
+function muestraInfo(){
+    info.innerHTML="";
+    info.insertAdjacentHTML('beforeend', `
+                    <h4 class="m-4">Información</h4>
+                    <div class="card">
+                        <h5 class="card-header">Instrucciones</h5>
+                        <div class="card-body">
+                            <p>Acá voy a poner instrucciones para el manejo de los pacientes cargados, incluido como editar, borrar, etc. Tiene que ser bastante info así queda bien explicado como es que funciona la gestión de pacientes. Va a quedar buenardo</p>
+                        </div>
+                    </div>`);
+    info.insertAdjacentHTML('beforeend', `
+                    <div class="card mt-4">
+                        <h5 class="card-header">Estadísticas</h5>
+                        <div class="card-body">
+                            <p>Cantidad de pacientes internados: ${pacientesInternados.length}</p>
+                        </div>
+                    </div>
+                    `);
+    actualizaCamas();
 }
 
 // Envía formulario de edición de paciente
@@ -250,8 +385,10 @@ formularioEdit.addEventListener("submit", (e) => {
         }
         return paciente;
     });
+    actualizaCamas();
     ordenarPacientesSala();
     guardaLocalStorage();
+    guardaLocalStorageSalas();
     // imprimePacientes();
     if(salaSeleccionada=="Todos"){
         muestraTodos();
@@ -281,10 +418,12 @@ const reseteaPacientes = document.getElementById("btnReset");
 reseteaPacientes.addEventListener("click", () => {
     console.log("Resetea pacientes");
     localStorage.removeItem("pacientes");
+    localStorage.removeItem("salas");
     pacientesInternados.length = 0;
+    salasDelHospital.length = 0;
     // pusheaPacientes();
     leePacientes();
-    imprimePacientes();
+    // imprimePacientes();
     tituloSala.innerHTML = "Pacientes internados";
     salaSeleccionada="Todos";
     muestraToast("Listado de pacientes reseteado");
@@ -319,6 +458,8 @@ formulario.addEventListener("submit", (e) => {
     pacientesInternados.push(new Paciente(idNuevoPaciente,nombreNuevoPaciente,apellidoNuevoPaciente,edadNuevoPaciente,salaNuevoPaciente,camaNuevoPaciente,diagnosticoNuevoPaciente));
     ordenarPacientesSala();
     guardaLocalStorage();
+    guardaLocalStorageSalas();
+    muestraInfo();
     // Imprimo último paciente ingresado
     // pacientesInternados[pacientesInternados.length -1].imprimir();
     if(salaSeleccionada=="Todos"){

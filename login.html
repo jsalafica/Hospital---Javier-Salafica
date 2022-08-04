@@ -27,7 +27,7 @@
     <!-- CSS Propio -->
     <link rel="stylesheet" href="css/style.css">
 
-    <title>Internados</title>
+    <title>Internación</title>
 </head>
 <body class="d-flex flex-column min-vh-100">
 
@@ -35,7 +35,7 @@
 
     <div class="container-fluid">
         <div class="main mainOculto">
-            <h2 id="tituloLogin" class="m-4">Pacientes internados</h2>
+            <h2 id="tituloLogin" class="m-2">Pacientes internados</h2>
             <ul class="nav m-2">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false" title="Aplicar filtro Sala">Filtro</a>
@@ -49,8 +49,17 @@
                     </ul>
                 </li>
             </ul>
-            <div class="accordion m-2" id="pacientes">
-                <!-- <div class="row" id="pacientes"></div> -->
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="accordion m-2" id="pacientes"></div>
+                </div>
+                <div class="col-md-4">
+                    <div id="infoPacientes"></div>
+                    <div class="card mt-4">
+                        <h5 class="card-header">Estadísticas</h5>
+                        <div id="estadisticas" class="card-body"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

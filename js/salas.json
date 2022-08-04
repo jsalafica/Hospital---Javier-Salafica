@@ -1,0 +1,32 @@
+[
+    {
+        "id":1,
+        "sala": "Sala 1",
+        "cantCamas": 20,
+        "camasOcupadas": 0
+    },
+    {
+        "id":2,
+        "sala": "Sala 2",
+        "cantCamas": 25,
+        "camasOcupadas": 0
+    },
+    {
+        "id":3,
+        "sala": "Sala 3",
+        "cantCamas": 29,
+        "camasOcupadas": 0
+    },
+    {
+        "id":4,
+        "sala": "UCO",
+        "cantCamas": 6,
+        "camasOcupadas": 0
+    },
+    {
+        "id":5,
+        "sala": "UTI",
+        "cantCamas": 12,
+        "camasOcupadas": 0
+    }
+]
