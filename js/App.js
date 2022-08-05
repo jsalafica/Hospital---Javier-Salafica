@@ -4,42 +4,16 @@ import {startTime} from "./reloj.js";
 const mainOculto = document.querySelector(".mainOculto");
 const estadCamas = document.querySelector("#estadisticas");
 const pacientesInternados = [];
+const pacientesEgresados = [];
 const salasDelHospital = [];
 const usuarios = [];
 let pacienteABorrar = [];
 let pacienteAEditar = [];
-const salas = [
-    {
-        sala: "Sala 1",
-        cantCamas: 20,
-        camasOcupadas: 0
-    },
-    {
-        sala: "Sala 2",
-        cantCamas: 25,
-        camasOcupadas: 0
-    },
-    {
-        sala: "Sala 3",
-        cantCamas: 29,
-        camasOcupadas: 0
-    },
-    {
-        sala: "UCO",
-        cantCamas: 6,
-        camasOcupadas: 0
-    },
-    {
-        sala: "UTI",
-        cantCamas: 12,
-        camasOcupadas: 0
-    }
-];
-// const salas = ["Sala 1","Sala 2","Sala 3","UCO","UTI"];
-// const salas = [];
 const pacientesGuardados = JSON.parse(localStorage.getItem("pacientes"));
 const salasGuardadas = JSON.parse(localStorage.getItem("salas"));
+const egresosGuardados = JSON.parse(localStorage.getItem("egresos"));
 const tarjeta = document.getElementById("pacientes");
+const egreso = document.querySelector("#egresos");
 let salaSeleccionada = "Todos";
 const tituloSala = document.getElementById("tituloLogin");
 const modalEditar = new bootstrap.Modal(document.querySelector("#modalEditarPaciente"));
@@ -67,9 +41,6 @@ const leePacientes = async () => {
         console.log("Pushea desde API y guarda en localStorage");
         }
         leeSalas();
-    // Verifica usuario Usando operador ternario
-    // condicion ? true:false
-    // (ingresoUsuario)&&(ingresoPassword)?((console.log("Usuario ya logeado")),(mainOculto.style.display = 'block'),(imprimePacientes())):((modalLogin.show()),(console.log("Muestra modal login, usuario NO logeado")));
 }
 
 // Lee Salas del Hospital
@@ -143,12 +114,12 @@ class Paciente {
         itemAccordion.innerHTML = `
                         <div class="accordion-item m-1">
                             <h2 class="accordion-header" id="heading${this.id}">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${this.id}" aria-expanded="true" aria-controls="collapse${this.id}"><span class="badge bg-secondary p-2 m-2">Cama ${this.cama}</span>${this.apellido}, ${this.nombre} (${this.edad} años) - Diagnostico: ${this.diagnostico}</button>
+                                <button class="accordion-button collapsed" type="button" title="Oprima para mas información" data-bs-toggle="collapse" data-bs-target="#collapse${this.id}" aria-expanded="true" aria-controls="collapse${this.id}"><span class="badge bg-secondary p-2 m-2">Cama ${this.cama}</span>${this.apellido}, ${this.nombre} (${this.edad} años) - Diagnostico: ${this.diagnostico}</button>
                             </h2>
                             <div id="collapse${this.id}" class="accordion-collapse collapse" aria-labelledby="heading${this.id}" data-bs-parent="#pacientes">
                                 <div class="accordion-body">
                                 ${this.epicrisis}<br>
-                                    <button class="btn btn-sm btnContacto mt-2" id="btnPacienteEliminar${this.id}">Borrar</button>
+                                    <button class="btn btn-sm btnContacto mt-2" id="btnPacienteEliminar${this.id}">Egreso</button>
                                     <button class="btn btn-sm btnContacto mt-2" id="btnPacienteEdit${this.id}">Editar</button>
                                 </div>
                             </div>
@@ -167,36 +138,80 @@ class Paciente {
             });
     }
     eliminar(){
-        Swal.fire({
-            title: `Está seguro de eliminar al paciente <b>${this.nombre} ${this.apellido}</b>?`,
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Confirmar',
-            cancelButtonText: 'Cancelar',
-            dangerMode : true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                if(pacienteABorrar){
-                    pacientesInternados.splice(pacientesInternados.indexOf(pacienteABorrar), 1);
-                    guardaLocalStorage();
-                    guardaLocalStorageSalas();
-                    imprimePacientes();
-                    muestraInfo();
-                    if(salaSeleccionada=="Todos"){
-                        muestraTodos();
-                    } else {
-                        filtraSala(salaSeleccionada);
+        // Swal.fire({
+        //     title: `Está seguro de eliminar al paciente <b>${this.nombre} ${this.apellido}</b>?`,
+        //     icon: 'warning',
+        //     showCancelButton: true,
+        //     confirmButtonText: 'Confirmar',
+        //     cancelButtonText: 'Cancelar',
+        //     dangerMode : true
+        // }).then((result) => {
+        //     if (result.isConfirmed) {
+        //         if(pacienteABorrar){
+        //             pacientesInternados.splice(pacientesInternados.indexOf(pacienteABorrar), 1);
+        //             guardaLocalStorage();
+        //             guardaLocalStorageSalas();
+        //             imprimePacientes();
+        //             muestraInfo();
+        //             if(salaSeleccionada=="Todos"){
+        //                 muestraTodos();
+        //             } else {
+        //                 filtraSala(salaSeleccionada);
+        //             }
+        //             muestraToast(`El paciente ${this.nombre} ${this.apellido} ha sido borrado`);
+        //         } else {
+        //             Swal.fire({
+        //                 title: 'Error, no se encontró el paciente!',
+        //                 icon: 'error',
+        //                 text: 'El paciente no ha sido borrado'
+        //             });
+        //         }
+        //     }
+        // });
+        (async () => {
+            await Swal.fire({
+                title: `Motivo del egreso del paciente <b>${this.nombre} ${this.apellido}</b>`,
+                input: 'select',
+                inputOptions: {
+                    'Egreso': {
+                        alta: 'Alta',
+                        derivado: 'Derivado',
+                        fuga: 'Fuga',
+                        obito: 'Obito'
                     }
-                    muestraToast(`El paciente ${this.nombre} ${this.apellido} ha sido borrado`);
-                } else {
-                    Swal.fire({
-                        title: 'Error, no se encontró el paciente!',
-                        icon: 'error',
-                        text: 'El paciente no ha sido borrado'
-                    });
+                },
+                inputPlaceholder: 'Seleccione...',
+                showCancelButton: true,
+                inputValidator: (value) => {
+                    return new Promise((resolve) => {
+                        if (value) {
+                            resolve()
+                            if(pacienteABorrar){
+                                pacientesInternados.splice(pacientesInternados.indexOf(pacienteABorrar), 1);
+                                pacientesEgresados.push(new Egresado(this.id,this.apellido,this.nombre,this.edad,this.sala,this.cama,this.diagnostico,value));
+                                guardaLocalStorage();
+                                guardaLocalStorageSalas();
+                                imprimePacientes();
+                                muestraInfo();
+                                if(salaSeleccionada=="Todos"){
+                                    muestraTodos();
+                                } else {
+                                    filtraSala(salaSeleccionada);
+                                }
+                                muestraToast(`El paciente ${this.nombre} ${this.apellido} ha egresado: ${value}`);
+                                pintaEgresados();
+                                console.log(pacientesEgresados);
+                            }
+                        } else {
+                            resolve('Debe elegir una opción')
+                            }
+                    })
                 }
-            }
-        });
+            })
+                // if (egreso) {
+                //     Swal.fire(`Egreso: ${egreso}`)
+                // }
+        })()
     }
     editar(){
         document.getElementById("idEdit").value = this.id;
@@ -210,11 +225,50 @@ class Paciente {
     }
 }
 
+class Egresado {
+    constructor (id,apellido,nombre,edad,sala,cama,diagnsotico,egreso) {
+        this.id = id,
+        this.apellido = apellido,
+        this.nombre = nombre,
+        this.edad = edad,
+        this.sala = sala,
+        this.cama = cama,
+        this.diagnostico = diagnsotico,
+        this.egreso = egreso
+    }
+    imprimir(){
+        const itemAccordion = document.createElement('div');
+        itemAccordion.innerHTML = `
+                        <div class="accordion-item m-1">
+                            <h2 class="accordion-header" id="heading${this.id}">
+                                <button class="accordion-button collapsed" type="button" title="Oprima para mas información" data-bs-toggle="collapse" data-bs-target="#collapse${this.id}" aria-expanded="true" aria-controls="collapse${this.id}"><span class="badge bg-secondary p-2 m-2">Cama ${this.cama}</span>${this.apellido}, ${this.nombre} (${this.edad} años) - Diagnostico: ${this.diagnostico}</button>
+                            </h2>
+                            <div id="collapse${this.id}" class="accordion-collapse collapse" aria-labelledby="heading${this.id}" data-bs-parent="#pacientes">
+                                <div class="accordion-body">
+                                    Egreso: ${this.egreso}
+                                </div>
+                            </div>
+                        </div>
+                        `;
+            egreso.appendChild(itemAccordion);
+    }
+}
+
+// Egresados
+function pintaEgresados(){
+    egreso.innerHTML="";
+    pacientesEgresados.forEach(p => {
+        p.imprimir();
+    });
+    pacientesEgresados.length === 0 && (egreso.innerHTML = `<h5 class="text-center">No hay pacientes egresados</h5>`);
+}
+
 // Evento de Carga de DOM
 document.addEventListener("DOMContentLoaded", () => {
     leePacientes();
     // muestraInfo();
     startTime();
+    pintaEgresados();
 });
 
 // Lee el listado de pacientes cada 5 segundos
@@ -245,21 +299,6 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log('error: ' , error);
     }
 })();
-
-// Carga salas y camas
-// (async ()=>{
-//     try {
-//         const response = await fetch('js/salas.json')
-//         const data = await response.json();
-//         data.forEach((s) => {
-//             salas.push(s);
-//             // console.log(s);
-//         });
-//     }
-//     catch(error) {   
-//         console.log('error: ' , error);
-//     }
-// })();
 
 let ingresoUsuario = sessionStorage.getItem("usuario");
 let ingresoPassword = sessionStorage.getItem("password");
@@ -294,24 +333,34 @@ function guardaLocalStorageSalas(){
 
 // Funcion imprime pacientes
 function imprimePacientes(){
+    let contador;
     let salaActual = "";
     tarjeta.innerHTML = "";
-    // console.log(salas);
     salasDelHospital.forEach((s) => {
+        contador=0;
         const h4 = document.createElement("h4");
-        h4.className = "m-4";
+        h4.className = "mt-4 text-center";
         h4.innerHTML = s.sala;
         tarjeta.appendChild(h4);
         pacientesInternados.forEach((pac) => {
             if(pac.sala == s.sala && salaActual!=s.sala){
-                const pacientesDeSala = pacientes => pacientes.sala==pac.sala;
-                const pacientesSalaFiltrada = pacientesInternados.filter(pacientesDeSala);
-                salaActual=s.sala;
-                pacientesSalaFiltrada.forEach((p) => {
-                    p.imprimir();
-                });
-            }
+                // const pacientesDeSala = pacientes => pacientes.sala==pac.sala;
+                // const pacientesSalaFiltrada = pacientesInternados.filter(pacientesDeSala);
+                // salaActual=s.sala;
+                pac.imprimir();
+                contador++;
+                    // pacientesSalaFiltrada.forEach((p) => {
+                        // p.imprimir();
+                    // });
+                }
         });
+        if(contador==0){
+            tarjeta.insertAdjacentHTML('beforeend', `
+                                    <h5 class="text-center">
+                                        Sin pacientes internados
+                                    </h5>
+                                    `);
+        }
     });
     actualizaCamas();
     // Operador AND (&&)
@@ -324,7 +373,6 @@ function actualizaCamas(){
         s.camasOcupadas=0;
         pacientesInternados.forEach((p)=>{
             if(p.sala == s.sala){
-                // s.camasOcupadas++;
                 s.ocupaCama();
             }
         })
@@ -343,7 +391,6 @@ const info = document.querySelector("#infoPacientes");
 function muestraInfo(){
     info.innerHTML="";
     info.insertAdjacentHTML('beforeend', `
-                    <h4 class="m-4">Información</h4>
                     <div class="card">
                         <h5 class="card-header">Instrucciones</h5>
                         <div class="card-body">
@@ -351,7 +398,7 @@ function muestraInfo(){
                         </div>
                     </div>`);
     info.insertAdjacentHTML('beforeend', `
-                    <div class="card mt-4">
+                    <div class="card mt-2">
                         <h5 class="card-header">Estadísticas</h5>
                         <div class="card-body">
                             <p>Cantidad de pacientes internados: ${pacientesInternados.length}</p>
@@ -500,6 +547,7 @@ formularioLogin.addEventListener("submit", (e) => {
             mainOculto.style.display = 'block';
             modalLogin.hide();
             imprimePacientes();
+            break;
         } else {
             Swal.fire({
                 title: 'Error, usuario y/o contraseña incorrectos',

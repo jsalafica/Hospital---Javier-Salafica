@@ -44,18 +44,28 @@
                         <li><a class="dropdown-item btnFiltroSala" href="#">Sala 1</a></li>
                         <li><a class="dropdown-item btnFiltroSala" href="#">Sala 2</a></li>
                         <li><a class="dropdown-item btnFiltroSala" href="#">Sala 3</a></li>
-                        <li><a class="dropdown-item btnFiltroSala" href="#">UTI</a></li>
                         <li><a class="dropdown-item btnFiltroSala" href="#">UCO</a></li>
+                        <li><a class="dropdown-item btnFiltroSala" href="#">UTI</a></li>
                     </ul>
                 </li>
             </ul>
             <div class="row">
                 <div class="col-md-8">
-                    <div class="accordion m-2" id="pacientes"></div>
+                    <div class="card">
+                        <div class="accordion m-2" id="pacientes"></div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="card">
+                            <h4 class="card-header text-center">Egresos</h4>
+                            <div class="card-body">
+                                <div class="accordion" id="egresos"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-4">
                     <div id="infoPacientes"></div>
-                    <div class="card mt-4">
+                    <div class="card mt-2">
                         <h5 class="card-header">Estadísticas</h5>
                         <div id="estadisticas" class="card-body"></div>
                     </div>
@@ -74,31 +84,43 @@
                 </div>
                 <div class="modal-body">
                     <form id="formNuevoPaciente">
-                        <label for="nombre" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="nombre" name="nombre" required>
-                        <label for="apellido" class="form-label">Apellido</label>
-                        <input type="text" class="form-control" id="apellido" name="apellido" required>
-                        <label for="edad" class="form-label">Edad</label>
-                        <input type="number" class="form-control" id="edad" name="edad" required>
-                        <label for="sala" class="form-label">Sala</label>
-                        <select class="form-select" id="sala" name="sala" aria-label="Default select example" required>
-                            <option disabled selected value="">Seleccionar...</option>
-                            <option value="Sala 1">Sala 1</option>
-                            <option value="Sala 2">Sala 2</option>
-                            <option value="Sala 3">Sala 3</option>
-                            <option value="UTI">Terapia intensiva</option>
-                            <option value="UCO">Unidad coronaria</option>
-                        </select>
-                        <label for="cama" class="form-label">Cama</label>
-                        <input type="number" class="form-control" id="cama" name="cama" required>
-                        <label for="diagnostico" class="form-label">Diagnóstico</label>
-                        <input type="text" class="form-control" id="diagnostico" name="diagnostico" required>
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" required autofocus>
+                        </div>
+                        <div class="mb-3">
+                            <label for="apellido" class="form-label">Apellido</label>
+                            <input type="text" class="form-control" id="apellido" name="apellido" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edad" class="form-label">Edad</label>
+                            <input type="number" class="form-control" id="edad" name="edad" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="sala" class="form-label">Sala</label>
+                            <select class="form-select" id="sala" name="sala" aria-label="Default select example" required>
+                                <option disabled selected value="">Seleccionar...</option>
+                                <option value="Sala 1">Sala 1</option>
+                                <option value="Sala 2">Sala 2</option>
+                                <option value="Sala 3">Sala 3</option>
+                                <option value="UCO">UCO</option>
+                                <option value="UTI">UTI</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cama" class="form-label">Cama</label>
+                            <input type="number" class="form-control" id="cama" name="cama" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="diagnostico" class="form-label">Diagnóstico</label>
+                            <input type="text" class="form-control" id="diagnostico" name="diagnostico" required>
+                        </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-sm btnLogin">Agregar</button>
                 </div>
-            </form>
+                    </form>
             </div>
         </div>
     </div>
@@ -113,32 +135,44 @@
                 </div>
                 <div class="modal-body">
                     <form id="formEditarPaciente">
+                        <div class="mb-3">
                         <input type="hidden" id="idEdit" name="idEdit">
-                        <label for="nombreEdit" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="nombreEdit" name="nombreEdit" required>
-                        <label for="apellidoEdit" class="form-label">Apellido</label>
-                        <input type="text" class="form-control" id="apellidoEdit" name="apellidoEdit" required>
-                        <label for="edadEdit" class="form-label">Edad</label>
-                        <input type="number" class="form-control" id="edadEdit" name="edadEdit" required>
-                        <label for="salaEdit" class="form-label">Sala</label>
-                        <select class="form-select" id="salaEdit" name="salaEdit" aria-label="Default select example" required>
-                            <option disabled selected value="">Seleccionar...</option>
-                            <option value="Sala 1">Sala 1</option>
-                            <option value="Sala 2">Sala 2</option>
-                            <option value="Sala 3">Sala 3</option>
-                            <option value="UTI">UTI</option>
-                            <option value="UCO">UCO</option>
-                        </select>
-                        <label for="camaEdit" class="form-label">Cama</label>
-                        <input type="text" class="form-control" id="camaEdit" name="camaEdit" required>
-                        <label for="diagnosticoEdit" class="form-label">Diagnóstico</label>
-                        <input type="text" class="form-control" id="diagnosticoEdit" name="diagnosticoEdit" required>
-                </div>
+                            <label for="nombreEdit" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="nombreEdit" name="nombreEdit" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="apellidoEdit" class="form-label">Apellido</label>
+                            <input type="text" class="form-control" id="apellidoEdit" name="apellidoEdit" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edadEdit" class="form-label">Edad</label>
+                            <input type="number" class="form-control" id="edadEdit" name="edadEdit" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="salaEdit" class="form-label">Sala</label>
+                            <select class="form-select" id="salaEdit" name="salaEdit" aria-label="Default select example" required>
+                                <option disabled selected value="">Seleccionar...</option>
+                                <option value="Sala 1">Sala 1</option>
+                                <option value="Sala 2">Sala 2</option>
+                                <option value="Sala 3">Sala 3</option>
+                                <option value="UTI">UTI</option>
+                                <option value="UCO">UCO</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="camaEdit" class="form-label">Cama</label>
+                            <input type="text" class="form-control" id="camaEdit" name="camaEdit" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="diagnosticoEdit" class="form-label">Diagnóstico</label>
+                            <input type="text" class="form-control" id="diagnosticoEdit" name="diagnosticoEdit" required>
+                        </div>
+                    </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-sm btnLogin">Editar</button>
                 </div>
-            </form>
+                    </form>
             </div>
         </div>
     </div>
@@ -156,7 +190,7 @@
                     <form id="formLogin">
                         <div class="mb-3">
                             <label for="nombreUsuario" class="form-label">Usuario</label>
-                            <input type="text" class="form-control" id="nombreUsuario" name="nombreUsuario" aria-describedby="userHelp" required autocomplete="off">
+                            <input type="text" class="form-control" id="nombreUsuario" name="nombreUsuario" aria-describedby="userHelp" required autocomplete="off" autofocus>
                             <div id="userHelp" class="form-text">Usuario: user</div>
                         </div>
                         <div class="mb-3">
