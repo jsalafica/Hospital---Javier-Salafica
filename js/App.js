@@ -48,7 +48,7 @@ const leeSalas = async () => {
     if(localStorage.getItem("salas")){
         // Pushea salas del localStorage
         pusheaLocalStorageSalas();
-        muestraInfo();
+        // muestraInfo();
     } else {
         try {
             // Desde JSON
@@ -59,7 +59,7 @@ const leeSalas = async () => {
                 salasDelHospital.push(new SalasHospital(data.id,data.sala,data.cantCamas,data.camasOcupadas));
             });
             // console.log(salasDelHospital);
-            muestraInfo();
+            // muestraInfo();
         }
         catch (error) {
             console.log('Error: ', error);
@@ -67,9 +67,20 @@ const leeSalas = async () => {
         guardaLocalStorageSalas();
         console.log("Pushea desde salas.json");
         }
+        leeEgresos();
     // Verifica usuario Usando operador ternario
     // condicion ? true:false
     (ingresoUsuario)&&(ingresoPassword)?((console.log("Usuario ya logeado")),(mainOculto.style.display = 'block'),(imprimePacientes())):((modalLogin.show()),(console.log("Muestra modal login, usuario NO logeado")));
+}
+
+// Lee Pacientes egresados
+const leeEgresos = async () => {
+    if(localStorage.getItem("egresos")){
+        // Pushea salas del localStorage
+        pusheaLocalStorageEgresos();
+    }
+    muestraInfo();
+    pintaEgresados();
 }
 
 // Clase salasHospital
@@ -101,12 +112,12 @@ class SalasHospital {
 class Paciente {
     constructor (id,nombre,apellido,edad,sala,cama,diagnostico){
         this.id = id,
-        this.nombre = nombre,
-        this.apellido = apellido,
+        this.nombre = mayuscalaPrimerLetra(nombre),
+        this.apellido = mayuscalaPrimerLetra(apellido),
         this.edad = edad,
         this.sala = sala,
         this.cama = cama,
-        this.diagnostico = diagnostico,
+        this.diagnostico = mayuscalaPrimerLetra(diagnostico),
         this.epicrisis = `Paciente ${this.apellido}, ${this.nombre} de ${this.edad} años de edad, internado en ${this.sala} cama ${this.cama},  con diagnóstico de ${this.diagnostico}.`;
     }
     imprimir(){
@@ -114,7 +125,7 @@ class Paciente {
         itemAccordion.innerHTML = `
                         <div class="accordion-item m-1">
                             <h2 class="accordion-header" id="heading${this.id}">
-                                <button class="accordion-button collapsed" type="button" title="Oprima para mas información" data-bs-toggle="collapse" data-bs-target="#collapse${this.id}" aria-expanded="true" aria-controls="collapse${this.id}"><span class="badge bg-secondary p-2 m-2">Cama ${this.cama}</span>${this.apellido}, ${this.nombre} (${this.edad} años) - Diagnostico: ${this.diagnostico}</button>
+                                <button class="accordion-button collapsed" type="button" title="Oprima para mas información" data-bs-toggle="collapse" data-bs-target="#collapse${this.id}" aria-expanded="true" aria-controls="collapse${this.id}"><span class="badge bg-secondary p-2 m-2">Cama ${this.cama}</span>${this.apellido}, ${this.nombre} (${this.edad} años) - Diagnóstico: ${this.diagnostico}</button>
                             </h2>
                             <div id="collapse${this.id}" class="accordion-collapse collapse" aria-labelledby="heading${this.id}" data-bs-parent="#pacientes">
                                 <div class="accordion-body">
@@ -138,36 +149,6 @@ class Paciente {
             });
     }
     eliminar(){
-        // Swal.fire({
-        //     title: `Está seguro de eliminar al paciente <b>${this.nombre} ${this.apellido}</b>?`,
-        //     icon: 'warning',
-        //     showCancelButton: true,
-        //     confirmButtonText: 'Confirmar',
-        //     cancelButtonText: 'Cancelar',
-        //     dangerMode : true
-        // }).then((result) => {
-        //     if (result.isConfirmed) {
-        //         if(pacienteABorrar){
-        //             pacientesInternados.splice(pacientesInternados.indexOf(pacienteABorrar), 1);
-        //             guardaLocalStorage();
-        //             guardaLocalStorageSalas();
-        //             imprimePacientes();
-        //             muestraInfo();
-        //             if(salaSeleccionada=="Todos"){
-        //                 muestraTodos();
-        //             } else {
-        //                 filtraSala(salaSeleccionada);
-        //             }
-        //             muestraToast(`El paciente ${this.nombre} ${this.apellido} ha sido borrado`);
-        //         } else {
-        //             Swal.fire({
-        //                 title: 'Error, no se encontró el paciente!',
-        //                 icon: 'error',
-        //                 text: 'El paciente no ha sido borrado'
-        //             });
-        //         }
-        //     }
-        // });
         (async () => {
             await Swal.fire({
                 title: `Motivo del egreso del paciente <b>${this.nombre} ${this.apellido}</b>`,
@@ -191,6 +172,7 @@ class Paciente {
                                 pacientesEgresados.push(new Egresado(this.id,this.apellido,this.nombre,this.edad,this.sala,this.cama,this.diagnostico,value));
                                 guardaLocalStorage();
                                 guardaLocalStorageSalas();
+                                guardaLocalStorageEgresos();
                                 imprimePacientes();
                                 muestraInfo();
                                 if(salaSeleccionada=="Todos"){
@@ -241,7 +223,7 @@ class Egresado {
         itemAccordion.innerHTML = `
                         <div class="accordion-item m-1">
                             <h2 class="accordion-header" id="heading${this.id}">
-                                <button class="accordion-button collapsed" type="button" title="Oprima para mas información" data-bs-toggle="collapse" data-bs-target="#collapse${this.id}" aria-expanded="true" aria-controls="collapse${this.id}"><span class="badge bg-secondary p-2 m-2">Cama ${this.cama}</span>${this.apellido}, ${this.nombre} (${this.edad} años) - Diagnostico: ${this.diagnostico}</button>
+                                <button class="accordion-button collapsed" type="button" title="Oprima para mas información" data-bs-toggle="collapse" data-bs-target="#collapse${this.id}" aria-expanded="true" aria-controls="collapse${this.id}"><span class="badge bg-secondary p-2 m-2">Cama ${this.cama}</span>${this.apellido}, ${this.nombre} (${this.edad} años) - Diagnóstico: ${this.diagnostico}</button>
                             </h2>
                             <div id="collapse${this.id}" class="accordion-collapse collapse" aria-labelledby="heading${this.id}" data-bs-parent="#pacientes">
                                 <div class="accordion-body">
@@ -268,7 +250,7 @@ document.addEventListener("DOMContentLoaded", () => {
     leePacientes();
     // muestraInfo();
     startTime();
-    pintaEgresados();
+    // leeEgresos();
 });
 
 // Lee el listado de pacientes cada 5 segundos
@@ -322,6 +304,11 @@ function pusheaLocalStorageSalas(){
         salasDelHospital.push(new SalasHospital(sala.id,sala.sala,sala.cantCamas,sala.camasOcupadas));
     }
 }
+function pusheaLocalStorageEgresos(){
+    for (const paciente of egresosGuardados){
+        pacientesEgresados.push(new Egresado(paciente.id,paciente.nombre,paciente.apellido,paciente.edad,paciente.sala,paciente.cama,paciente.diagnostico));
+    }
+}
 
 // Funcion guarda LocalStorage
 function guardaLocalStorage(){
@@ -329,6 +316,9 @@ function guardaLocalStorage(){
 }
 function guardaLocalStorageSalas(){
     localStorage.setItem("salas", JSON.stringify(salasDelHospital));
+}
+function guardaLocalStorageEgresos(){
+    localStorage.setItem("egresos", JSON.stringify(pacientesEgresados));
 }
 
 // Funcion imprime pacientes
@@ -394,7 +384,7 @@ function muestraInfo(){
                     <div class="card">
                         <h5 class="card-header">Instrucciones</h5>
                         <div class="card-body">
-                            <p>Acá voy a poner instrucciones para el manejo de los pacientes cargados, incluido como editar, borrar, etc. Tiene que ser bastante info así queda bien explicado como es que funciona la gestión de pacientes. Va a quedar buenardo</p>
+                            <p>Haga click <a href="#" class="btn btn-sm btnContacto p-0 m-0" data-bs-toggle="modal" data-bs-target="#modalInstrucciones">aquí</a> para obtener instrucciones del uso de la aplicación</p>
                         </div>
                     </div>`);
     info.insertAdjacentHTML('beforeend', `
@@ -402,6 +392,7 @@ function muestraInfo(){
                         <h5 class="card-header">Estadísticas</h5>
                         <div class="card-body">
                             <p>Cantidad de pacientes internados: ${pacientesInternados.length}</p>
+                            <p>Cantidad de pacientes egresados: ${pacientesEgresados.length}</p>
                         </div>
                     </div>
                     `);
@@ -422,12 +413,12 @@ formularioEdit.addEventListener("submit", (e) => {
     const diagnosticoEdit = document.getElementById("diagnosticoEdit").value;
     pacientesInternados.map((paciente) => {
         if(paciente.id == idEdit){
-            paciente.nombre = nombreEdit;
-            paciente.apellido = apellidoEdit;
+            paciente.nombre = mayuscalaPrimerLetra(nombreEdit);
+            paciente.apellido = mayuscalaPrimerLetra(apellidoEdit);
             paciente.edad = edadEdit;
             paciente.sala = salaEdit;
             paciente.cama = camaEdit;
-            paciente.diagnostico = diagnosticoEdit;
+            paciente.diagnostico = mayuscalaPrimerLetra(diagnosticoEdit);
             paciente.epicrisis = `Paciente ${apellidoEdit}, ${nombreEdit} de ${edadEdit} años de edad, internado en ${salaEdit} cama ${camaEdit},  con diagnóstico de ${diagnosticoEdit}.`;
         }
         return paciente;
@@ -466,10 +457,13 @@ reseteaPacientes.addEventListener("click", () => {
     console.log("Resetea pacientes");
     localStorage.removeItem("pacientes");
     localStorage.removeItem("salas");
+    localStorage.removeItem("egresos");
     pacientesInternados.length = 0;
     salasDelHospital.length = 0;
+    pacientesEgresados.length = 0;
     // pusheaPacientes();
     leePacientes();
+    leeEgresos();
     // imprimePacientes();
     tituloSala.innerHTML = "Pacientes internados";
     salaSeleccionada="Todos";
@@ -611,4 +605,9 @@ function imprimePacientesSala(pacSala,sala){
         p.imprimir();
     });
     pacSala.length === 0 && (tarjeta.innerHTML = `<h4 class="text-center">No hay pacientes internados</h4>`);
+}
+
+// Funcion mayuscula primera letra
+function mayuscalaPrimerLetra(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
 }

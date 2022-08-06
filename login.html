@@ -35,7 +35,7 @@
 
     <div class="container-fluid">
         <div class="main mainOculto">
-            <h2 id="tituloLogin" class="m-2">Pacientes internados</h2>
+            <h3 id="tituloLogin" class="mt-4 text-center">Pacientes internados</h3>
             <ul class="nav m-2">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false" title="Aplicar filtro Sala">Filtro</a>
@@ -207,6 +207,29 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal Instrucciones -->
+    <div class="modal fade" id="modalInstrucciones" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Instrucciones</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Esta aplicación es un simulador de internaciones en un hospital. Como se puede ver en la pantalla principal, están listados los pacientes que se cargan desde una API, y son filtrados de acuerdo a la sala y cama que ocupan.</p>
+                <p>Una vez cargados, son almacenados en el localStorage para un posterior llamado.</p>
+                <p>Al oprimir sobre cada paciente, se depliega un accordion donde se muetra información del paciente, como así también dos botones que realizan la edición de los datos del paciente y del egreso del mismo.</p>
+                <p>Tanto en la edición como en el egreso, son reordenados los pacientes en sus respectivos lugares, y los egresos se visualizan al final de la pantalla.</p>
+                <p>A la derecha, vamos a observar estadísticas generales de la internación.</p>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary btnContacto" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
     <!-- Inserta footer vía footer.js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/navbar.js"></script>
