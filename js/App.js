@@ -17,6 +17,9 @@ const egreso = document.querySelector("#egresos");
 let salaSeleccionada = "Todos";
 const tituloSala = document.getElementById("tituloLogin");
 const modalEditar = new bootstrap.Modal(document.querySelector("#modalEditarPaciente"));
+let ingresoUsuario = sessionStorage.getItem("usuario");
+let ingresoPassword = sessionStorage.getItem("password");
+const modalLogin = new bootstrap.Modal(document.getElementById('modalLogin'));
 
 // Lee Pacientes
 const leePacientes = async () => {
@@ -69,9 +72,6 @@ const leeSalas = async () => {
         console.log("Pushea desde salas.json");
         }
         leeEgresos();
-    // Verifica usuario Usando operador ternario
-    // condicion ? true:false
-    (ingresoUsuario)&&(ingresoPassword)?((console.log("Usuario ya logeado")),(mainOculto.style.display = 'block'),(imprimePacientes())):((modalLogin.show()),(console.log("Muestra modal login, usuario NO logeado")));
 }
 
 // Lee Pacientes egresados
@@ -83,6 +83,9 @@ const leeEgresos = async () => {
     muestraInfo();
     pintaEgresados();
     console.timeEnd();
+    // Verifica usuario Usando operador ternario
+    // condicion ? true:false
+    (ingresoUsuario)&&(ingresoPassword)?((console.log("Usuario ya logeado")),(mainOculto.style.display = 'block'),(imprimePacientes())):((modalLogin.show()),(console.log("Muestra modal login, usuario NO logeado")));
 }
 
 // Clase salasHospital
@@ -252,10 +255,15 @@ function pintaEgresados(){
 // Evento de Carga de DOM
 document.addEventListener("DOMContentLoaded", () => {
     leePacientes();
-    // muestraInfo();
     startTime();
-    // leeEgresos();
+    // leeUsuario();
 });
+
+function leeUsuario() {
+    // Verifica usuario Usando operador ternario
+    // condicion ? true:false
+    (ingresoUsuario)&&(ingresoPassword)?((console.log("Usuario ya logeado")),(mainOculto.style.display = 'block'),(imprimePacientes())):((modalLogin.show()),(console.log("Muestra modal login, usuario NO logeado")));
+}
 
 // Lee el listado de pacientes cada 5 segundos
 // let intervalo = setInterval(() => {
@@ -285,10 +293,6 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log('error: ' , error);
     }
 })();
-
-let ingresoUsuario = sessionStorage.getItem("usuario");
-let ingresoPassword = sessionStorage.getItem("password");
-const modalLogin = new bootstrap.Modal(document.getElementById('modalLogin'));
 
 // Focus en input usuario
 const modalLoginFocus = document.getElementById('modalLogin');
@@ -491,7 +495,7 @@ reseteaPacientes.addEventListener("click", () => {
     pacientesEgresados.length = 0;
     // pusheaPacientes();
     leePacientes();
-    leeEgresos();
+    // leeUsuario();
     // imprimePacientes();
     tituloSala.innerHTML = "Pacientes internados";
     salaSeleccionada="Todos";
@@ -586,6 +590,8 @@ formularioLogin.addEventListener("submit", (e) => {
             })
             sessionStorage.setItem("usuario",nombreUsuario);
             sessionStorage.setItem("password",passUsuario);
+            ingresoUsuario = nombreUsuario;
+            ingresoPassword = passUsuario;
             mainOculto.style.display = 'block';
             modalLogin.hide();
             imprimePacientes();
