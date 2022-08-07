@@ -538,7 +538,7 @@ formulario.addEventListener("submit", (e) => {
     salasDelHospital.forEach(s => {
         if(s.sala == salaNuevoPaciente && (camaNuevoPaciente > s.cantCamas || camaNuevoPaciente <= 0)){
             camaFueraRango = true;
-            muestraToast(`${salaEdit} cama ${camaEdit} fuera de rango`);
+            muestraToast(`${salaNuevoPaciente} cama ${camaNuevoPaciente} fuera de rango`);
         }
     });
     
