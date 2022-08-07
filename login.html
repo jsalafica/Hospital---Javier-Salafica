@@ -54,7 +54,7 @@
                     <div class="card">
                         <div class="accordion m-2" id="pacientes"></div>
                     </div>
-                    <div class="mt-4">
+                    <div class="my-4">
                         <div class="card">
                             <h4 class="card-header text-center">Egresos</h4>
                             <div class="card-body">
@@ -64,7 +64,7 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div id="infoPacientes"></div>
+                    <div id="infoApp"></div>
                     <div class="card mt-2">
                         <h5 class="card-header">Estadísticas</h5>
                         <div id="estadisticas" class="card-body"></div>
@@ -158,10 +158,12 @@
                                 <option value="UTI">UTI</option>
                                 <option value="UCO">UCO</option>
                             </select>
+                            <input type="hidden" id="salaVieja" name="salaVieja">
                         </div>
                         <div class="mb-3">
                             <label for="camaEdit" class="form-label">Cama</label>
-                            <input type="text" class="form-control" id="camaEdit" name="camaEdit" required>
+                            <input type="number" class="form-control" id="camaEdit" name="camaEdit" required>
+                            <input type="hidden" id="camaVieja" name="camaVieja">
                         </div>
                         <div class="mb-3">
                             <label for="diagnosticoEdit" class="form-label">Diagnóstico</label>
@@ -213,15 +215,20 @@
         <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Instrucciones</h5>
+            <h4 class="modal-title" id="modalInstruccionesTitle">Instrucciones</h4>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <p>Esta aplicación es un simulador de internaciones en un hospital. Como se puede ver en la pantalla principal, están listados los pacientes que se cargan desde una API, y son filtrados de acuerdo a la sala y cama que ocupan.</p>
                 <p>Una vez cargados, son almacenados en el localStorage para un posterior llamado.</p>
-                <p>Al oprimir sobre cada paciente, se depliega un accordion donde se muetra información del paciente, como así también dos botones que realizan la edición de los datos del paciente y del egreso del mismo.</p>
-                <p>Tanto en la edición como en el egreso, son reordenados los pacientes en sus respectivos lugares, y los egresos se visualizan al final de la pantalla.</p>
-                <p>A la derecha, vamos a observar estadísticas generales de la internación.</p>
+                <p>Contamos con menú en el navbar para realizar la carga de un nuevo paciente, como así también para el reseteo de los mismos</p>
+                <p>Arriba a la izquierda de la pantalla principal se halla un select para filtrar por sala</p>
+                <p>Al oprimir sobre cada paciente, se depliega un accordion donde se muetra información del mismo, como así también dos botones que realizan la edición de sus datos y de su egreso.</p>
+                <p>Si al paciente se lo quiere cambiar de sala y/o cama, se realiza una verificación de la cama de destino, para comprobar que esté libre. Caso contrario el paciente no podrá ser cambiado de lugar</p>
+                <p>Tanto los nuevos pacientes que se carguen, como los egresos son guardados en el localStorage</p>
+                <p>Luego de la edición o el egreso, son reordenados los pacientes en sus respectivos lugares, y los egresos se visualizan al final de la pantalla.</p>
+                <p>A la derecha, vamos a observar estadísticas generales de la sala de internación.</p>
+                <p>© 2022 - Javier Salafica</p>
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-secondary btnContacto" data-bs-dismiss="modal">Cerrar</button>

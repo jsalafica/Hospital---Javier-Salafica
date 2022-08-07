@@ -1,8 +1,8 @@
 const footer = `
     <footer class="d-flex flex-wrap justify-content-between align-items-center border-top mt-auto">
     <div class="col-md-6 d-flex align-items-center">
-        <a class="navbar-brand" href="index.html"><img class="logo" src="images/index.jpg" alt="Logo"></a>
-        <span class="">© 2022 - Todos los derechos reservados</span>
+        <a class="navbar-brand mr-1" href="index.html"><img class="logo" src="images/index.jpg" alt="Logo"></a>
+        <span class="mx-3">© 2022 - Todos los derechos reservados</span>
     </div>
     <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
         <li class="ms-3"><a class="" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-twitter" viewBox="0 0 16 16">

@@ -167,6 +167,13 @@ p {
 #tituloLogin {
   color: #557571; }
 
+#infoApp a {
+  color: #D49A89;
+  text-decoration: none; }
+
+#modalInstruccionesTitle {
+  color: #D49A89; }
+
 /* FOOTER */
 footer {
   margin-top: 1rem;

@@ -20,6 +20,7 @@ const modalEditar = new bootstrap.Modal(document.querySelector("#modalEditarPaci
 
 // Lee Pacientes
 const leePacientes = async () => {
+    console.time();
     if(localStorage.getItem("pacientes")){
         // Pushea pacientes del localStorage
         pusheaLocalStorage();
@@ -81,6 +82,7 @@ const leeEgresos = async () => {
     }
     muestraInfo();
     pintaEgresados();
+    console.timeEnd();
 }
 
 // Clase salasHospital
@@ -129,7 +131,8 @@ class Paciente {
                             </h2>
                             <div id="collapse${this.id}" class="accordion-collapse collapse" aria-labelledby="heading${this.id}" data-bs-parent="#pacientes">
                                 <div class="accordion-body">
-                                ${this.epicrisis}<br>
+                                    <p><strong>Información</strong></p>
+                                    <p>${this.epicrisis}</p>
                                     <button class="btn btn-sm btnContacto mt-2" id="btnPacienteEliminar${this.id}">Egreso</button>
                                     <button class="btn btn-sm btnContacto mt-2" id="btnPacienteEdit${this.id}">Editar</button>
                                 </div>
@@ -190,9 +193,6 @@ class Paciente {
                     })
                 }
             })
-                // if (egreso) {
-                //     Swal.fire(`Egreso: ${egreso}`)
-                // }
         })()
     }
     editar(){
@@ -201,21 +201,23 @@ class Paciente {
         document.getElementById("apellidoEdit").value = this.apellido;
         document.getElementById("edadEdit").value = this.edad;
         document.getElementById("salaEdit").value = this.sala;
+        document.getElementById("salaVieja").value = this.sala;
         document.getElementById("camaEdit").value = this.cama;
+        document.getElementById("camaVieja").value = this.cama;
         document.getElementById("diagnosticoEdit").value = this.diagnostico;
         modalEditar.show();
     }
 }
 
 class Egresado {
-    constructor (id,apellido,nombre,edad,sala,cama,diagnsotico,egreso) {
+    constructor (id,apellido,nombre,edad,sala,cama,diagnostico,egreso) {
         this.id = id,
         this.apellido = apellido,
         this.nombre = nombre,
         this.edad = edad,
         this.sala = sala,
         this.cama = cama,
-        this.diagnostico = diagnsotico,
+        this.diagnostico = diagnostico,
         this.egreso = egreso
     }
     imprimir(){
@@ -227,12 +229,13 @@ class Egresado {
                             </h2>
                             <div id="collapse${this.id}" class="accordion-collapse collapse" aria-labelledby="heading${this.id}" data-bs-parent="#pacientes">
                                 <div class="accordion-body">
-                                    Egreso: ${this.egreso}
+                                    <p><strong>Información</strong></p>
+                                    <p><strong>Egreso:</strong> ${this.egreso}</p>
                                 </div>
                             </div>
                         </div>
                         `;
-            egreso.appendChild(itemAccordion);
+        egreso.appendChild(itemAccordion);
     }
 }
 
@@ -306,7 +309,7 @@ function pusheaLocalStorageSalas(){
 }
 function pusheaLocalStorageEgresos(){
     for (const paciente of egresosGuardados){
-        pacientesEgresados.push(new Egresado(paciente.id,paciente.nombre,paciente.apellido,paciente.edad,paciente.sala,paciente.cama,paciente.diagnostico));
+        pacientesEgresados.push(new Egresado(paciente.id,paciente.nombre,paciente.apellido,paciente.edad,paciente.sala,paciente.cama,paciente.diagnostico,paciente.egreso));
     }
 }
 
@@ -376,7 +379,7 @@ function pintaCamas(){
     })
 }
 
-const info = document.querySelector("#infoPacientes");
+const info = document.querySelector("#infoApp");
 // Agrego info derecha
 function muestraInfo(){
     info.innerHTML="";
@@ -384,7 +387,7 @@ function muestraInfo(){
                     <div class="card">
                         <h5 class="card-header">Instrucciones</h5>
                         <div class="card-body">
-                            <p>Haga click <a href="#" class="btn btn-sm btnContacto p-0 m-0" data-bs-toggle="modal" data-bs-target="#modalInstrucciones">aquí</a> para obtener instrucciones del uso de la aplicación</p>
+                            <p>Haga click <a href="#" data-bs-toggle="modal" data-bs-target="#modalInstrucciones">aquí</a> para obtener instrucciones del uso de la aplicación</p>
                         </div>
                     </div>`);
     info.insertAdjacentHTML('beforeend', `
@@ -403,37 +406,61 @@ function muestraInfo(){
 const formularioEdit = document.querySelector("#formEditarPaciente");
 formularioEdit.addEventListener("submit", (e) => {
     e.preventDefault();
+    let camaLibre = true;
+    let camaFueraRango = false;
     modalEditar.hide();
     const idEdit = document.getElementById("idEdit").value;
     const nombreEdit = document.getElementById("nombreEdit").value;
     const apellidoEdit = document.getElementById("apellidoEdit").value;
     const edadEdit = document.getElementById("edadEdit").value;
+    const salaVieja = document.getElementById("salaVieja").value;
     const salaEdit = document.getElementById("salaEdit").value;
+    const camaVieja = document.getElementById("camaVieja").value;
     const camaEdit = document.getElementById("camaEdit").value;
     const diagnosticoEdit = document.getElementById("diagnosticoEdit").value;
-    pacientesInternados.map((paciente) => {
-        if(paciente.id == idEdit){
-            paciente.nombre = mayuscalaPrimerLetra(nombreEdit);
-            paciente.apellido = mayuscalaPrimerLetra(apellidoEdit);
-            paciente.edad = edadEdit;
-            paciente.sala = salaEdit;
-            paciente.cama = camaEdit;
-            paciente.diagnostico = mayuscalaPrimerLetra(diagnosticoEdit);
-            paciente.epicrisis = `Paciente ${apellidoEdit}, ${nombreEdit} de ${edadEdit} años de edad, internado en ${salaEdit} cama ${camaEdit},  con diagnóstico de ${diagnosticoEdit}.`;
-        }
-        return paciente;
-    });
-    actualizaCamas();
-    ordenarPacientesSala();
-    guardaLocalStorage();
-    guardaLocalStorageSalas();
-    // imprimePacientes();
-    if(salaSeleccionada=="Todos"){
-        muestraTodos();
+
+    // Verifico cama libre o fuera de rango
+    if(salaVieja == salaEdit && camaVieja==camaEdit){
     } else {
-    filtraSala(salaSeleccionada);
+        pacientesInternados.forEach(p => {
+            if(p.sala == salaEdit && p.cama == camaEdit){
+                // console.log(`${salaEdit} cama ${camaEdit} está ocupada`);
+                muestraToast(`${salaEdit} cama ${camaEdit} está ocupada`);
+                camaLibre = false;
+            }
+        });
+        salasGuardadas.forEach(s => {
+            if(s.sala == salaEdit && (camaEdit > s.cantCamas || camaEdit <= 0)){
+                camaFueraRango = true;
+                muestraToast(`${salaEdit} cama ${camaEdit} fuera de rango`);
+            }
+        });
     }
-    muestraToast(`Paciente ${nombreEdit} ${apellidoEdit} editado correctamente`);
+    if(camaLibre==true && camaFueraRango==false){
+        pacientesInternados.map((paciente) => {
+            if(paciente.id == idEdit){
+                paciente.nombre = mayuscalaPrimerLetra(nombreEdit);
+                paciente.apellido = mayuscalaPrimerLetra(apellidoEdit);
+                paciente.edad = edadEdit;
+                paciente.sala = salaEdit;
+                paciente.cama = camaEdit;
+                paciente.diagnostico = mayuscalaPrimerLetra(diagnosticoEdit);
+                paciente.epicrisis = `Paciente ${apellidoEdit}, ${nombreEdit} de ${edadEdit} años de edad, internado en ${salaEdit} cama ${camaEdit},  con diagnóstico de ${diagnosticoEdit}.`;
+            }
+            return paciente;
+        });
+        actualizaCamas();
+        ordenarPacientesSala();
+        guardaLocalStorage();
+        guardaLocalStorageSalas();
+        // imprimePacientes();
+        if(salaSeleccionada=="Todos"){
+            muestraTodos();
+        } else {
+        filtraSala(salaSeleccionada);
+        }
+        muestraToast(`Paciente ${nombreEdit} ${apellidoEdit} editado correctamente`);
+    }
 });
 
 // Funcion ordenar pacientes por sala y cama
