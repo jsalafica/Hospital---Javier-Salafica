@@ -114,13 +114,14 @@ class SalasHospital {
 class Paciente {
     constructor (id,nombre,apellido,edad,sala,cama,diagnostico){
         this.id = id,
+        // this.fechaIngreso = fechaIngreso,
         this.nombre = mayuscalaPrimerLetra(nombre),
         this.apellido = mayuscalaPrimerLetra(apellido),
         this.edad = edad,
         this.sala = sala,
         this.cama = cama,
         this.diagnostico = mayuscalaPrimerLetra(diagnostico),
-        this.epicrisis = `Paciente ${this.apellido}, ${this.nombre} de ${this.edad} años de edad, internado en ${this.sala} cama ${this.cama},  con diagnóstico de ${this.diagnostico}.`;
+        this.epicrisis = `Paciente ${this.apellido}, ${this.nombre} de ${this.edad} años de edad, internado en ${this.sala} cama ${this.cama}, ingresa el ${this.fechaIngreso}  con diagnóstico de ${this.diagnostico}.`;
     }
     imprimir(){
         const itemAccordion = document.createElement('div');
@@ -638,3 +639,7 @@ function imprimePacientesSala(pacSala,sala){
 function mayuscalaPrimerLetra(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
+
+// Fecha actual
+const fecha = new Date();
+console.log(fecha.toLocaleDateString());
