@@ -52,7 +52,6 @@ const leeSalas = async () => {
     if(localStorage.getItem("salas")){
         // Pushea salas del localStorage
         pusheaLocalStorageSalas();
-        // muestraInfo();
     } else {
         try {
             // Desde JSON
@@ -62,8 +61,6 @@ const leeSalas = async () => {
             data.forEach((data) => {
                 salasDelHospital.push(new SalasHospital(data.id,data.sala,data.cantCamas,data.camasOcupadas));
             });
-            // console.log(salasDelHospital);
-            // muestraInfo();
         }
         catch (error) {
             console.log('Error: ', error);
@@ -256,29 +253,7 @@ function pintaEgresados(){
 document.addEventListener("DOMContentLoaded", () => {
     leePacientes();
     startTime();
-    // leeUsuario();
 });
-
-function leeUsuario() {
-    // Verifica usuario Usando operador ternario
-    // condicion ? true:false
-    (ingresoUsuario)&&(ingresoPassword)?((console.log("Usuario ya logeado")),(mainOculto.style.display = 'block'),(imprimePacientes())):((modalLogin.show()),(console.log("Muestra modal login, usuario NO logeado")));
-}
-
-// Lee el listado de pacientes cada 5 segundos
-// let intervalo = setInterval(() => {
-//     imprimePacientes();
-//     console.log("Lee pacientes cada 5 segundos");
-// }, 5000);
-
-// Evento que limpia el intervalo al mover el mouse
-// document.addEventListener("mousemove", () => {
-//     clearInterval(intervalo);
-//     intervalo = setInterval(() => {
-//         imprimePacientes();
-//         console.log("Lee pacientes cada 5 segundos");
-//     }, 5000);
-// });
 
 // Carga Usuarios con función asíncrona anónima
 (async ()=>{
@@ -342,14 +317,8 @@ function imprimePacientes(){
         tarjeta.appendChild(h4);
         pacientesInternados.forEach((pac) => {
             if(pac.sala == s.sala && salaActual!=s.sala){
-                // const pacientesDeSala = pacientes => pacientes.sala==pac.sala;
-                // const pacientesSalaFiltrada = pacientesInternados.filter(pacientesDeSala);
-                // salaActual=s.sala;
                 pac.imprimir();
                 contador++;
-                    // pacientesSalaFiltrada.forEach((p) => {
-                        // p.imprimir();
-                    // });
                 }
         });
         if(contador==0){
@@ -493,10 +462,7 @@ reseteaPacientes.addEventListener("click", () => {
     pacientesInternados.length = 0;
     salasDelHospital.length = 0;
     pacientesEgresados.length = 0;
-    // pusheaPacientes();
     leePacientes();
-    // leeUsuario();
-    // imprimePacientes();
     tituloSala.innerHTML = "Pacientes internados";
     salaSeleccionada="Todos";
     muestraToast("Listado de pacientes reseteado");
@@ -534,7 +500,6 @@ formulario.addEventListener("submit", (e) => {
     // Verifico cama libre o fuera de rango
     pacientesInternados.forEach(p => {
         if(p.sala == salaNuevoPaciente && p.cama == camaNuevoPaciente){
-            // console.log(`${salaEdit} cama ${camaEdit} está ocupada`);
             muestraToast(`${salaNuevoPaciente} cama ${camaNuevoPaciente} está ocupada`);
             camaLibre = false;
         }
@@ -552,8 +517,6 @@ formulario.addEventListener("submit", (e) => {
         guardaLocalStorage();
         guardaLocalStorageSalas();
         muestraInfo();
-        // Imprimo último paciente ingresado
-        // pacientesInternados[pacientesInternados.length -1].imprimir();
         if(salaSeleccionada=="Todos"){
             muestraTodos();
         } else {
@@ -625,7 +588,6 @@ botonTodos.addEventListener("click", () =>{
 // Muestra todos los pacientes
 function muestraTodos(){
     imprimePacientes();
-    // muestraToast("Todos los pacientes");
     tituloSala.innerHTML = "Pacientes internados"
 }
 
