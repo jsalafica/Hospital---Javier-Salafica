@@ -516,6 +516,8 @@ modalNuevoPaciente.addEventListener('shown.bs.modal', () => {
 const formulario = document.getElementById("formNuevoPaciente");
 formulario.addEventListener("submit", (e) => {
     e.preventDefault();
+    let camaLibre = true;
+    let camaFueraRango = false;
     const datos = new FormData(formulario);
     const idNuevoPaciente = pacientesInternados.length+1;
     const nombreNuevoPaciente = datos.get("nombre");
@@ -524,21 +526,39 @@ formulario.addEventListener("submit", (e) => {
     const salaNuevoPaciente = datos.get("sala");
     const camaNuevoPaciente = datos.get("cama");
     const diagnosticoNuevoPaciente = datos.get("diagnostico");
-    pacientesInternados.push(new Paciente(idNuevoPaciente,nombreNuevoPaciente,apellidoNuevoPaciente,edadNuevoPaciente,salaNuevoPaciente,camaNuevoPaciente,diagnosticoNuevoPaciente));
-    ordenarPacientesSala();
-    guardaLocalStorage();
-    guardaLocalStorageSalas();
-    muestraInfo();
-    // Imprimo último paciente ingresado
-    // pacientesInternados[pacientesInternados.length -1].imprimir();
-    if(salaSeleccionada=="Todos"){
-        muestraTodos();
-    } else {
-        filtraSala(salaNuevoPaciente);
+
+    // Verifico cama libre o fuera de rango
+    pacientesInternados.forEach(p => {
+        if(p.sala == salaNuevoPaciente && p.cama == camaNuevoPaciente){
+            // console.log(`${salaEdit} cama ${camaEdit} está ocupada`);
+            muestraToast(`${salaNuevoPaciente} cama ${camaNuevoPaciente} está ocupada`);
+            camaLibre = false;
+        }
+    });
+    salasDelHospital.forEach(s => {
+        if(s.sala == salaNuevoPaciente && (camaNuevoPaciente > s.cantCamas || camaNuevoPaciente <= 0)){
+            camaFueraRango = true;
+            muestraToast(`${salaEdit} cama ${camaEdit} fuera de rango`);
+        }
+    });
+    
+    if(camaLibre==true && camaFueraRango==false){
+        pacientesInternados.push(new Paciente(idNuevoPaciente,nombreNuevoPaciente,apellidoNuevoPaciente,edadNuevoPaciente,salaNuevoPaciente,camaNuevoPaciente,diagnosticoNuevoPaciente));
+        ordenarPacientesSala();
+        guardaLocalStorage();
+        guardaLocalStorageSalas();
+        muestraInfo();
+        // Imprimo último paciente ingresado
+        // pacientesInternados[pacientesInternados.length -1].imprimir();
+        if(salaSeleccionada=="Todos"){
+            muestraTodos();
+        } else {
+            filtraSala(salaNuevoPaciente);
+        }
+        formulario.reset();
+        modalPaciente.hide();
+        muestraToast(`Paciente ${nombreNuevoPaciente} ${apellidoNuevoPaciente} ingresado correctamente`);
     }
-    formulario.reset();
-    modalPaciente.hide();
-    muestraToast(`Paciente ${nombreNuevoPaciente} ${apellidoNuevoPaciente} ingresado correctamente`);
 });
 
 // Evento submit login
