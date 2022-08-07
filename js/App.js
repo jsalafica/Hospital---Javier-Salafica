@@ -430,7 +430,7 @@ formularioEdit.addEventListener("submit", (e) => {
                 camaLibre = false;
             }
         });
-        salasGuardadas.forEach(s => {
+        salasDelHospital.forEach(s => {
             if(s.sala == salaEdit && (camaEdit > s.cantCamas || camaEdit <= 0)){
                 camaFueraRango = true;
                 muestraToast(`${salaEdit} cama ${camaEdit} fuera de rango`);
