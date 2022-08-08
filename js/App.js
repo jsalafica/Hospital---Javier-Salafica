@@ -79,10 +79,32 @@ const leeEgresos = async () => {
     }
     muestraInfo();
     pintaEgresados();
+    verificaUsuario();
     console.timeEnd();
-    // Verifica usuario Usando operador ternario
-    // condicion ? true:false
-    (ingresoUsuario)&&(ingresoPassword)?((console.log("Usuario ya logeado")),(mainOculto.style.display = 'block'),(imprimePacientes())):((modalLogin.show()),(console.log("Muestra modal login, usuario NO logeado")));
+}
+
+// Lee y verifica usuario
+function verificaUsuario(){
+    (async () => {
+        try {
+            const response = await fetch('js/usuarios.json')
+            const data = await response.json();
+            data.forEach((u) => {
+                usuarios.push(u);
+            });
+            (ingresoUsuario) && (ingresoPassword) ? (
+                console.log("Usuario ya logeado"),
+                mainOculto.style.display = 'block',
+                imprimePacientes()
+                ):(
+                    modalLogin.show(),
+                    console.log("Muestra modal login, usuario NO logeado")
+                    );
+        }
+        catch(error) {   
+            console.log('error: ' , error);
+        }
+    }) ();
 }
 
 // Clase salasHospital
@@ -254,20 +276,6 @@ document.addEventListener("DOMContentLoaded", () => {
     leePacientes();
     startTime();
 });
-
-// Carga Usuarios con función asíncrona anónima
-(async ()=>{
-    try {
-        const response = await fetch('js/usuarios.json')
-        const data = await response.json();
-        data.forEach((u) => {
-            usuarios.push(u);
-        });
-    }
-    catch(error) {   
-        console.log('error: ' , error);
-    }
-})();
 
 // Focus en input usuario
 const modalLoginFocus = document.getElementById('modalLogin');
