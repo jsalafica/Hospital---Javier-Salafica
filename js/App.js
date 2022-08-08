@@ -242,7 +242,7 @@ class Egresado {
         this.cama = cama,
         this.diagnostico = diagnostico,
         this.egreso = egreso,
-        this.epicrisis = `Paciente ${this.apellido}, ${this.nombre} de ${this.edad} años de edad, que estuvo internado en ${this.sala} cama ${this.cama} con diagnóstico de ${this.diagnostico}.<br><b>Egreso:</b> ${this.egreso}`;
+        this.epicrisis = `El paciente ${this.apellido}, ${this.nombre} de ${this.edad} años de edad, estuvo internado en ${this.sala} cama ${this.cama} con diagnóstico de ${this.diagnostico}.<br><b>Egreso:</b> ${this.egreso}`;
     }
     imprimir(){
         const itemAccordion = document.createElement('div');
