@@ -143,7 +143,7 @@ class Paciente {
         this.sala = sala,
         this.cama = cama,
         this.diagnostico = mayuscalaPrimerLetra(diagnostico),
-        this.epicrisis = `Paciente ${this.apellido}, ${this.nombre} de ${this.edad} años de edad, internado en ${this.sala} cama ${this.cama}, ingresa el ${this.fechaIngreso}  con diagnóstico de ${this.diagnostico}.`;
+        this.epicrisis = `Paciente ${this.apellido}, ${this.nombre} de ${this.edad} años de edad, internado en ${this.sala} cama ${this.cama} con diagnóstico de ${this.diagnostico}.`;
     }
     imprimir(){
         const itemAccordion = document.createElement('div');
@@ -195,7 +195,7 @@ class Paciente {
                             resolve()
                             if(pacienteABorrar){
                                 pacientesInternados.splice(pacientesInternados.indexOf(pacienteABorrar), 1);
-                                pacientesEgresados.push(new Egresado(this.id,this.apellido,this.nombre,this.edad,this.sala,this.cama,this.diagnostico,value));
+                                pacientesEgresados.push(new Egresado(this.id,this.nombre,this.apellido,this.edad,this.sala,this.cama,this.diagnostico,value));
                                 guardaLocalStorage();
                                 guardaLocalStorageSalas();
                                 guardaLocalStorageEgresos();
@@ -233,27 +233,28 @@ class Paciente {
 }
 
 class Egresado {
-    constructor (id,apellido,nombre,edad,sala,cama,diagnostico,egreso) {
+    constructor (id,nombre,apellido,edad,sala,cama,diagnostico,egreso) {
         this.id = id,
-        this.apellido = apellido,
         this.nombre = nombre,
+        this.apellido = apellido,
         this.edad = edad,
         this.sala = sala,
         this.cama = cama,
         this.diagnostico = diagnostico,
-        this.egreso = egreso
+        this.egreso = egreso,
+        this.epicrisis = `Paciente ${this.apellido}, ${this.nombre} de ${this.edad} años de edad, que estuvo internado en ${this.sala} cama ${this.cama} con diagnóstico de ${this.diagnostico}.<br><b>Egreso:</b> ${this.egreso}`;
     }
     imprimir(){
         const itemAccordion = document.createElement('div');
         itemAccordion.innerHTML = `
                         <div class="accordion-item m-1">
                             <h2 class="accordion-header" id="heading${this.id}">
-                                <button class="accordion-button collapsed" type="button" title="Oprima para mas información" data-bs-toggle="collapse" data-bs-target="#collapse${this.id}" aria-expanded="true" aria-controls="collapse${this.id}"><span class="badge bg-secondary p-2 m-2">Cama ${this.cama}</span>${this.apellido}, ${this.nombre} (${this.edad} años) - Diagnóstico: ${this.diagnostico}</button>
+                                <button class="accordion-button collapsed" type="button" title="Oprima para mas información" data-bs-toggle="collapse" data-bs-target="#collapse${this.id}" aria-expanded="true" aria-controls="collapse${this.id}">${this.apellido}, ${this.nombre} (${this.edad} años) - Diagnóstico: ${this.diagnostico}</button>
                             </h2>
                             <div id="collapse${this.id}" class="accordion-collapse collapse" aria-labelledby="heading${this.id}" data-bs-parent="#pacientes">
                                 <div class="accordion-body">
                                     <p><strong>Información</strong></p>
-                                    <p><strong>Egreso:</strong> ${this.egreso}</p>
+                                    <p>${this.epicrisis}</p>
                                 </div>
                             </div>
                         </div>
@@ -406,15 +407,22 @@ formularioEdit.addEventListener("submit", (e) => {
     } else {
         pacientesInternados.forEach(p => {
             if(p.sala == salaEdit && p.cama == camaEdit){
-                // console.log(`${salaEdit} cama ${camaEdit} está ocupada`);
-                muestraToast(`${salaEdit} cama ${camaEdit} está ocupada`);
                 camaLibre = false;
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Cama ocupada',
+                    text: `${salaEdit} cama ${camaEdit} está ocupada`
+                })
             }
         });
         salasDelHospital.forEach(s => {
             if(s.sala == salaEdit && (camaEdit > s.cantCamas || camaEdit <= 0)){
                 camaFueraRango = true;
-                muestraToast(`${salaEdit} cama ${camaEdit} fuera de rango`);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Cama errónea',
+                    text: `${salaEdit} cama ${camaEdit} fuera de rango`
+                })
             }
         });
     }
@@ -435,12 +443,7 @@ formularioEdit.addEventListener("submit", (e) => {
         ordenarPacientesSala();
         guardaLocalStorage();
         guardaLocalStorageSalas();
-        // imprimePacientes();
-        if(salaSeleccionada=="Todos"){
-            muestraTodos();
-        } else {
-        filtraSala(salaSeleccionada);
-        }
+        salaSeleccionada == "Todos" ? muestraTodos() : filtraSala(salaSeleccionada);
         muestraToast(`Paciente ${nombreEdit} ${apellidoEdit} editado correctamente`);
     }
 });
@@ -508,14 +511,22 @@ formulario.addEventListener("submit", (e) => {
     // Verifico cama libre o fuera de rango
     pacientesInternados.forEach(p => {
         if(p.sala == salaNuevoPaciente && p.cama == camaNuevoPaciente){
-            muestraToast(`${salaNuevoPaciente} cama ${camaNuevoPaciente} está ocupada`);
             camaLibre = false;
+            Swal.fire({
+                icon: 'error',
+                title: 'Cama ocupada',
+                text: `${salaNuevoPaciente} cama ${camaNuevoPaciente} está ocupada`
+            })
         }
     });
     salasDelHospital.forEach(s => {
         if(s.sala == salaNuevoPaciente && (camaNuevoPaciente > s.cantCamas || camaNuevoPaciente <= 0)){
             camaFueraRango = true;
-            muestraToast(`${salaNuevoPaciente} cama ${camaNuevoPaciente} fuera de rango`);
+            Swal.fire({
+                icon: 'error',
+                title: 'Cama errónea',
+                text: `${salaNuevoPaciente} cama ${camaNuevoPaciente} fuera de rango`
+            })
         }
     });
     
@@ -525,11 +536,7 @@ formulario.addEventListener("submit", (e) => {
         guardaLocalStorage();
         guardaLocalStorageSalas();
         muestraInfo();
-        if(salaSeleccionada=="Todos"){
-            muestraTodos();
-        } else {
-            filtraSala(salaNuevoPaciente);
-        }
+        salaSeleccionada == "Todos" ? muestraTodos() : filtraSala(salaNuevoPaciente);
         formulario.reset();
         modalPaciente.hide();
         muestraToast(`Paciente ${nombreNuevoPaciente} ${apellidoNuevoPaciente} ingresado correctamente`);
@@ -557,7 +564,7 @@ formularioLogin.addEventListener("submit", (e) => {
             })
             Toast.fire({
                 icon: 'success',
-                title: 'Usuario ingresado correctamente!'
+                title: `Usuario <b>${nombreUsuario}</b> ingresado correctamente!`
             })
             sessionStorage.setItem("usuario",nombreUsuario);
             sessionStorage.setItem("password",passUsuario);
